@@ -1,0 +1,13 @@
+import 'package:flutter/material.dart';
+
+class AppIcons {
+  static const profileicon=Icons.person;
+  static const passwordicon=Icons.lock;
+  static const emailicon=Icons.mail;
+  static const Notificationicon=Icons.notifications_none;
+  static  const homeicon=Icons.home_filled;
+  static const jobicon=Icons.work;
+   
+  
+
+}
