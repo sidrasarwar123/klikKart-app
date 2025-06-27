@@ -9,12 +9,12 @@ class AppIcons {
   static const jobicon=Icons.work;
   static const chaticon=Icons.chat;
   static const shoppingicon=Icons.shopping_cart;
-  static const arrowicon=Icons.arrow_forward_ios;
+  static const arrowicon=Icons.arrow_circle_left_outlined;
   static const staricon=Icons.star;
   static const replyicon=Icons.reply;
   static const fileuploadicon=Icons.upload;
   static const logouticon=Icons.logout;
-    static const editicon=Icons.edit;
+  static const editicon=Icons.edit;
 
    
   

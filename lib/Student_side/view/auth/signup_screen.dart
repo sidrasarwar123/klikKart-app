@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
@@ -7,17 +7,15 @@ import 'package:klik_kart/constants/app_images.dart';
 import 'package:klik_kart/widgets/buttons/custombutton.dart';
 import 'package:klik_kart/widgets/fields/textfield.dart';
 
-class LoginScreen extends StatelessWidget {
-   LoginScreen({super.key});
-    final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+class SignupScreen extends StatelessWidget {
+  const SignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+      final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-        body: SingleChildScrollView(scrollDirection: Axis.vertical,
+       body: SingleChildScrollView(scrollDirection: Axis.vertical,
           child: Column(
                 children: [
           Center(
@@ -42,26 +40,18 @@ class LoginScreen extends StatelessWidget {
                     child: CustomTextField(
                         hintText: "User name", prefixIcon: AppIcons.profileicon),
                   ),
+                  CustomTextField(hintText: "Email", prefixIcon: AppIcons.emailicon,
+                  ),
                   CustomTextField(
                     hintText: "Password",
                     prefixIcon: AppIcons.passwordicon,
                     isPassword: true,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 150),
-                    child: TextButton(
-                        onPressed: () {
-                          Get.toNamed('/forgetpassword');
-                        },
-                        child: Text(
-                          "Forgot your password ?",
-                          style: TextStyle(color: AppColors.buttoncolor),
-                        )),
-                  ), SizedBox(
+                    SizedBox(
                     height: screenHeight * 0.070,
                   ),
-                  CustomButton(text: "Sign in", onPressed: (){
-                    Get.offNamed('/bottombar');
+                  CustomButton(text: "Sign Up", onPressed: (){
+                    Get.toNamed('/login');
                   }
               ),
               Column(
@@ -70,11 +60,11 @@ class LoginScreen extends StatelessWidget {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                      Text("Don’t have an account?"),
-                     TextButton(onPressed: (){
-                Get.offNamed('/signup');
-                }, child: 
-                       Text("Sign Up",style: TextStyle(color: AppColors.buttoncolor,fontWeight: FontWeight.bold),)
+                      Text(" Have an account?"),
+                      TextButton(onPressed: (){
+                        Get.offNamed('/login');
+                      }, child: 
+                       Text("Sign In",style: TextStyle(color: AppColors.buttoncolor,fontWeight: FontWeight.bold),)
                    ) ],),
                   )
                 ],
@@ -86,6 +76,7 @@ class LoginScreen extends StatelessWidget {
           ),
                 ],
               ),
-        ));
+        )
+    );
   }
 }

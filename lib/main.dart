@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:klik_kart/Student_side/view/auth/splash_screen.dart';
+import 'package:get/get.dart';
 
+
+import 'package:klik_kart/routes/app_routes.dart.dart';
 
 void main() {
   runApp(const MyApp());
-}                          
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,13 +21,17 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: '/',
-          // getPages: AppRoutes.routes,
+
+        
+          initialRoute: '/splashscreen',  
+
+        
+          getPages: AppRoutes.routes,
+
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: SplashScreen(),
         );
       },
     );

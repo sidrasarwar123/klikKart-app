@@ -1,46 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:klik_kart/constants/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
-  final String hint;
+  final String hintText;
   final bool isPassword;
+  final IconData? prefixIcon; 
   final TextInputType? keyboardType;
   final bool? readOnly;
-  final Icon? suffixIcon;
+  final TextEditingController? controller;
+  final double? width;
 
-  CustomTextField({
-
-    this.keyboardType,
-    required this.hint,
+  const CustomTextField({
+    super.key,
+    required this.hintText,
+    this.prefixIcon, // <-- Optional now
     this.isPassword = false,
-    this.suffixIcon,
+    this.keyboardType,
     this.readOnly,
-    Key? key,
-  }) : super(key: key);
+    this.controller,
+    this.width,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      keyboardType: keyboardType,
-    
-      obscureText: isPassword,
-      readOnly: readOnly ?? false,
-      decoration: InputDecoration(
-        hintText: hint,
-        filled: true,
-        suffixIcon: suffixIcon,
-        fillColor: Colors.white,
-        contentPadding: EdgeInsets.symmetric(horizontal: 26, vertical: 16),
-        
-      
-        border: OutlineInputBorder(
+    return Center(
+      child: Container(
+        width: width ?? 320,
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.circular(40),
-          borderSide: BorderSide(color: Colors.transparent),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40),
-          borderSide: BorderSide(color: Colors.transparent),
+        child: TextFormField(
+          controller: controller,
+          obscureText: isPassword,
+          keyboardType: keyboardType,
+          readOnly: readOnly ?? false,
+          style: const TextStyle(fontSize: 14),
+          decoration: InputDecoration(
+            hintText: hintText,
+            hintStyle: TextStyle(
+              color: Colors.grey.shade400,
+              fontSize: 14,
+            ),
+            prefixIcon: prefixIcon != null
+                ? Icon(
+                    prefixIcon,
+                    color: AppColors.buttoncolor,
+                  )
+                : null, 
+                            filled: true,
+            fillColor: Colors.white,
+            contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(40),
+              borderSide: BorderSide(color: Colors.grey.shade100),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(40),
+              borderSide: BorderSide(color: Colors.grey.shade100),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(40),
+              borderSide: BorderSide(color: Colors.grey.shade100),
+            ),
+          ),
         ),
-       
       ),
     );
   }

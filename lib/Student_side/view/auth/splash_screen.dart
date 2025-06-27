@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_images.dart';
-import 'package:klik_kart/Student_side/view/auth/onboarding_screen.dart'; // Optional if using GetX for navigation
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,52 +16,40 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-    
-      Get.offAll(() => HomeScreen()); 
+      Get.offNamed('/onboarding');
     });
   }
 
   @override
   Widget build(BuildContext context) {
+       final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
-        height: double.infinity,
         width: double.infinity,
-        decoration: BoxDecoration(
-          color:AppColors.buttoncolor,
-
-        ),
+        height: double.infinity,
+        color: Colors.blue,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height:230 ),
-            
-             Image(image: AssetImage(AppImages.iconimage)),
-             SizedBox(height: 230,),
-             Text("powerd by",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
-             Text("Dev Soft Tech Solution",style: TextStyle(color: Colors.white,),)
-             
-             ],
+          SizedBox(height: screenHeight*0.25),
+            Image.asset(AppImages.iconimage, height: screenHeight*0.25),
+       SizedBox(height: screenHeight*0.30),
+         Text(
+              "Powered by",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+            const Text(
+              "Dev Soft Tech Solution",
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
         ),
-
-
       ),
-   
     );
   }
 }
-
- // body: 
-      //       Column(
-      //           children: [
-      //             Center(
-      //             child: Padding(
-      //               padding: const EdgeInsets.only(top: 80),
-      //               child: Image(image: AssetImage(AppImages.icon2image),
-      //                   ),
-      //             ),
-      //               ),
-      //                    Text("Sign in to your account"),
-                         
-      //                    ],
-      //         ),
-          
