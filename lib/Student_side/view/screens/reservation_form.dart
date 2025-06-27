@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
@@ -14,13 +15,19 @@ class ReservationForm extends StatefulWidget {
 }
 
 class _ReservationFormState extends State<ReservationForm> {
+    final _formKey = GlobalKey<FormState>();
+
+  String? learningMode;
+  String? instituteBranch;
+  String? educationLevel;
+ 
+
   @override
   Widget build(BuildContext context) {
-    String phoneNumber = '';
-   final screenWidth = MediaQuery.of(context).size.width;
+     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
+      resizeToAvoidBottomInset: true,
        appBar: AppBar(
         title: Padding(
           padding: EdgeInsets.only(left: screenWidth * 0.1),
@@ -36,30 +43,179 @@ class _ReservationFormState extends State<ReservationForm> {
               size: 30,
             )),
       ),
-      body: Column(
+    
+   body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.05,
+            vertical: screenHeight * 0.02,
+          ),
+    child: Form(
+      key: _formKey,
+      child: ListView(
         children: [
-          Padding(
-            padding:EdgeInsets.only(left: screenWidth*0.06,top: screenHeight*0.02),
-            child: Text("Please Fill this form to complete your booking.",style: TextStyle(fontSize: 15),),
-           ),
-           Padding(
-              padding:EdgeInsets.only(right: screenWidth*0.7,),
-             child: Text("*required",style: TextStyle(color: Colors.red),),
-           ),
-           Padding(
-          padding:EdgeInsets.only(right: screenWidth*0.6,top:screenHeight*0.03),
-             child: Text("Personal Data",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
-           ),
-        CustomTextField(hintText: "Name", prefixIcon:AppIcons.profileicon),
-        CustomTextField(hintText: "Number",),
-        CustomTextField(hintText: "Address"),
+           Text(
+            "Please Fill this form to complete your booking.",
+            style: TextStyle(fontSize: 15),
+          ),
+     SizedBox(height: 5),
+         Text("*required", style: TextStyle(color: Colors.red)),
+           SizedBox(height: 20),
+       Text(
+            "Personal Data",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          const SizedBox(height: 20),
+          _buildTextField("Name"),
+          const SizedBox(height: 16),
+
           
+       IntlPhoneField(
+  decoration: InputDecoration(
+    hintText: 'Phone Number',
+    hintStyle: TextStyle(
+      color: Colors.grey.shade400,
+      fontSize: 14,
+    ),
+    filled: true,
+    fillColor: Colors.white,
+    contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(40),
+      borderSide: BorderSide(color: Colors.grey.shade100),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(40),
+      borderSide: BorderSide(color: Colors.grey.shade300),
+    ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(40),
+      borderSide: BorderSide(color: Colors.grey.shade100),
+    ),
+  ),
+  initialCountryCode: 'PK',
+  onChanged: (phone) {
+    print(phone.completeNumber);
+  },
+),
 
+          const SizedBox(height: 16),
 
-          CustomButton(text: "Next", onPressed: (){})
+      
+          _buildTextField("Address"),
+          const SizedBox(height: 16),
+
+          // Dropdowns
+          _buildDropdown(
+            label: "Select Learning Mode",
+            value: learningMode,
+            items: ["Online Learning", "Physical Learning"],
+            onChanged: (val) => setState(() => learningMode = val),
+          ),
+          const SizedBox(height: 16),
+          _buildDropdown(
+            label: "Select Institute Branch",
+            value: instituteBranch,
+            items: [
+              "Dev Soft Tech Solutions",
+              "Dev Soft Global Services"
+            ],
+            onChanged: (val) => setState(() => instituteBranch = val),
+          ),
+          const SizedBox(height: 16),
+          _buildDropdown(
+            label: "Select Education",
+            value: educationLevel,
+            items: ["Matric", "Intermediate", "Graduation"],
+            onChanged: (val) => setState(() => educationLevel = val),
+          ),
+
+         SizedBox(height: 30),
+         CustomButton(text: "Submit", onPressed:(){
+
+         })
         
         ],
       ),
+    ),
+  ),
+),
+
+      
+    
+    );
+  }
+
+  Widget _buildTextField(String hint) {
+    return TextFormField(
+      decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: TextStyle(
+              color: Colors.grey.shade400,
+              fontSize: 14,
+            ),
+          
+            filled: true,
+            fillColor: Colors.white,
+            contentPadding:
+               EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(40),
+              borderSide: BorderSide(color: Colors.grey.shade100),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(40),
+              borderSide: BorderSide(color: Colors.grey.shade100),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(40),
+              borderSide: BorderSide(color: Colors.grey.shade100),
+            ),
+          ),
+    );
+  }
+
+  Widget _buildDropdown({
+    required String label,
+    required String? value,
+    required List<String> items,
+    required Function(String?) onChanged,
+  }) {
+    return DropdownButtonFormField<String>(
+      value: value,
+      isExpanded:true ,
+      decoration: InputDecoration(
+            hintText: label,
+            hintStyle: TextStyle(
+              color: Colors.grey.shade400,
+              fontSize: 14,
+            ),
+          
+            filled: true,
+            fillColor: Colors.white,
+            contentPadding:
+               EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(40),
+              borderSide: BorderSide(color: Colors.grey.shade100),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(40),
+              borderSide: BorderSide(color: Colors.grey.shade100),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(40),
+              borderSide: BorderSide(color: Colors.grey.shade100),
+            ),
+          ),
+      icon:  Icon(Icons.keyboard_arrow_down_rounded),
+      items: items
+          .map((e) => DropdownMenuItem(
+                value: e,
+                child: Text(e),
+              ))
+          .toList(),
+      onChanged: onChanged,
       
     );
   }

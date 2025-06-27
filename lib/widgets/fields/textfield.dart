@@ -4,7 +4,7 @@ import 'package:klik_kart/constants/app_colors.dart';
 class CustomTextField extends StatelessWidget {
   final String hintText;
   final bool isPassword;
-  final IconData? prefixIcon; 
+  final IconData? prefixIcon;
   final TextInputType? keyboardType;
   final bool? readOnly;
   final TextEditingController? controller;
@@ -48,10 +48,11 @@ class CustomTextField extends StatelessWidget {
                     prefixIcon,
                     color: AppColors.buttoncolor,
                   )
-                : null, 
-                            filled: true,
+                : null,
+            filled: true,
             fillColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(40),
               borderSide: BorderSide(color: Colors.grey.shade100),

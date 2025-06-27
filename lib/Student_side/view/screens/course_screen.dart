@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
-import 'package:klik_kart/widgets/buttons/custombutton.dart';
+
 import 'package:readmore/readmore.dart';
 
 class CourseDetails extends StatefulWidget {
@@ -165,7 +165,7 @@ incididunt ut labore
 
           
          Padding(
-  padding: const EdgeInsets.all(16),
+  padding:  EdgeInsets.all(16),
   child: () {
      if (selectedIndex == 0) {
       return
@@ -347,7 +347,7 @@ incididunt ut labore
                         backgroundImage: AssetImage(review["image"]!),
                         radius: 20,
                       ),
-                      const SizedBox(width: 10),
+                       SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -365,7 +365,7 @@ incididunt ut labore
                       Row(
                         children: List.generate(
                           5,
-                          (star) => const Icon(Icons.star, color: Colors.amber, size: 16),
+                          (star) => Icon(Icons.star, color: Colors.amber, size: 16),
                         ),
                       ),
                     ],
@@ -391,7 +391,7 @@ incididunt ut labore
         ),
        ),
 
-        // Bottom Button
+
         bottomNavigationBar:  Padding(
   padding: EdgeInsets.only(top: screenHeight * 0.03,left: screenWidth*0.06),
   child: Row(
@@ -452,55 +452,4 @@ incididunt ut labore
 //           
 
 
-//   
-//  else {
-//  
-//           Padding(
-//             padding: EdgeInsets.only(top: screenHeight * 0.03,),
-//             child: Row(
-//               children: [
-//                 SizedBox(
-//                   width: screenWidth * 0.7,
-//                   height: screenHeight * 0.06,
-//                   child: ElevatedButton(
-//                     onPressed: () {},
-//                     style: ElevatedButton.styleFrom(
-//                       backgroundColor: AppColors.buttoncolor,
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(30),
-//                       ),
-//                       elevation: 2,
-//                     ),
-//                     child: Text(
-//                       "Enroll Now",
-//                       style: TextStyle(color: AppColors.textcolor),
-//                     ),
-//                   ),
-//                 ),
-//                 Padding(
-//                   padding: EdgeInsets.only(left: screenWidth * 0.02),
-//                   child: Container(
-//                     width: screenWidth * 0.2,
-//                     height: screenHeight * 0.06,
-//                     decoration: BoxDecoration(
-//                       color: const Color.fromARGB(255, 186, 231, 252),
-//                       border: Border.all(color: Color(0xFF1565C0), width: 2),
-//                       borderRadius: BorderRadius.circular(12),
-//                     ),
-//                     child: IconButton(
-//                       onPressed: () {},
-//                       icon: const Icon(Icons.shopping_cart_outlined, color: Color(0xFF1565C0), size: 30),
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     ),
-//   );
-// }
-
-
-
+//
