@@ -20,6 +20,7 @@ static const successstories1="assets/image (5).png";
 static const successstories2="assets/image (6).png";
 static const event3image="assets/image (7).png";
 static const event4image="assets/image (8).png";
+static const cicleimage="assets/Group 22942.png";
 
 
 

@@ -6,6 +6,8 @@ import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/widgets/buttons/custombutton.dart';
 import 'package:klik_kart/widgets/fields/textfield.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class ReservationForm extends StatefulWidget {
   const ReservationForm({super.key});
@@ -72,7 +74,7 @@ class _ReservationFormState extends State<ReservationForm> {
           
        IntlPhoneField(
   decoration: InputDecoration(
-    hintText: 'Phone Number',
+    hintText: ' 000 0000',
     hintStyle: TextStyle(
       color: Colors.grey.shade400,
       fontSize: 14,
@@ -99,13 +101,13 @@ class _ReservationFormState extends State<ReservationForm> {
   },
 ),
 
-          const SizedBox(height: 16),
+           SizedBox(height: 16),
 
       
           _buildTextField("Address"),
-          const SizedBox(height: 16),
+         SizedBox(height: 16),
 
-          // Dropdowns
+          
           _buildDropdown(
             label: "Select Learning Mode",
             value: learningMode,
@@ -130,10 +132,18 @@ class _ReservationFormState extends State<ReservationForm> {
             onChanged: (val) => setState(() => educationLevel = val),
           ),
 
-         SizedBox(height: 30),
-         CustomButton(text: "Submit", onPressed:(){
+      SizedBox(height: 30),
+CustomButton(
+  text: "Submit",
+  onPressed: () {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.success,
+      text: 'Your form has been successfully submitted!',
+    );
+  },
+),
 
-         })
         
         ],
       ),
@@ -186,11 +196,7 @@ class _ReservationFormState extends State<ReservationForm> {
       isExpanded:true ,
       decoration: InputDecoration(
             hintText: label,
-            hintStyle: TextStyle(
-              color: Colors.grey.shade400,
-              fontSize: 14,
-            ),
-          
+       
             filled: true,
             fillColor: Colors.white,
             contentPadding:
@@ -208,6 +214,13 @@ class _ReservationFormState extends State<ReservationForm> {
               borderSide: BorderSide(color: Colors.grey.shade100),
             ),
           ),
+           hint: Text( 
+    label,
+    style: TextStyle(
+      color: Colors.grey.shade400,
+      fontSize: 14,
+    ),
+  ),
       icon:  Icon(Icons.keyboard_arrow_down_rounded),
       items: items
           .map((e) => DropdownMenuItem(

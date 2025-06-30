@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:klik_kart/Student_side/view/screens/chat_screen.dart';
-import 'package:klik_kart/Student_side/view/screens/home_screen.dart';
-import 'package:klik_kart/Student_side/view/screens/job_screen.dart';
-import 'package:klik_kart/Student_side/view/screens/profile_screen.dart';
+
+import 'package:klik_kart/Student_side/view/screen01/chat_screen.dart';
+import 'package:klik_kart/Student_side/view/screen01/home_screen.dart';
+import 'package:klik_kart/Student_side/view/screen01/job_screen.dart';
+import 'package:klik_kart/Student_side/view/screen01/profile_screen.dart';
+import 'package:klik_kart/Student_side/view/screen02/home_screen02.dart';
 
 class BottomNavScreen extends StatefulWidget {
   @override
@@ -13,10 +15,18 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    HomeMainScreen(),
-    JobScreen(),
-  ChatScreen(),
-  ProfileScreen(),
+  //  HomeMainScreen(),
+  //   JobScreen(),
+  // ChatScreen(),
+  // ProfileScreen(),
+
+
+
+     HomeScreen02(),
+    Text("this is screen"),
+     Text("this is screen"),
+      Text("this is screen"),
+
     
   ];
 

@@ -13,10 +13,11 @@ class EventCard extends StatelessWidget {
 
    
     final cardWidth = screenWidth * 0.5;
+    
 
     
     final horizontalPadding = screenWidth * 0.04; 
-    final verticalPadding = screenWidth * 0.02; 
+    final verticalPadding = screenWidth * 0.01; 
 
     return Container(
       width: cardWidth,
