@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:klik_kart/constants/app_colors.dart';
@@ -130,13 +131,109 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
                 ],
               ),
             ),
+             Padding(
+              padding:  EdgeInsets.only(top: screenHeight*0.04,right: screenWidth*0.5),
+              child: Container(
+                height:screenHeight*0.06, 
+                width: screenWidth*0.5,
+                decoration: BoxDecoration(color:AppColors.buttoncolor,
+                borderRadius: BorderRadius.circular(20)
+                ),child: Center(child: Text("Course Duration",style: TextStyle(color: AppColors.textcolor,fontWeight: FontWeight.bold),
+                )
+                ),
+              ),
+            ),SizedBox(height: screenHeight*0.02,),
+             Row(
+                    children: [
+                          Icon(Icons.circle,size: 11, color: AppColors.buttoncolor),
+                      Text(" Total Months: 6 Monthsg ")
+                    ],
+                  ),
+                
+                   Padding(
+                     padding: EdgeInsets.only(left: screenWidth*0.02,top: screenHeight*0.02),
+                     child: Row(
+                      children:[ 
+                        Text("From Date and Time ",style: TextStyle(fontSize: 17,fontWeight:FontWeight.bold)),
+                        SizedBox(width: screenWidth*0.3,),
+                         Icon(Icons.punch_clock,size: 30, color: AppColors.buttoncolor),
+                      ],
+                                       ),
+                   ),
+                    Padding(
+                     padding: EdgeInsets.only(top: screenHeight*0.02),
+                     child: Row(
+                      children:[ 
+                       Container(
+                height:screenHeight*0.06, 
+                width: screenWidth*0.4,
+                decoration: BoxDecoration(color:AppColors.textcolor,
+                borderRadius: BorderRadius.circular(10),border: Border.all(color:  Color.fromARGB(255, 241, 228, 228))
+                ),child: Center(child: Text("12-07-2024",style: TextStyle(color: AppColors.buttoncolor,fontWeight: FontWeight.bold),
+                )
+                ),
+              ),
+                        SizedBox(width: screenWidth*0.05,),
+                        Container(
+                height:screenHeight*0.06, 
+                width: screenWidth*0.4,
+                decoration: BoxDecoration(color:AppColors.textcolor,
+                borderRadius: BorderRadius.circular(10),border: Border.all(color:  Color.fromARGB(255, 241, 228, 228))
+                ),child: Center(child: Text("7:20 am",style: TextStyle(color: AppColors.buttoncolor,fontWeight: FontWeight.bold),
+                )
+                ),
+              ),
+              
+                      ],
+                                       ),
+                   ),
+                           Padding(
+                     padding: EdgeInsets.only(left: screenWidth*0.02,top: screenHeight*0.02),
+                     child: Row(
+                      children:[ 
+                        Text("To Date and Time ",style: TextStyle(fontSize: 17,fontWeight:FontWeight.bold)),
+                        SizedBox(width: screenWidth*0.3,),
+                         Icon(Icons.punch_clock,size: 30, color: AppColors.buttoncolor),
+                      ],
+                                       ),
+                   ),
+                    Padding(
+                     padding: EdgeInsets.only(top: screenHeight*0.02),
+                     child: Row(
+                      children:[ 
+                       Container(
+                height:screenHeight*0.06, 
+                width: screenWidth*0.4,
+                decoration: BoxDecoration(color:AppColors.textcolor,
+                borderRadius: BorderRadius.circular(10),border: Border.all(color:  Color.fromARGB(255, 241, 228, 228))
+                ),child: Center(child: Text("12-6-20254",style: TextStyle(color: AppColors.buttoncolor,fontWeight: FontWeight.bold),
+                )
+                ),
+              ),
+                        SizedBox(width: screenWidth*0.05,),
+                        Container(
+                height:screenHeight*0.06, 
+                width: screenWidth*0.4,
+                decoration: BoxDecoration(color:AppColors.textcolor,
+                borderRadius: BorderRadius.circular(10),border: Border.all(color:  Color.fromARGB(255, 241, 228, 228))
+                ),child: Center(child: Text("7:20 am",style: TextStyle(color: AppColors.buttoncolor,fontWeight: FontWeight.bold),
+                )
+                ),
+              ),
+              
+                      ],
+                                       ),
+                   ),
+                   
+
+
           
            
           ]
        );
     }  else {
  return   Padding(
-           padding:  EdgeInsets.only(),
+           padding:  EdgeInsets.only(top: screenHeight*0.04),
            child: Column(
              children: [
                SingleChildScrollView(scrollDirection: Axis.horizontal,
@@ -188,7 +285,7 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
                                   ),
                                 ],
                               ),
-                            ),SizedBox(width: screenWidth*0.03,),
+                            ),SizedBox(width: screenWidth*0.06,),
                               Container(
                             //  height: screenHeight*0.3,
                              width: screenWidth*0.4,
@@ -286,7 +383,7 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
                                     ),
                                   ],
                                 ),
-                              ),SizedBox(width: screenWidth*0.03,),
+                              ),SizedBox(width: screenWidth*0.06,),
                                 Container(
                               //  height: screenHeight*0.3,
                                width: screenWidth*0.4,

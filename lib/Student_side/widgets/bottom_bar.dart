@@ -5,6 +5,8 @@ import 'package:klik_kart/Student_side/view/screen01/home_screen.dart';
 import 'package:klik_kart/Student_side/view/screen01/job_screen.dart';
 import 'package:klik_kart/Student_side/view/screen01/profile_screen.dart';
 import 'package:klik_kart/Student_side/view/screen02/home_screen02.dart';
+import 'package:klik_kart/Student_side/view/screen02/profile_studentscreen.dart.dart';
+import 'package:klik_kart/teacher_side/view/screen/home_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
   @override
@@ -15,18 +17,21 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-  //  HomeMainScreen(),
-  //   JobScreen(),
-  // ChatScreen(),
-  // ProfileScreen(),
+  //   HomeMainScreen(),
+  //    JobScreen(),
+  //  ChatScreen(),
+  //  ProfileScreen(),
 
 
 
-     HomeScreen02(),
-    Text("this is screen"),
-     Text("this is screen"),
-      Text("this is screen"),
+  //     HomeScreen02(),
+  //       JobScreen(),
+  //    ChatScreen(),
+  //   StudentProfilescreen(),
 
+
+
+  
     
   ];
 

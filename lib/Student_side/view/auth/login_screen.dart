@@ -61,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                     height: screenHeight * 0.070,
                   ),
                   CustomButton(text: "Sign in", onPressed: (){
-                    Get.offNamed('/bottombar');
+                    Get.offNamed('/bottombar03');
                   }
               ),
               Column(

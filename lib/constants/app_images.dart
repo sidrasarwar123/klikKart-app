@@ -21,6 +21,12 @@ static const successstories2="assets/image (6).png";
 static const event3image="assets/image (7).png";
 static const event4image="assets/image (8).png";
 static const cicleimage="assets/Group 22942.png";
+static const teacherimage="assets/image (9).png";
+static const person1image="assets/image (10).png";
+static const person2image="assets/image (11).png";
+static const person3image="assets/image (13).png";
+static const person4image="assets/image (12).png";
+static const person5image="assets/image (14).png";
 
 
 

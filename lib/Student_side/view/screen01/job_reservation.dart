@@ -68,7 +68,7 @@ class JobReservation extends StatelessWidget {
                         },
                       ),
                     ),
- CustomTextField(hintText: "Last Name"),
+ CustomTextField(hintText: "Email Adress"),
  SizedBox(height: screenHeight*0.05,),
   GestureDetector(
           onTap: () {
