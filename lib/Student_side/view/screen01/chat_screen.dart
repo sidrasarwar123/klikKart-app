@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klik_kart/Student_side/widgets/chat_bubble.dart';
 import 'package:klik_kart/constants/app_colors.dart';
-import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
 
 class ChatScreen extends StatelessWidget {

@@ -9,9 +9,18 @@ class attendencecaed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      margin: EdgeInsets.symmetric(
+        horizontal: screenWidth * 0.04,
+        vertical: screenHeight * 0.01,
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: screenWidth * 0.04,
+        vertical: screenHeight * 0.015,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -19,11 +28,13 @@ class attendencecaed extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Subject Box
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.04,
+              vertical: screenHeight * 0.015,
+            ),
             decoration: BoxDecoration(
-              gradient:  LinearGradient(
+              gradient: LinearGradient(
                 colors: [Color(0xFF1B4F9C), Color(0xFF0F2C63)],
               ),
               borderRadius: BorderRadius.circular(12),
@@ -32,33 +43,34 @@ class attendencecaed extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(model.subject,
-                    style:  TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                Text("Class:${model.className}", style: const TextStyle(color: Colors.white70)),
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+                Text("Class: ${model.className}",
+                    style: const TextStyle(color: Colors.white70)),
               ],
             ),
           ),
-          Spacer(),
-  
+           Spacer(),
           CircularPercentIndicator(
-            radius: 28,
+            radius: screenWidth * 0.07,
             lineWidth: 6.0,
             percent: model.presentPercent,
-            center: Text("${(model.presentPercent * 100).toInt()}%"),
+            center:
+                Text("${(model.presentPercent * 100).toInt()}%"),
             progressColor: Colors.green,
             backgroundColor: Colors.grey.shade300,
           ),
-         SizedBox(width: 10),
-        
+          SizedBox(width: screenWidth * 0.02),
           CircularPercentIndicator(
-            radius: 28,
+            radius: screenWidth * 0.07,
             lineWidth: 6.0,
             percent: model.absentPercent,
-            center: Text("${(model.absentPercent * 100).toInt()}%"),
+            center:
+                Text("${(model.absentPercent * 100).toInt()}%"),
             progressColor: Colors.red,
             backgroundColor: Colors.grey.shade300,
           ),
         ],
-        
       ),
     );
   }

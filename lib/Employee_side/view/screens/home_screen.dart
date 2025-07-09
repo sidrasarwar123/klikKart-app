@@ -1,7 +1,7 @@
 import 'package:dashed_circle/dashed_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:klik_kart/Employee%20Attendence/widgets/line_printer.dart';
+import 'package:klik_kart/Employee_side/widgets/line_printer.dart';
 import 'package:klik_kart/Student_side/models/event.dart';
 import 'package:klik_kart/Student_side/widgets/event_widget.dart';
 

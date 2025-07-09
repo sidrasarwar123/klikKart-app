@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:klik_kart/teacher_side/models/course_model.dart.dart'; // ✅ correct import
+import 'package:klik_kart/teacher_side/models/course_model.dart.dart'; 
 
 class coursecardModel extends StatelessWidget {
   final CourseModel course;
@@ -9,35 +9,51 @@ class coursecardModel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Card(
       elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(screenWidth * 0.025),
+      ),
       child: Column(
         children: [
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            decoration: const BoxDecoration(
+            padding: EdgeInsets.symmetric(vertical: screenHeight * 0.015),
+            decoration:  BoxDecoration(
               gradient: LinearGradient(
                 colors: [Colors.blue, Colors.indigo],
               ),
-              borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(10),
+              ),
             ),
             child: Center(
               child: Text(
                 course.title,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
+                  fontSize: screenWidth * 0.045,
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 20),
-          Text(
-            course.subtitle,
-            style: const TextStyle(fontSize: 16),
+          SizedBox(height: screenHeight * 0.02),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+            child: Text(
+              course.subtitle,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: screenWidth * 0.04,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
+          SizedBox(height: screenHeight * 0.02),
         ],
       ),
     );

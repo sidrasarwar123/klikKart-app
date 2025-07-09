@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:klik_kart/Employee%20Attendence/model/member_model.dart';
+import 'package:klik_kart/Employee_side/model/member_model.dart';
 
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import '../models/course.dart';
 
@@ -15,10 +14,8 @@ class CourseCard extends StatelessWidget {
   final horizontalPadding = screenWidth * 0.02; 
   final containerWidth =  screenWidth * 0.6;
 
-    return InkWell(onTap: (){
-      Get.toNamed('/coursedetail');
-    },
-      child: Container(
+    return 
+       Container(
         width: containerWidth,
         margin: EdgeInsets.all(8),
         decoration: BoxDecoration(
@@ -114,7 +111,6 @@ class CourseCard extends StatelessWidget {
             )
           ],
         ),
-      ),
-    );
+      );
   }
 }

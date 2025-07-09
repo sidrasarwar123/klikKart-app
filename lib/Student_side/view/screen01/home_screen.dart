@@ -223,11 +223,26 @@ class HomeMainScreen extends StatelessWidget {
               padding:  EdgeInsets.only(right: screenWidth*0.7),
               child: Text("Course",style: TextStyle(fontSize: 20),),
             ),SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: dummyCourses.map((course) => CourseCard(course: course)).toList(),
-        ),
-            ) ,
+  scrollDirection: Axis.horizontal,
+  child: Row(
+    children: dummyCourses.asMap().entries.map((entry) {
+      int index = entry.key;
+      Course course = entry.value;
+
+      Widget card = CourseCard(course: course);
+
+      return Padding(
+        padding:  EdgeInsets.only(right:screenWidth*0.01),
+        child: index == 0
+            ? GestureDetector(
+                onTap: () => Get.toNamed("/coursedetail"),
+                child: card,
+              )
+            : card,
+      );
+    }).toList(),
+  ),
+),
             Padding(
               padding:  EdgeInsets.only(top: screenHeight*0.01,right: screenWidth*0.5),
               child: Text("Course by Mentor",style: TextStyle(fontSize: 20),),),

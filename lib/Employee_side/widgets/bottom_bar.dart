@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:klik_kart/Employee_side/view/screens/emp_attendence.dart.dart';
+import 'package:klik_kart/Employee_side/view/screens/home_screen.dart';
+import 'package:klik_kart/Employee_side/view/screens/leave_screen.dart';
 import 'package:klik_kart/Student_side/view/screen01/profile_screen.dart';
-import 'package:klik_kart/employee_attendence/view/screens/home_screen.dart';
+
 
 
 
@@ -13,9 +16,9 @@ class _bottombar03State extends State<bottombar03> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
- homescreen04(),
- Text("scjd"),
- Text("scjd"),
+   homescreen04(),
+ EmpAttendence(),
+ LeaveScreen(),
  ProfileScreen(),
   
     

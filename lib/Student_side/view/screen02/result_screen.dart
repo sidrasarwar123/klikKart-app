@@ -17,13 +17,12 @@ Widget build(BuildContext context) {
       child: Column(
         children: [
          
-              // Top container with background
-             // Top container with background + "Final Marks" floating
+             
 Stack(
   clipBehavior: Clip.none,
   children: [
     Container(
-      height: screenHeight * 0.32,
+      height: screenHeight * 0.25,
       width: double.infinity,
       decoration: BoxDecoration(
         color: AppColors.buttoncolor,
@@ -38,7 +37,7 @@ Stack(
             padding: EdgeInsets.only(
               top: screenHeight * 0.05,
               left: screenWidth * 0.03,
-              right: screenWidth * 0.03,
+             
             ),
             child: Padding(
               padding: EdgeInsets.only(top: screenHeight * 0.05),
@@ -109,9 +108,9 @@ Stack(
   alignment: Alignment.topCenter,
   children: [
     Padding(
-      padding: EdgeInsets.only(top: 40, left: 20, right: 20),
+      padding: EdgeInsets.only(top: screenHeight*0.1, left: screenWidth*0.04, right: screenWidth*0.04),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: screenHeight * 0.03),
+        padding: EdgeInsets.symmetric(horizontal: screenWidth*0.1, vertical: screenHeight * 0.03),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(24),
@@ -182,12 +181,12 @@ Stack(
                 
               ],
             ), Padding(
-              padding:  EdgeInsets.only(right: screenWidth*0.1),
+              padding:  EdgeInsets.only(right: screenWidth*0.05),
               child: Container(
                         padding:  EdgeInsets.symmetric(horizontal: screenWidth*0.05, vertical:screenHeight*0.01),
                         decoration: BoxDecoration(
                           color: Colors.green,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(30),
                         ),
                         child: Text("Passed", style: TextStyle(color: Colors.white)),
                       ),

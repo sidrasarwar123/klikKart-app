@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_images.dart';
 import 'package:klik_kart/widgets/buttons/custombutton.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class StudentProfilescreen extends StatelessWidget {
   const StudentProfilescreen({super.key});
@@ -154,31 +156,31 @@ class StudentProfilescreen extends StatelessWidget {
                      )
                      ,  Padding(
                       padding: EdgeInsets.only(top: screenHeight * 0.03),
-                      child: CustomButton(
-                        text: "Log Out",
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                              icon:  Icon(Icons.error, color: Colors.blue),
-                              title:  Text('Are you sure you want to log out?'),
-                              actions: [
-                                TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
-                                ElevatedButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child:  Text("Log Out"),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),SizedBox(height: screenHeight*0.1,)
-                          ]
-                          ) 
+                      child:CustomButton(
+                text: "Log Out",
+                onPressed: () {
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.confirm,
+                    text: 'Do you want to logout?',
+                    confirmBtnText: 'Yes',
+                    cancelBtnText: 'No',
+                    confirmBtnColor: Colors.red,
+                  //   onConfirmBtnTap: () {
+                  //     Get.back(); 
+                  //     Get.offAllNamed('/login'); 
+                  //   },
+                  );
+                    SizedBox(height: screenHeight*0.1,);
+                }
+                      )
+                     )      
+                  
+          
                                  ]
           ),
-        ),
+          ]
+        )),
       
     );
   }

@@ -5,7 +5,6 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/widgets/buttons/custombutton.dart';
-import 'package:klik_kart/widgets/fields/textfield.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 

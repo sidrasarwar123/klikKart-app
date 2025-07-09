@@ -185,7 +185,7 @@ Widget build(BuildContext context) {
 
     
           Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding:  EdgeInsets.all(12.0),
             child: Row(
               children: [
   
@@ -310,7 +310,7 @@ Widget build(BuildContext context) {
                       ),
                                     ),
                              SizedBox(
-                  height: 200,
+                  height: 220,
                   child: PageView.builder(
                     itemCount: pages.length,
                     controller: attendanceController, 
@@ -323,7 +323,7 @@ Widget build(BuildContext context) {
                   ),
                 ),
                 Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            padding: EdgeInsets.symmetric(vertical: screenHeight*0.01),
                             child: SmoothPageIndicator(
                   controller: attendanceController, 
                   count: pages.length,
@@ -402,7 +402,7 @@ Widget build(BuildContext context) {
                                       ),
                     
                                   SizedBox(
-                height: 200,
+                height: 220,
                 child: PageView.builder(
                   itemCount: pages.length,
                   controller: assignmentController, 
@@ -414,7 +414,7 @@ Widget build(BuildContext context) {
                   },
                 ),
               ),
-              SizedBox(height: screenHeight*0.02,),
+              SizedBox(height: screenHeight*0.01,),
                 SmoothPageIndicator(
                   controller: assignmentController,
                   count: pages.length,

@@ -238,11 +238,11 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
              children: [
                SingleChildScrollView(scrollDirection: Axis.horizontal,
                  child: Padding(
-                   padding:  EdgeInsets.only(right: screenWidth*0.5),
+                   padding:  EdgeInsets.only(),
                    child: Row(
                      children: [
                      Container(
-                            //  height: screenHeight*0.3,
+                        
                              width: screenWidth*0.4,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
@@ -340,7 +340,7 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
                     children: [
                     
                                 Container(
-                              //  height: screenHeight*0.3,
+                        
                                width: screenWidth*0.4,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16),
@@ -385,7 +385,7 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
                                 ),
                               ),SizedBox(width: screenWidth*0.06,),
                                 Container(
-                              //  height: screenHeight*0.3,
+                              
                                width: screenWidth*0.4,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16),

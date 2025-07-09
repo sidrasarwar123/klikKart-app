@@ -39,7 +39,7 @@ class _AttendenceState extends State<Attendence> {
       appBar: AppBar(
         title: Padding(
           padding: EdgeInsets.only(left: screenWidth * 0.1),
-          child: const Text("Attendance"),
+          child: Text("Attendance"),
         ),
         leading: IconButton(
           onPressed: () {
@@ -65,13 +65,13 @@ class _AttendenceState extends State<Attendence> {
               },
               child: Row(
                 children: [
-                  const Icon(Icons.calendar_month, color: Colors.blue, size: 30),
-                  const SizedBox(width: 10),
+                 Icon(Icons.calendar_month, color: Colors.blue, size: 30),
+                  SizedBox(width: 10),
                   Text(
                     selectedDay != null
                         ? "${selectedDay!.day}-${selectedDay!.month}-${selectedDay!.year}"
                         : "Select Date",
-                    style: const TextStyle(color: Colors.grey, fontSize: 20),
+                    style:  TextStyle(color: Colors.grey, fontSize: 20),
                   ),
                 ],
               ),

@@ -4,7 +4,6 @@ import 'package:klik_kart/Student_side/widgets/job_card.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_images.dart';
 import 'package:klik_kart/widgets/buttons/custombutton.dart';
-import 'package:klik_kart/widgets/fields/textfield.dart';
 
 class JobTitle extends StatelessWidget {
   const JobTitle({super.key});

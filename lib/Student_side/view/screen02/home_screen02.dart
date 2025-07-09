@@ -209,7 +209,7 @@ class _HomeScreen02State extends State<HomeScreen02> {
                       Get.toNamed('/coursescreen');
                      },
                        child: Container(
-                           // height: screenHeight*0.3,
+                        
                            width: screenWidth*0.5,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),

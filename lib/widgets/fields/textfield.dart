@@ -13,7 +13,7 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     required this.hintText,
-    this.prefixIcon, // <-- Optional now
+    this.prefixIcon,
     this.isPassword = false,
     this.keyboardType,
     this.readOnly,
@@ -23,9 +23,11 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Center(
       child: Container(
-        width: width ?? 320,
+        width: width ?? screenWidth * 0.85, 
         margin: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -51,8 +53,10 @@ class CustomTextField extends StatelessWidget {
                 : null,
             filled: true,
             fillColor: Colors.white,
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 20,
+            ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(40),
               borderSide: BorderSide(color: Colors.grey.shade100),
