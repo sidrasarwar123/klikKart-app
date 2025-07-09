@@ -66,9 +66,9 @@ class _ReservationFormState extends State<ReservationForm> {
             "Personal Data",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
-          const SizedBox(height: 20),
+           SizedBox(height: 20),
           _buildTextField("Name"),
-          const SizedBox(height: 16),
+           SizedBox(height: 16),
 
           
        IntlPhoneField(
@@ -80,7 +80,7 @@ class _ReservationFormState extends State<ReservationForm> {
     ),
     filled: true,
     fillColor: Colors.white,
-    contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+    contentPadding:  EdgeInsets.symmetric(vertical: 16, horizontal: 20),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(40),
       borderSide: BorderSide(color: Colors.grey.shade100),
@@ -113,7 +113,7 @@ class _ReservationFormState extends State<ReservationForm> {
             items: ["Online Learning", "Physical Learning"],
             onChanged: (val) => setState(() => learningMode = val),
           ),
-          const SizedBox(height: 16),
+           SizedBox(height: 16),
           _buildDropdown(
             label: "Select Institute Branch",
             value: instituteBranch,
@@ -123,7 +123,7 @@ class _ReservationFormState extends State<ReservationForm> {
             ],
             onChanged: (val) => setState(() => instituteBranch = val),
           ),
-          const SizedBox(height: 16),
+           SizedBox(height: 16),
           _buildDropdown(
             label: "Select Education",
             value: educationLevel,

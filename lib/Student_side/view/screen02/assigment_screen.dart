@@ -179,7 +179,7 @@ class _AssigmentScreenState extends State<AssigmentScreen> {
            
               decoration: BoxDecoration(
               
-                border: Border.all(color: const Color.fromARGB(255, 217, 228, 233)),
+                border: Border.all(color:  Color.fromARGB(255, 217, 228, 233)),
                 borderRadius: BorderRadius.circular(20),
               ), child: Row(
                   children: [
@@ -262,7 +262,7 @@ class _AssigmentScreenState extends State<AssigmentScreen> {
            
               decoration: BoxDecoration(
               
-                border: Border.all(color: const Color.fromARGB(255, 217, 228, 233)),
+                border: Border.all(color:Color.fromARGB(255, 217, 228, 233)),
                 borderRadius: BorderRadius.circular(20),
               ), child: Row(
                   children: [
@@ -340,7 +340,7 @@ class _AssigmentScreenState extends State<AssigmentScreen> {
            
               decoration: BoxDecoration(
               
-                border: Border.all(color: const Color.fromARGB(255, 217, 228, 233)),
+                border: Border.all(color:  Color.fromARGB(255, 217, 228, 233)),
                 borderRadius: BorderRadius.circular(20),
               ), child: Row(
                   children: [
@@ -357,7 +357,7 @@ class _AssigmentScreenState extends State<AssigmentScreen> {
                             backgroundColor: AppColors.buttoncolor,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight*0.02),
                         Padding(
                           padding:  EdgeInsets.only(left: screenWidth*0.01),
                           child: Row(
@@ -513,7 +513,7 @@ class _AssigmentScreenState extends State<AssigmentScreen> {
            
               decoration: BoxDecoration(
               
-                border: Border.all(color: const Color.fromARGB(255, 217, 228, 233)),
+                border: Border.all(color:  Color.fromARGB(255, 217, 228, 233)),
                 borderRadius: BorderRadius.circular(20),
               ), child: Row(
                   children: [

@@ -103,7 +103,7 @@ class NotificationScreen extends StatelessWidget {
                 return Card(
   margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
   child: Padding(
-    padding: const EdgeInsets.all(12.0),
+    padding:EdgeInsets.all(12.0),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

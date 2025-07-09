@@ -127,7 +127,7 @@ class HomeMainScreen extends StatelessWidget {
                         SizedBox(width: screenWidth * 0.03),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children:  [
                             Text(
                               "Good Morning",
                               style: TextStyle(

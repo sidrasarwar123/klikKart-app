@@ -23,13 +23,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       body: Column(
         children: [
-  
           Container(
             height: screenHeight * 0.25,
             width: double.infinity,
             decoration: BoxDecoration(
               color: AppColors.buttoncolor,
-              borderRadius: const BorderRadius.only(
+              borderRadius:  BorderRadius.only(
                 bottomLeft: Radius.circular(40),
                 bottomRight: Radius.circular(40),
               ),
@@ -38,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: EdgeInsets.only(top: screenHeight * 0.04),
               child: Column(
                 children: [
-                  const Text(
+                   Text(
                     "Profile",
                     style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                   ),
@@ -59,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0),
               child: Column(
                 children: [
                    Align(
@@ -101,10 +100,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             icon:  Icon(Icons.error, color: Colors.blue),
                             title:  Text('Are you sure you want to log out?'),
                             actions: [
-                              TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
+                              TextButton(onPressed: () =>Navigator.pop(context), child:  Text("Cancel")),
                               ElevatedButton(
                                 onPressed: () => Navigator.pop(context),
-                                child: const Text("Log Out"),
+                                child: Text("Log Out"),
                               ),
                             ],
                           ),
@@ -157,13 +156,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Select Gender", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              const SizedBox(height: 20),
+               Text("Select Gender", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+               SizedBox(height: 20),
               DropdownButton<String>(
                 isExpanded: true,
                 value: gender,
-                hint: const Text("Select"),
-                items: const [
+                hint:  Text("Select"),
+                items: [
                   DropdownMenuItem(child: Text("Male"), value: "Male"),
                   DropdownMenuItem(child: Text("Female"), value: "Female"),
                 ],
@@ -195,7 +194,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           decoration: InputDecoration(labelText: title),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
+          TextButton(onPressed: () => Navigator.pop(context), child:  Text("Cancel")),
           ElevatedButton(
             onPressed: () {
               onSave(controller.text);
