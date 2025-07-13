@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:klik_kart/constants/app_colors.dart';
+import 'package:klik_kart/utils/loading.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final bool? isloading;
 
-  const CustomButton({
-    required this.text,
-    required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+  const CustomButton({ this.isloading=false,
+    required this.text, required this.onPressed, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,9 @@ class CustomButton extends StatelessWidget {
           vertical: screenHeight * 0.018, 
         ),
       ),
-      child: Text(
+      child: isloading ==true? LoadingUtil.buttonLoading():
+            
+      Text(
         text,
         style: TextStyle(
           fontSize: 16,

@@ -14,6 +14,7 @@ class Stu2Assigment extends StatefulWidget {
 }
 
 class _Stu2AssigmentState extends State<Stu2Assigment> {
+  final TextEditingController photocopyingcontroller=TextEditingController();
   DateTime focusedDay = DateTime.now();
   DateTime? selectedDay;
   bool showCalendar = false;
@@ -85,7 +86,8 @@ class _Stu2AssigmentState extends State<Stu2Assigment> {
               ),
               SizedBox(height: screenHeight * 0.02),
                Text("Write Topic:", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-              CustomTextField(hintText: "Prototyping Test"),
+              CustomTextField(textEditingController: photocopyingcontroller,
+                hintText: "Prototyping Test"),
               SizedBox(height: screenHeight * 0.02),
                Text("Date:", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
               Padding(
@@ -194,9 +196,9 @@ class _Stu2AssigmentState extends State<Stu2Assigment> {
           ),
 
            SizedBox(height: screenHeight * 0.06),
-           CustomButton(text: "Publish Now", onPressed: (){
-            Get.toNamed('/studentmarks');
-           }),
+          //  CustomButton(text: "Publish Now", onPressed: (){
+          //   Get.toNamed('/studentmarks');
+          //  }),
            
            SizedBox(height: screenHeight * 0.4),
             ]

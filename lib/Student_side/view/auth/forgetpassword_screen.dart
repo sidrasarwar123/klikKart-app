@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/get_core.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get.dart';
+
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
+import 'package:klik_kart/controller/auth_controller.dart';
 import 'package:klik_kart/widgets/buttons/custombutton.dart';
 import 'package:klik_kart/widgets/fields/textfield.dart';
 
-class ForgetpasswordScreen extends StatelessWidget {
+class ForgetpasswordScreen extends StatefulWidget {
   const ForgetpasswordScreen({super.key});
 
+  @override
+  State<ForgetpasswordScreen> createState() => _ForgetpasswordScreenState();
+}
+
+class _ForgetpasswordScreenState extends State<ForgetpasswordScreen> {
+    final _formKay = GlobalKey<FormState>();
+    final AuthController authController=Get.put(AuthController());
+
+    final TextEditingController emailController=TextEditingController();
   @override
   Widget build(BuildContext context) {
       final screenHeight = MediaQuery.of(context).size.height;
@@ -55,19 +65,32 @@ class ForgetpasswordScreen extends StatelessWidget {
                   
                         Padding(
                           padding:  EdgeInsets.only(top:screenHeight*0.06 ),
-                          child: Column(
-                            children: [
-                              CustomTextField(hintText: "Email", prefixIcon: AppIcons.emailicon),
-                            ],
+                          child: Form(key: _formKay,
+                            child: Column(
+                              children: [
+                                CustomTextField(textEditingController:emailController,
+                                  hintText: "Email", prefixIcon: AppIcons.emailicon,
+                                  validate: (value){
+                                     if (value==''||value==null) {
+                          return "Please enter email";                        
+                        }
+                        return null;
+                                  },),
+                              ],
+                            ),
                           ),
                         ),
                      
                   Padding(
                     padding:  EdgeInsets.only(top: screenHeight*0.070,),
-                    child: CustomButton(text: "continous", onPressed: (){
-                       
-                    }
-                                  ),
+                    child: Obx(()=>
+                       CustomButton(text: "continous",isloading: authController.isloading.value,
+                        onPressed: ()async{
+                          await authController.forget(_formKay, emailController);
+                         
+                      }
+                                    ),
+                    ),
                   ),
                       ],
                     ),

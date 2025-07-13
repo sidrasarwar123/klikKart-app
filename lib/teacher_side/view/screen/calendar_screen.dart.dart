@@ -78,9 +78,9 @@ class _AttendenceScreen01State extends State<AttendenceScreen01> {
                 ),
               ),
               SizedBox(height: screenHeight*0.2,),
-              CustomButton(text: "Next", onPressed: (){
-                Get.toNamed('/course');
-              })
+              // CustomButton(text: "Next", onPressed: (){
+              //   Get.toNamed('/course');
+              // })
             ]
           )))
           

@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/get_core.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get.dart';
+
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
+import 'package:klik_kart/controller/auth_controller.dart';
 import 'package:klik_kart/widgets/buttons/custombutton.dart';
 import 'package:klik_kart/widgets/fields/textfield.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
 
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+    final _formKay = GlobalKey<FormState>();
+    final TextEditingController usernameController=TextEditingController();
+    final TextEditingController emailController =TextEditingController();
+    final TextEditingController passwordController=TextEditingController();
+   
+bool isTeacher = false;
+final AuthController authController=Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
       final screenHeight = MediaQuery.of(context).size.height;
@@ -37,23 +50,58 @@ class SignupScreen extends StatelessWidget {
                     height: screenHeight * 0.090,
                   ),
                   SingleChildScrollView(scrollDirection: Axis.vertical,
-                    child: CustomTextField(
-                        hintText: "User name", prefixIcon: AppIcons.profileicon),
+                    child: Form(
+                      key: _formKay,
+                      child: Column(
+                        children: [
+                          CustomTextField(
+                            textEditingController: usernameController,
+                              hintText: "User name", prefixIcon: AppIcons.profileicon,
+                              validate: (value) {
+                                if (value==''||value==Null) {
+                                  return "please enter username";
+                                  
+                                }
+                                return null;
+                                
+                              },),
+                               CustomTextField(textEditingController: emailController,
+                      hintText: "Email", prefixIcon: AppIcons.emailicon,validate: (value) {
+                        if (value==''||value==null) {
+                          return "Please enter email";                        
+                        }
+                        return null;
+                      },
+                                        ),
+                                        CustomTextField(textEditingController: passwordController,
+                      hintText: "Password",
+                      prefixIcon: AppIcons.passwordicon,
+                      isPassword: true,validate: (value) {
+                         if (value == '' || value == null) {
+                              return 'Please enter your password';
+                            } else if (value.length < 6) {
+                              return 'Password must be 6 char long';
+                            }
+                            return null;
+                        
+                      },
+                                        ),
+                        ],
+                      ),
+                    ),
                   ),
-                  CustomTextField(hintText: "Email", prefixIcon: AppIcons.emailicon,
-                  ),
-                  CustomTextField(
-                    hintText: "Password",
-                    prefixIcon: AppIcons.passwordicon,
-                    isPassword: true,
-                  ),
+                 
                     SizedBox(
                     height: screenHeight * 0.070,
                   ),
-                  CustomButton(text: "Sign Up", onPressed: (){
-                    Get.toNamed('/login');
-                  }
-              ),
+                  Obx(()=>
+                     CustomButton(text: "Sign Up",isloading: authController.isloading.value,
+                      onPressed: ()async{
+                       await authController.signUp(_formKay, usernameController,
+                        emailController, passwordController, isTeacher);
+                    }
+                                  ),
+                  ),
               Column(
                 children: [
                   SizedBox(height: screenHeight * 0.2,

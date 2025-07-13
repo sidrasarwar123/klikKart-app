@@ -4,9 +4,15 @@ import 'package:klik_kart/Student_side/widgets/job_card.dart';
 import 'package:klik_kart/constants/app_images.dart';
 import 'package:klik_kart/widgets/fields/textfield.dart';
 
-class JobScreen extends StatelessWidget {
+class JobScreen extends StatefulWidget {
   const JobScreen({super.key});
 
+  @override
+  State<JobScreen> createState() => _JobScreenState();
+}
+
+class _JobScreenState extends State<JobScreen> {
+  final TextEditingController searchController =TextEditingController();
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -15,6 +21,7 @@ class JobScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: CustomTextField(
+          textEditingController: searchController,
           hintText: "Search",
           prefixIcon: Icons.search,
         ),

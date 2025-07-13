@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:get/get.dart';
-import 'package:klik_kart/constants/app_colors.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:klik_kart/constants/app_images.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -10,14 +12,33 @@ class SplashScreen extends StatefulWidget {
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
-
+ 
 class _SplashScreenState extends State<SplashScreen> {
-  @override
+ final box = GetStorage();
+
+ @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () {
-      Get.offNamed('/onboarding');
-    });
+    checkUserStatus();
+
+  }
+
+  void checkUserStatus() async {
+    await Future.delayed(Duration(seconds: 3));
+    bool isFirstTime = box.read("isFirstTime") ?? true; 
+    User? user =FirebaseAuth.instance.currentUser;
+     
+     if (isFirstTime ) {
+      box.write("isFirstTime", true); 
+      Get.toNamed('/onboarding'); 
+    }else if(user == null){
+Get.offNamed('/signup');
+    }
+    
+    
+     else {
+      Get.offNamed('/homescreen'); 
+    }
   }
 
   @override

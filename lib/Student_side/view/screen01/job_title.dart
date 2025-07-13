@@ -102,9 +102,9 @@ class JobTitle extends StatelessWidget {
                     style: TextStyle(fontSize: 12, height: 1.5),
                                  ),
                  ),SizedBox(height: screenHeight*0.04,),
-                 CustomButton(text: "Apply", onPressed: (){
-                  Get.toNamed('/jobreservation');
-                 }),
+                //  CustomButton(text: "Apply", onPressed: (){
+                //   Get.toNamed('/jobreservation');
+                //  }),
                 
                       
           ],

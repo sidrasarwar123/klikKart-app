@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get.dart';
+
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
+import 'package:klik_kart/controller/auth_controller.dart';
 import 'package:klik_kart/widgets/buttons/custombutton.dart';
 import 'package:klik_kart/widgets/fields/textfield.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
    LoginScreen({super.key});
-    final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+    final _formKay = GlobalKey<FormState>();
+    final TextEditingController emailController = TextEditingController();
+     final TextEditingController passwordController = TextEditingController();
+   
+     final AuthController authController=Get.put(AuthController());
+    
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +50,40 @@ class LoginScreen extends StatelessWidget {
                     height: screenHeight * 0.090,
                   ),
                   SingleChildScrollView(scrollDirection: Axis.vertical,
-                    child: CustomTextField(
-                        hintText: "User name", prefixIcon: AppIcons.profileicon),
-                  ),
-                  CustomTextField(
-                    hintText: "Password",
-                    prefixIcon: AppIcons.passwordicon,
-                    isPassword: true,
-                  ),
+                    child: Form(key: _formKay,
+                      child: Column(
+                           children: [
+                          CustomTextField(
+                            textEditingController: emailController, hintText: "Email",
+                            prefixIcon: AppIcons.profileicon,
+                            validate: (value){
+                              if (value==''||value==null) {
+                          return "Please enter email";                        
+                        }
+                        return null;
+                      
+                            },
+                            ),
+                             CustomTextField(
+                      textEditingController: passwordController,
+                      hintText: "Password",
+                      prefixIcon: AppIcons.passwordicon,
+                      isPassword: true,
+                      validate: (value){
+                        if (value == '' || value == null) {
+                              return 'Please enter your password';
+                            } else if (value.length < 6) {
+                              return 'Password must be 6 char long';
+                            }
+                            return null;
+                      },
+                                        ),
+                        ],
+                      ),
+                    )
+                    
+                   ),
+                 
                   Padding(
                     padding: EdgeInsets.only(left: 150),
                     child: TextButton(
@@ -60,10 +97,15 @@ class LoginScreen extends StatelessWidget {
                   ), SizedBox(
                     height: screenHeight * 0.070,
                   ),
-                  CustomButton(text: "Sign in", onPressed: (){
-                    Get.offNamed('/bottombar');
-                  }
-              ),
+                Obx(() => CustomButton(
+  text: "Sign in",
+  isloading: authController.isloading.value, 
+  onPressed: () async {
+    await authController.login(_formKay, emailController, passwordController);
+  },
+)),
+
+
               Column(
                 children: [
                   SizedBox(height: screenHeight * 0.2,

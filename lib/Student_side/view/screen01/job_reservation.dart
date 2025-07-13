@@ -7,9 +7,17 @@ import 'package:klik_kart/widgets/fields/textfield.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
-class JobReservation extends StatelessWidget {
+class JobReservation extends StatefulWidget {
   const JobReservation({super.key});
 
+  @override
+  State<JobReservation> createState() => _JobReservationState();
+}
+
+class _JobReservationState extends State<JobReservation> {
+  final TextEditingController firstusernameController=TextEditingController();
+  final TextEditingController lastusernameController=TextEditingController();
+  final TextEditingController emailController=TextEditingController();
   @override
   Widget build(BuildContext context) {
      final screenWidth = MediaQuery.of(context).size.width;
@@ -35,8 +43,10 @@ class JobReservation extends StatelessWidget {
                            ),
                                           
                          ),SizedBox(height: screenHeight*0.04,),
-                          CustomTextField(hintText: " First Name"),
-                   CustomTextField(hintText: "Last Name"),
+                          CustomTextField(textEditingController:firstusernameController,
+                            hintText: " First Name"),
+                   CustomTextField(textEditingController:lastusernameController ,
+                    hintText: "Last Name"),
                     Padding(
                       padding:  EdgeInsets.only(left: screenWidth*0.05,top: screenHeight*0.01,right: screenWidth*0.05),
                       child: IntlPhoneField(
@@ -68,7 +78,8 @@ class JobReservation extends StatelessWidget {
                         },
                       ),
                     ),
- CustomTextField(hintText: "Email Adress"),
+ CustomTextField(textEditingController: emailController,
+  hintText: "Email Adress"),
  SizedBox(height: screenHeight*0.05,),
   GestureDetector(
           onTap: () {
@@ -108,16 +119,16 @@ class JobReservation extends StatelessWidget {
           ),
         ),
         SizedBox(height: 30),
-CustomButton(
-  text: "Submit",
-  onPressed: () {
-    QuickAlert.show(
-      context: context,
-      type: QuickAlertType.success,
-      text: 'Your form has been successfully submitted!',
-    );
-  },
-),
+// CustomButton(
+//   text: "Submit",
+//   onPressed: () {
+//     QuickAlert.show(
+//       context: context,
+//       type: QuickAlertType.success,
+//       text: 'Your form has been successfully submitted!',
+//     );
+//   },
+// ),
 
           ]),
           

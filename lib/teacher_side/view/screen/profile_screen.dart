@@ -154,27 +154,27 @@ class StudentProfilescreen extends StatelessWidget {
                         ),
                       ],),
                      )
-                     ,  Padding(
-                      padding: EdgeInsets.only(top: screenHeight * 0.03),
-                      child:CustomButton(
-                text: "Log Out",
-                onPressed: () {
-                  QuickAlert.show(
-                    context: context,
-                    type: QuickAlertType.confirm,
-                    text: 'Do you want to logout?',
-                    confirmBtnText: 'Yes',
-                    cancelBtnText: 'No',
-                    confirmBtnColor: Colors.red,
-                  //   onConfirmBtnTap: () {
-                  //     Get.back(); 
-                  //     Get.offAllNamed('/login'); 
-                  //   },
-                  );
-                    SizedBox(height: screenHeight*0.1,);
-                }
-                      )
-                     )      
+                //      ,  Padding(
+                //       padding: EdgeInsets.only(top: screenHeight * 0.03),
+                //       child:CustomButton(
+                // text: "Log Out",
+                // onPressed: () {
+                //   QuickAlert.show(
+                //     context: context,
+                //     type: QuickAlertType.confirm,
+                //     text: 'Do you want to logout?',
+                //     confirmBtnText: 'Yes',
+                //     cancelBtnText: 'No',
+                //     confirmBtnColor: Colors.red,
+                //   //   onConfirmBtnTap: () {
+                //   //     Get.back(); 
+                //   //     Get.offAllNamed('/login'); 
+                //   //   },
+                //   );
+                //     SizedBox(height: screenHeight*0.1,);
+                // }
+                //       )
+                //      )      
                   
           
                                  ]

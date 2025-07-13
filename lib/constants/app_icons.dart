@@ -15,6 +15,9 @@ class AppIcons {
   static const fileuploadicon=Icons.upload;
   static const logouticon=Icons.logout;
   static const editicon=Icons.edit;
+  static const iconcheckcircle=Icons.check_circle;
+      static const iconError=Icons.error;
+        static const iconWarning=Icons.warning;
 
    
   

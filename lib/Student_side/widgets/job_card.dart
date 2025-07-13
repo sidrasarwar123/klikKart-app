@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_images.dart';
 

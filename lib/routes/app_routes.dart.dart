@@ -1,7 +1,5 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
-import 'package:klik_kart/Employee_side/view/screens/apply_screen.dart';
-import 'package:klik_kart/Employee_side/view/screens/team_member.dart';
-import 'package:klik_kart/Employee_side/widgets/bottom_bar.dart';
+
 
 import 'package:klik_kart/Student_side/view/auth/forgetpassword_screen.dart';
 import 'package:klik_kart/Student_side/view/auth/login_screen.dart';
@@ -21,11 +19,7 @@ import 'package:klik_kart/Student_side/view/screen01/job_reservation.dart';
 import 'package:klik_kart/Student_side/view/screen01/job_title.dart';
 import 'package:klik_kart/Student_side/view/screen01/notification_screen.dart';
 import 'package:klik_kart/Student_side/view/screen01/reservation_form.dart';
-import 'package:klik_kart/Student_side/view/screen02/assigment_screen.dart';
-import 'package:klik_kart/Student_side/view/screen02/attendence_screen.dart';
-import 'package:klik_kart/Student_side/view/screen02/course_detail.dart';
-import 'package:klik_kart/Student_side/view/screen02/home_screen02.dart';
-import 'package:klik_kart/Student_side/view/screen02/result_screen.dart';
+
 import 'package:klik_kart/Student_side/widgets/bottom_bar.dart';
 import 'package:klik_kart/teacher_side/view/screen/assi_marks.dart';
 import 'package:klik_kart/teacher_side/view/screen/attendence_screen.dart';
@@ -86,9 +80,7 @@ class AppRoutes {
 
 
 
-  GetPage(name: "/bottombar03", page: ()=>bottombar03()),
-  GetPage(name: "/memberscreen", page: ()=>TeamMember()), 
-    GetPage(name: "/applyscreen", page: ()=>ApplyScreen()),
+ 
         
 
 
