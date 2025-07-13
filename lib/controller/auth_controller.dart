@@ -12,68 +12,77 @@ class AuthController extends GetxController {
 
 
   Future signUp(
-    GlobalKey<FormState> _formKey,
-    TextEditingController usernameController,
-    TextEditingController emailController,
-    TextEditingController passwordController,
- 
-    bool isTeacher,
-  ) async {
-    if (_formKey.currentState!.validate()) {
-    
+  GlobalKey<FormState> _formKey,
+  TextEditingController usernameController,
+  TextEditingController emailController,
+  TextEditingController passwordController,
+  bool isTeacher,
+) async {
+  if (_formKey.currentState!.validate()) {
+    try {
+      isloading.value = true;
 
-      try {
-        isloading.value = true;
+      UserCredential userCred = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.text.trim(),
+              password: passwordController.text.trim());
 
-        UserCredential userCred = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: emailController.text,
-                password: passwordController.text);
+      String userId = userCred.user!.uid;
 
-        // Save to Firestore
-        await FirebaseFirestore.instance
-            .collection('userdata')
-            .doc(userCred.user!.uid)
-            .set({
-          "name": usernameController.text,
-          "email": emailController.text,
-          "isTeacher": isTeacher,
-        });
+      // Save user info in Firestore
+      await FirebaseFirestore.instance.collection('userdata').doc(userId).set({
+        'uid': userId,
+        'email': emailController.text.trim(),
+        'name': usernameController.text.trim(),
+        'isTeacher': isTeacher,
+      });
 
-        SnackbarUtil.showSuccess('Account created successfully');
-        Get.offAllNamed('/login');
-      } catch (e) {
-        SnackbarUtil.showError(e.toString());
-      } finally {
-        isloading.value = false;
+      SnackbarUtil.showSuccess('Account created successfully');
+
+      // 👇 Redirect based on role
+      if (isTeacher) {
+        Get.offAllNamed('/bottombarscreen'); // Teacher screen
+      } else {
+        Get.offAllNamed('/bottombar'); // Student screen
       }
+    } catch (e) {
+      SnackbarUtil.showError(e.toString());
+    } finally {
+      isloading.value = false;
     }
   }
+}
 
-Future login(
-    _formKay,
-    TextEditingController emailController,
-    TextEditingController passwordController,
-  ) async {
-    if (_formKay.currentState!.validate()) {
-      try {
-        isloading.value = true;
 
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text);
+Future<void> login(
+  GlobalKey<FormState> formKey,
+  TextEditingController emailController,
+  TextEditingController passwordController,
 
-        Get.offAllNamed('/bottombar');
-        isloading.value = false;
+) async {
+  if (formKey.currentState!.validate()) {
+    try {
+      isloading.value = true;
+
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+//        
+
+      Get.offAllNamed('/bottombar');
+
+   isloading.value = false;
       } catch (e) {
         SnackbarUtil.showError(e.toString());
         isloading.value = false;
-      }
-    } else
-      null;
+    }
   }
+}
 
 
-  /// Forget password
+
+  
   Future forget(GlobalKey<FormState> _formKey, TextEditingController emailController) async {
     if (_formKey.currentState!.validate()) {
       try {

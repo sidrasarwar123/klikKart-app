@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
   text: "Sign in",
   isloading: authController.isloading.value, 
   onPressed: () async {
-    await authController.login(_formKay, emailController, passwordController);
+   await authController.login(_formKay, emailController, passwordController);
   },
 )),
 

@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:klik_kart/constants/app_images.dart';
+import 'package:klik_kart/utils/snakebar_util.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -23,23 +25,41 @@ class _SplashScreenState extends State<SplashScreen> {
 
   }
 
-  void checkUserStatus() async {
-    await Future.delayed(Duration(seconds: 3));
-    bool isFirstTime = box.read("isFirstTime") ?? true; 
-    User? user =FirebaseAuth.instance.currentUser;
-     
-     if (isFirstTime ) {
-      box.write("isFirstTime", true); 
-      Get.toNamed('/onboarding'); 
-    }else if(user == null){
-Get.offNamed('/signup');
-    }
-    
-    
-     else {
-      Get.offNamed('/homescreen'); 
+ void checkUserStatus() async {
+  await Future.delayed(Duration(seconds: 3));
+
+  bool isFirstTime = box.read("isFirstTime") ?? true;
+  User? user = FirebaseAuth.instance.currentUser;
+
+  if (isFirstTime) {
+    box.write("isFirstTime", false);
+    Get.toNamed('/onboarding');
+  } else if (user == null) {
+    Get.offNamed('/signup'); 
+  } else {
+    // User login hai, check role
+    final uid = user.uid;
+    final doc = await FirebaseFirestore.instance
+        .collection('userdata')
+        .doc(uid)
+        .get();
+
+    if (doc.exists) {
+      final isTeacher = doc['isTeacher'] ?? false;
+
+      // Step 2: Redirect based on role
+      if (isTeacher) {
+        Get.offNamed('/bottombarscreen'); // teacher
+      } else {
+        Get.offNamed('/bottombar'); // student
+      }
+    } else {
+      SnackbarUtil.showError("User data not found in Firestore");
+      Get.offNamed('/signup');
     }
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
