@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
+
 import 'package:klik_kart/Student_side/controller/course_controller.dart';
+import 'package:klik_kart/Student_side/controller/event_controller.dart';
+import 'package:klik_kart/Student_side/controller/mentor_controller.dart';
 import 'package:klik_kart/Student_side/controller/stories_controller.dart';
 import 'package:klik_kart/Student_side/models/course.dart';
 import 'package:klik_kart/Student_side/models/event.dart';
-import 'package:klik_kart/Student_side/models/succes_stories.dart';
+
 import 'package:klik_kart/Student_side/widgets/course_widget.dart';
 import 'package:klik_kart/Student_side/widgets/event_widget.dart';
 import 'package:klik_kart/Student_side/widgets/success_stories.dart';
@@ -13,7 +15,7 @@ import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
 import 'package:klik_kart/utils/color_util.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+
 
 
 
@@ -27,45 +29,15 @@ class HomeMainScreen extends StatefulWidget {
 class _HomeMainScreenState extends State<HomeMainScreen> {
   final SuccessStoryModelController successStoryModelController =Get.put(SuccessStoryModelController());
   final CourseController courseController=Get.put(CourseController());
+  final MentorController mentorController = Get.put(MentorController());
+  final EventController eventController = Get.put(EventController());
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final bool hasUnreadNotifications = true;
-    //  List<SuccessStory> stories = [
-    //   SuccessStory(
-    //     imageUrl:AppImages.successstories1,
-    //     name: 'Ali Haider',
-    //     courseType: '(UI/UX DESIGNER)',
-    //     courseColor: AppColors.buttoncolor,
-    //     description: 'This course changed my career path.\nI landed a job at UI/UX Designer within 3 months of completion.',
-    //   ),
-    //   SuccessStory(
-    //     imageUrl:AppImages.successstories2,
-    //     name: 'Umer Zahid',
-    //     courseType: '(WEB DEVELOPMENT)',
-    //     courseColor: AppColors.buttoncolor,
-    //     description: 'This course changed my career path. I landed a job at Web Development within 3 months of completion.',
-    //   ),
-    // ];
-  
-
-//      final List<Course> dummyCourses = [
-//   Course(
-//     title: 'UI/UX DESIGNING',
-//     imageUrl:AppImages.UIimage,
-//     rating: 4.5,
-//     lessons: 30,
-//     price: 10000,
-//   ),
-//   Course(
-//     title: 'WEB DEVELOPMENT',
-//     imageUrl:AppImages.webimage,
-//     rating: 4.5,
-//     lessons: 30,
-//     price: 20000,
-//   ),
-// ];
+   
   final List<Event> events = [
     Event(
       title: "Mango Festival",
@@ -278,110 +250,91 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
                            Padding(
                 padding:  EdgeInsets.only(top: screenHeight*0.01,right: screenWidth*0.5),
                 child: Text("Course by Mentor",style: TextStyle(fontSize: 20),),),
-                SingleChildScrollView (scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      Padding(
-                  padding: EdgeInsets.only(top: screenHeight * 0.01,left: screenWidth*0.03),
-                  child: Container(
-                    height: screenHeight * 0.08,
-                    width: screenWidth * 0.6,
-                    decoration: BoxDecoration(
-                      color: AppColors.buttoncolor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                   
-                      child: Row(
-                        children: [
-                          CircleAvatar(backgroundImage: AssetImage(AppImages.course1image),radius: 25,
-                           
-                          ),
-                          Padding(
-                            padding:  EdgeInsets.only(top: screenHeight*0.01,),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding:  EdgeInsets.only(right: screenWidth*0.2),
-                                  child: Text("M.Hanzla",style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),),
-                                ),
-                                  Text("UI/UX Designer | Mentor",style: TextStyle(color: Colors.white,fontSize: 14,),),
-                              
-                               ],
-                            ),
-                          ),
-                          
-                        ],
-                      ),
-                  
+              
+              
+Obx(() {
+  if (mentorController.isLoading.value) {
+    return CircularProgressIndicator();
+  } else if (mentorController.mentorList.isEmpty) {
+    return Text("No mentors found");
+  } else {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: mentorController.mentorList.map((mentor) {
+          return Padding(
+            padding: EdgeInsets.only(left: screenWidth * 0.03, top: screenHeight * 0.01),
+            child: Container(
+              height: screenHeight * 0.08,
+              width: screenWidth * 0.6,
+              decoration: BoxDecoration(
+                color: Color(int.parse("0xFF${mentor.color.replaceAll("#", "")}")),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(mentor.imageUrl),
+                    radius: 25,
                   ),
-                              ),
-                               Padding(
-                  padding: EdgeInsets.only(top: screenHeight * 0.01,left: screenWidth*0.03),
-                  child: Container(
-                    height: screenHeight * 0.08,
-                    width: screenWidth * 0.6,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                   
-                      child: Row(
-                        children: [
-                          CircleAvatar(backgroundImage: AssetImage(AppImages.course2image),radius: 25,
-                           
-                          ),
-                          Padding(
-                            padding:  EdgeInsets.only(top: screenHeight*0.01,),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding:  EdgeInsets.only(right: screenWidth*0.2),
-                                  child: Text("M.Haris",style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),),
-                                ),
-                                  Text("Frontend Developer | Mentor",style: TextStyle(color: Colors.white,fontSize: 12,),),
-                           
-                               ],
-                            ),
-                          ),
-                          
-                        ],
-                      ),
-                 
-                  ),
-                              ),
-                   
-                  ],),
-                ),
-                           Padding(
-                padding:  EdgeInsets.only(top: screenHeight*0.03,),
-                child: Column(
-                  children: [
-                    Row(
+                  Padding(
+                    padding: EdgeInsets.only(left: screenWidth * 0.03),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Upcoming  Events",style: TextStyle(fontSize: 20),),
-                        Padding(
-                          padding:  EdgeInsets.only(left:screenWidth*0.3 ),
-                          child: InkWell(onTap: (){
-                            Get.toNamed('/eventscreen');
-                          },
-                            child: Text("View All",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: AppColors.buttoncolor),)),
-                        ),
+                        Text(mentor.name,
+                            style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                        Text(mentor.role,
+                            style: TextStyle(color: Colors.white, fontSize: 12)),
                       ],
                     ),
-                  ],
-                ),),
-                          SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: events.map((event) => InkWell(onTap: (){
-                           
-                          },
-                            child: EventCard(event: event))).toList(),
-                        ),
-                      ),
-                
-              
-            
+                  ),
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}),
+Padding(
+  padding: EdgeInsets.only(top: screenHeight * 0.03, left: screenWidth * 0.01),
+  child: Row(
+    
+    children: [
+      Text("Upcoming Events", style: TextStyle(fontSize: 20)),
+      GestureDetector(
+        onTap: () => Get.toNamed('/eventscreen'),
+        child: Padding(
+          padding:  EdgeInsets.only(left: screenWidth*0.3),
+          child: Text("View All",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.buttoncolor)),
+        ),
+      ),
+    ],
+  ),
+),
+Obx(() {
+  if (eventController.isLoading.value) {
+    return Center(child: CircularProgressIndicator());
+  } else if (eventController.eventList.isEmpty) {
+    return Text("No events found");
+  } else {
+    return SizedBox(
+      height: screenWidth * 0.5,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 2, // Only 2 events
+        itemBuilder: (context, index) {
+          final event = eventController.eventList[index];
+          return EventCard(event: event);
+        },
+      ),
+    );
+  }
+}),
               SizedBox(height: screenHeight*0.1,)
           
 
