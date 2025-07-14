@@ -30,6 +30,7 @@ class SuccessStoryCard extends StatelessWidget {
     final fontSizeDesc = screenWidth * 0.03;
 
     return Container(
+      height: screenHeight*0.19,
       width: cardWidth,
       margin: EdgeInsets.all(padding / 2),
       padding: EdgeInsets.all(padding / 2),
@@ -54,7 +55,7 @@ class SuccessStoryCard extends StatelessWidget {
   width: screenWidth * 0.13,
   decoration: BoxDecoration(
     image: DecorationImage(
-      image: AssetImage(imageUrl), 
+      image: NetworkImage(imageUrl), 
       fit: BoxFit.cover,
     ),
   ),
@@ -78,7 +79,7 @@ class SuccessStoryCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(),
+          SizedBox(height: screenHeight*0.01,),
           Text(
             description,
             style: TextStyle(fontSize: fontSizeDesc, color: Colors.black87),

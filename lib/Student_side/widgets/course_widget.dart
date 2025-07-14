@@ -3,7 +3,7 @@ import 'package:klik_kart/constants/app_colors.dart';
 import '../models/course.dart';
 
 class CourseCard extends StatelessWidget {
-  final Course course;
+  final CourseModel course;
 
   const CourseCard({super.key, required this.course});
 
@@ -34,12 +34,29 @@ class CourseCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-              child: Image.asset(
-                course.imageUrl,
-                height: 120,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+              child:Image.network(
+  course.imageUrl,
+  height: 120,
+  width: double.infinity,
+  fit: BoxFit.cover,
+  errorBuilder: (context, error, stackTrace) {
+    return Container(
+      height: 120,
+      width: double.infinity,
+      color: Colors.grey[200],
+      child: Icon(Icons.broken_image, size: 40, color: Colors.grey),
+    );
+  },
+  loadingBuilder: (context, child, loadingProgress) {
+    if (loadingProgress == null) return child;
+    return Container(
+      height: 120,
+      width: double.infinity,
+      alignment: Alignment.center,
+      child: CircularProgressIndicator(),
+    );
+  },
+),
             ),
             Padding(
               padding: EdgeInsets.symmetric(

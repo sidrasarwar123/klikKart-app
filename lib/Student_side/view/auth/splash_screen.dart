@@ -28,11 +28,11 @@ class _SplashScreenState extends State<SplashScreen> {
  void checkUserStatus() async {
   await Future.delayed(Duration(seconds: 3));
 
-  bool isFirstTime = box.read("isFirstTime") ?? true;
+  bool isFirstTime = box.read("isFirstTime") ?? false;
   User? user = FirebaseAuth.instance.currentUser;
 
   if (isFirstTime) {
-    box.write("isFirstTime", false);
+    box.write("isFirstTime", true);
     Get.toNamed('/onboarding');
   } else if (user == null) {
     Get.offNamed('/signup'); 
