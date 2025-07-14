@@ -39,7 +39,7 @@ class AuthController extends GetxController {
 
       SnackbarUtil.showSuccess('Account created successfully');
 
-      // 👇 Redirect based on role
+      
       if (isTeacher) {
         Get.offAllNamed('/bottombarscreen'); // Teacher screen
       } else {
