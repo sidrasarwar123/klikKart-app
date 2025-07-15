@@ -31,7 +31,7 @@ class EventScreen extends StatelessWidget {
     childAspectRatio: 0.90,
     children: eventController.eventList.map((event) {
       return SizedBox(
-        height: screenHeight * 0.3, // You can adjust to 0.35 or 0.4 for taller cards
+        height: screenHeight * 0.3, 
         child: EventCard(event: event),
       );
     }).toList(),

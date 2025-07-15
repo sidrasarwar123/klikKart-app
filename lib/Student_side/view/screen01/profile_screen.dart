@@ -90,29 +90,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   }),
 
           
-                  // Padding(
-                  //   padding: EdgeInsets.only(top: screenHeight * 0.03),
-                  //   child:
-                  // CustomButton(
-                  //     text: "Log Out",
-                  //     onPressed: () {
-                  //       showDialog(
-                  //         context: context,
-                  //         builder: (_) => AlertDialog(
-                  //           icon:  Icon(Icons.error, color: Colors.blue),
-                  //           title:  Text('Are you sure you want to log out?'),
-                  //           actions: [
-                  //             TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
-                  //             ElevatedButton(
-                  //               onPressed: () => Navigator.pop(context),
-                  //               child: const Text("Log Out"),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       );
-                  //     },
-                  //   ),
-                  // )
+                  Padding(
+                    padding: EdgeInsets.only(top: screenHeight * 0.03),
+                    child:
+                  CustomButton(
+                      text: "Log Out",
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            icon:  Icon(Icons.error, color: Colors.blue),
+                            title:  Text('Are you sure you want to log out?'),
+                            actions: [
+                              TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
+                              ElevatedButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text("Log Out"),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  )
                 ],
               ),
             ),

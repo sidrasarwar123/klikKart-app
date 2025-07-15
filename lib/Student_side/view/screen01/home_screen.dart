@@ -37,20 +37,6 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final bool hasUnreadNotifications = true;
-   
-  final List<Event> events = [
-    Event(
-      title: "Mango Festival",
-      date: "19 May,2024",
-      imageUrl: AppImages.event1image,
-    ),
-    Event(
-      title: "14 August",
-      date: "14 Aug,2024",
-      imageUrl: AppImages.event2image,
-    ),
-  ];
-
      return Scaffold(
       body: SingleChildScrollView(scrollDirection: Axis.vertical,
         child: Column(
