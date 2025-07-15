@@ -9,7 +9,7 @@ class ProfileController extends GetxController {
         .collection('userdata')
         .where('uid', isEqualTo: uId)
         .get();
-    print('data is printed heheheheheheh ${userData}');
+
     return userData.docs;
   }
 }
