@@ -3,67 +3,22 @@ import 'package:get/get.dart';
 
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
+import 'package:klik_kart/controller/profile_controller.dart';
 
-class NotificationScreen extends StatelessWidget {
-  final List<Map<String, dynamic>> notifications = [
-    {
-      "section": "Today",
-      "items": [
-        {
-          "icon": Icons.calendar_today,
-          "title": "Holiday!",
-          "description": "Institute will be closed for holidays from 6 to 7. Enjoy your break!",
-          "time": "2 days ago",
-          "color": Colors.green
-        },
-        {
-          "icon": Icons.notifications_active,
-          "title": "Fee Reminder",
-          "description": "Your fee for 1 term is due by 27 Sept 2024. Please make the payment to avoid penalties.",
-          "time": "2 days ago",
-          "color": Colors.red
-        },
-      ]
-    },
-    {
-      "section": "Yesterday",
-      "items": [
-        {
-          "icon": Icons.book,
-          "title": "Exam",
-          "description": "Your upcoming test (Photocopying) is scheduled for 22 Sept 2024. Please ensure you are prepared.",
-          "time": "1 day ago",
-          "color": Colors.lightGreen
-        },
-        {
-          "icon": Icons.sports_basketball,
-          "title": "Sports",
-          "description": "Conducting age talent for our Annual Basketball Championship.",
-          "time": "1 day ago",
-          "color": Colors.orange
-        },
-      ]
-    },
-    {
-      "section": "Older",
-      "items": [
-        {
-          "icon": Icons.book,
-          "title": "Exam",
-          "description": "Your final exam of Chemistry is scheduled for 15 Sept 2024. Make your notes in advance.",
-          "time": "4 days ago",
-          "color": Colors.green
-        },
-        {
-          "icon": Icons.sports_basketball,
-          "title": "Sports",
-          "description": "Previous match schedule has been updated.",
-          "time": "5 days ago",
-          "color": Colors.orange
-        },
-      ]
-    },
-  ];
+class NotificationScreen extends StatefulWidget {
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
+  final ProfileController profileController=Get.put(ProfileController());
+  final Map<String, IconData> IconsMap = {
+    "calendar_today": Icons.calendar_today,
+    "notifications_active": Icons.notifications_active,
+    "book": Icons.book,
+    "sports_basketball": Icons.sports_basketball,
+  };
+
   @override
   Widget build(BuildContext context) {
        final screenWidth = MediaQuery.of(context).size.width;
@@ -85,62 +40,41 @@ class NotificationScreen extends StatelessWidget {
               size: 30,
             )),
       ),
-      body: ListView.builder(
-        itemCount: notifications.length,
-        itemBuilder: (context, index) {
-          var section = notifications[index];
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(12.0),
-                child: Text(
-                  section['section'],
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      body:Obx(() {
+        final notifications = profileController.notifications;
+        if (notifications.isEmpty) {
+          return Center(child: Text("No notifications available"));
+        }
+
+        return ListView.builder(
+          itemCount: notifications.length,
+          itemBuilder: (context, index) {
+            final notif = notifications[index];
+            return Card(
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: Color(int.parse("0xFF${notif.color.replaceAll("#", "")}")),
+                  child: Icon(IconsMap[notif.icon] ?? Icons.notifications),
                 ),
-              ),
-              ...section['items'].map<Widget>((item) {
-                return Card(
-  margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-  child: Padding(
-    padding: const EdgeInsets.all(12.0),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CircleAvatar(
-          backgroundColor: item['color'],
-          child: Icon(item['icon'], color: Colors.white),
-        ),
-        SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(item['title'],
-                  style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
-              SizedBox(height: 4),
-              Text(item['description']),
-              SizedBox(height: 8),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Text(
-                  item['time'],
+                title: Text(notif.title),
+                subtitle: Text(notif.description),
+                trailing: Text(
+                  timeAgo(notif.time),
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
-              )
-            ],
-          ),
-        ),
-      ],
-    ),
-  ),
-);
-              }).toList(),
-            ],
-          );
-        },
-      ),
+              ),
+            );
+          },
+        );
+      }),
     );
   }
+
+  String timeAgo(DateTime date) {
+    final Duration diff = DateTime.now().difference(date);
+    if (diff.inDays >= 1) return "${diff.inDays} days ago";
+    if (diff.inHours >= 1) return "${diff.inHours} hrs ago";
+    return "${diff.inMinutes} mins ago";
+  }
 }
+  

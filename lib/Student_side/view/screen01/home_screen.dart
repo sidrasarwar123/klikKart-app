@@ -226,8 +226,8 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
                         padding:  EdgeInsets.only(right:screenWidth*0.01),
                         child: index == 0
                             ? GestureDetector(
-                  onTap: () => Get.toNamed("/coursedetail"),
-                  child: card,
+                  onTap: () => Get.toNamed("/coursedetail",arguments: course),
+                  child: CourseCard(course: course),
                 )
                             : card,
                       );

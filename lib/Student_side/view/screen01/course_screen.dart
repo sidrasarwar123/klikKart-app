@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:klik_kart/Student_side/models/course.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
@@ -14,6 +15,14 @@ class CourseDetails extends StatefulWidget {
 }
 
 class _CourseDetailsState extends State<CourseDetails> {
+ late final CourseModel course;
+
+@override
+void initState() {
+  super.initState();
+  course = Get.arguments as CourseModel;
+}
+
    final List<Map<String, String>> reviews = [
       {
         "name": "M.Hanzla",
@@ -68,12 +77,12 @@ incididunt ut labore
        body: SingleChildScrollView(
         child: Column(
           children: [
-            Center(child: Image.asset(AppImages.UIimage)),
+            Center(child: Image.network(course.imageUrl),),
             Padding(
               padding: EdgeInsets.only(
                   top: screenHeight * 0.01, right: screenWidth * 0.3),
               child: Text(
-                "Introudction to Figma",
+                course.title,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
@@ -88,7 +97,7 @@ incididunt ut labore
                   Padding(
                     padding: EdgeInsets.only(left: screenWidth * 0.1),
                     child: Text(
-                      "Rs: 10,000",
+                     "Rs: ${course.price}",
                       style: TextStyle(
                           color: AppColors.buttoncolor,
                           fontWeight: FontWeight.bold,
@@ -103,7 +112,7 @@ incididunt ut labore
               child: Row(
                 children: [
                   Text(
-                    "4.5",
+                    "${course.rating}",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                   Icon(Icons.star, color: Colors.amber, size: 16),

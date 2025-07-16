@@ -167,31 +167,39 @@ CustomButton(
     );
   }
 
-  void _editTextField(BuildContext context, String title, String currentValue, Function(String) onSave) {
-    final controller = TextEditingController(text: currentValue);
+ void _editTextField(BuildContext context, String title, String currentValue, Function(String) onSave) {
+  final controller = TextEditingController(text: currentValue);
 
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text("Edit $title", style: TextStyle(color: AppColors.buttoncolor)),
-        content: TextField(
-          controller: controller,
-          decoration: InputDecoration(labelText: title),
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text("Cancel")),
-          ElevatedButton(
-            onPressed: () {
-              onSave(controller.text);
-              Navigator.pop(context);
-            },
-            child: Text("Save"),
-          )
-        ],
+  showDialog(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: Text("Edit $title", style: TextStyle(color: AppColors.buttoncolor)),
+      content: TextField(
+        controller: controller,
+        decoration: InputDecoration(labelText: title),
       ),
-    );
-  }
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: Text("Cancel")),
+        ElevatedButton(
+          onPressed: () {
+            final newValue = controller.text;
+            onSave(newValue);
+            Navigator.pop(context);
 
+            // 👇 یہیں نوٹیفکیشن بھیجیں
+            profileController.addNotificationAndShow(
+              title: "$title Updated",
+              description: "$title has been updated to $newValue.",
+              icon: "notifications_active",
+              color: "#2196F3", // Blue
+            );
+          },
+          child: Text("Save"),
+        )
+      ],
+    ),
+  );
+}
   void _editGender(BuildContext context, Function(String) onGenderSelected) {
     showModalBottomSheet(
       context: context,
