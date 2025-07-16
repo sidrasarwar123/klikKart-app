@@ -18,6 +18,7 @@ import 'package:klik_kart/Student_side/view/screen01/job_reservation.dart';
 
 import 'package:klik_kart/Student_side/view/screen01/job_title.dart';
 import 'package:klik_kart/Student_side/view/screen01/notification_screen.dart';
+import 'package:klik_kart/Student_side/view/screen01/profile_screen.dart';
 import 'package:klik_kart/Student_side/view/screen01/reservation_form.dart';
 
 import 'package:klik_kart/Student_side/widgets/bottom_bar.dart';
@@ -49,6 +50,7 @@ class AppRoutes {
      GetPage(name: '/reservationform', page: ()=>ReservationForm()),
      GetPage(name: '/jobtitle', page: ()=>JobTitle()),
      GetPage(name: '/jobreservation', page: ()=>JobReservation()),
+      GetPage(name: '/studentprofile', page: ()=>ProfileScreen()),
 
 
 

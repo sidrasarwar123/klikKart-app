@@ -1,12 +1,15 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:klik_kart/Student_side/controller/course_controller.dart';
 import 'package:klik_kart/Student_side/controller/event_controller.dart';
 import 'package:klik_kart/Student_side/controller/mentor_controller.dart';
+
 import 'package:klik_kart/Student_side/controller/stories_controller.dart';
 import 'package:klik_kart/Student_side/models/course.dart';
-import 'package:klik_kart/Student_side/models/event.dart';
+
+
 
 import 'package:klik_kart/Student_side/widgets/course_widget.dart';
 import 'package:klik_kart/Student_side/widgets/event_widget.dart';
@@ -14,10 +17,8 @@ import 'package:klik_kart/Student_side/widgets/success_stories.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
+import 'package:klik_kart/controller/profile_controller.dart';
 import 'package:klik_kart/utils/color_util.dart';
-
-
-
 
 class HomeMainScreen extends StatefulWidget {
   const HomeMainScreen({super.key});
@@ -31,7 +32,8 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
   final CourseController courseController=Get.put(CourseController());
   final MentorController mentorController = Get.put(MentorController());
   final EventController eventController = Get.put(EventController());
-
+  final ProfileController profileController = Get.find<ProfileController>();
+ 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -86,13 +88,21 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
                       ),
                     ),
                   ),
-                  Padding(
+                  Obx((){
+                    final user= profileController.userModel.value;
+                    return  Padding(
                     padding: EdgeInsets.only(left: screenHeight * 0.03),
                     child: Row(
                       children: [
-                        CircleAvatar(
-                          backgroundImage: AssetImage(AppImages.personimage),
-                          radius: 40,
+                        GestureDetector(onTap: () {
+                          Get.toNamed('/studentprofile');
+                        },
+                          child: CircleAvatar(
+                           backgroundImage: user?.imageUrl?.isNotEmpty == true
+            ? NetworkImage(user!.imageUrl!)
+            : AssetImage(AppImages.personimage) as ImageProvider,
+        radius: 40,
+                          ),
                         ),
                         SizedBox(width: screenWidth * 0.03),
                         Column(
@@ -106,18 +116,14 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
                                 fontSize: 18,
                               ), 
                             ),
-                            Text(
-                              '“Khuzaima”',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                              ),
-                            ),
+                           Text('"${user?.name ?? ''}"', style: TextStyle(color: Colors.white,fontSize: 20)),
                           ],
                         ),
                       ],
                     ),
-                  ),
+                  ); 
+                  }),
+                 
                 ],
               ),
             ),
@@ -252,7 +258,7 @@ Obx(() {
             padding: EdgeInsets.only(left: screenWidth * 0.03, top: screenHeight * 0.01),
             child: Container(
               height: screenHeight * 0.08,
-              width: screenWidth * 0.6,
+              width: screenWidth * 0.7,
               decoration: BoxDecoration(
                 color: Color(int.parse("0xFF${mentor.color.replaceAll("#", "")}")),
                 borderRadius: BorderRadius.circular(10),
