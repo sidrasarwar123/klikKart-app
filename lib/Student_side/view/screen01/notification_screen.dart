@@ -12,6 +12,10 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   final ProfileController profileController=Get.put(ProfileController());
+  void initState() {
+  super.initState();
+  profileController.fetchNotifications();
+}
   final Map<String, IconData> IconsMap = {
     "calendar_today": Icons.calendar_today,
     "notifications_active": Icons.notifications_active,

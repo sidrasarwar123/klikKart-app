@@ -5,8 +5,22 @@ import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_images.dart';
 import 'package:klik_kart/widgets/buttons/custombutton.dart';
 
-class JobTitle extends StatelessWidget {
+class JobTitle extends StatefulWidget {
   const JobTitle({super.key});
+
+  @override
+  State<JobTitle> createState() => _JobTitleState();
+}
+
+class _JobTitleState extends State<JobTitle> {
+   late Map<String, dynamic> data;
+
+  @override
+  void initState() {
+    super.initState();
+    data = Get.arguments ?? {};
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +40,21 @@ class JobTitle extends StatelessWidget {
                       
                          Padding(
                            padding: EdgeInsets.only(top: screenHeight*0.02),
-                           child: JobCard(companyLogoUrl: AppImages.iconimage , 
-                           title:"UI/UX DESIGNING", company:"Dev SoftTech IT SOLUTION" , 
-                           location: "Job location (Onsite)", match: "", daysAgo:"",
-                            showMatchInfo: false,
-                             showTime: false,
-                            showApplyButton: false,
-                           ),
+                           child:  JobCard(
+                  companyLogoUrl: data['companyLogoUrl'] ?? '',
+                  title: data['title'] ?? '',
+                  company: data['company'] ?? '',
+                  location: data['location'] ?? '',
+                  match: "",
+                  daysAgo: "",
+                  showMatchInfo: false,
+                  showTime: false,
+                  showApplyButton: false,
+                ),
+              ),
+
                                           
-                         ),Padding(
+                         Padding(
                            padding:  EdgeInsets.only(left: screenWidth*0.06,top: screenHeight*0.04),
                            child: Row(children: [
                              Icon(Icons.work, color: AppColors.buttoncolor),

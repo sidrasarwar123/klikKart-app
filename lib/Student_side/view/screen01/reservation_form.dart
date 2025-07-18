@@ -132,16 +132,16 @@ class _ReservationFormState extends State<ReservationForm> {
           ),
 
       SizedBox(height: 30),
-// CustomButton(
-//   text: "Submit",
-//   onPressed: () {
-//     QuickAlert.show(
-//       context: context,
-//       type: QuickAlertType.success,
-//       text: 'Your form has been successfully submitted!',
-//     );
-//   },
-// ),
+CustomButton(
+  text: "Submit",
+  onPressed: () {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.success,
+      text: 'Your form has been successfully submitted!',
+    );
+  },
+),
 
         
         ],

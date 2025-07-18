@@ -37,7 +37,7 @@ class JobCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 231, 244, 250),
-        border: Border.all(color: const Color.fromARGB(255, 178, 226, 248)),
+        border: Border.all(color:  Color.fromARGB(255, 178, 226, 248)),
         borderRadius: BorderRadius.circular(16),
       ),
       padding: const EdgeInsets.all(5),
@@ -54,7 +54,7 @@ class JobCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
-                companyLogoUrl,
+                AppImages.iconimage,
                 width: screenWidth * 0.1,
                 height: screenHeight * 0.1,
                 fit: BoxFit.cover,
@@ -83,7 +83,8 @@ class JobCard extends StatelessWidget {
                     child: Row(
                       children: [
                         CircleAvatar(
-                          backgroundImage: AssetImage(AppImages.personimage),
+                          backgroundImage:NetworkImage(companyLogoUrl),
+                          // AssetImage(AppImages.personimage),
                           radius: 13,
                         ),
                         const SizedBox(width: 4),
@@ -121,7 +122,11 @@ class JobCard extends StatelessWidget {
                               padding:  EdgeInsets.symmetric(horizontal: 16),
                             ),
                             onPressed: () {
-                              Get.toNamed('/jobtitle');
+                              Get.toNamed('/jobtitle',arguments: {
+                                 'company': company,
+                                  'location':location,
+                                  'title': title,
+                              });
                             },
                             child:  Text("Easy Apply",
                                 style: TextStyle(color: Colors.white)),

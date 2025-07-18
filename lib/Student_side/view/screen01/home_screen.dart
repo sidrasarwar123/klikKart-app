@@ -17,6 +17,7 @@ import 'package:klik_kart/Student_side/widgets/success_stories.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
+
 import 'package:klik_kart/controller/profile_controller.dart';
 import 'package:klik_kart/utils/color_util.dart';
 
@@ -33,11 +34,20 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
   final MentorController mentorController = Get.put(MentorController());
   final EventController eventController = Get.put(EventController());
   final ProfileController profileController = Get.find<ProfileController>();
+  @override
+void initState() {
+  super.initState();
+  profileController.fetchUserData();
+}
+
+
  
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+   final screenHeight = MediaQuery.of(context).size.height;
+  final screenWidth = MediaQuery.of(context).size.width;
+  final user = profileController.userModel.value;
+
     final bool hasUnreadNotifications = true;
      return Scaffold(
       body: SingleChildScrollView(scrollDirection: Axis.vertical,
@@ -88,41 +98,53 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
                       ),
                     ),
                   ),
-                  Obx((){
-                    final user= profileController.userModel.value;
-                    return  Padding(
-                    padding: EdgeInsets.only(left: screenHeight * 0.03),
-                    child: Row(
-                      children: [
-                        GestureDetector(onTap: () {
-                          Get.toNamed('/studentprofile');
-                        },
-                          child: CircleAvatar(
-                           backgroundImage: user?.imageUrl?.isNotEmpty == true
-            ? NetworkImage(user!.imageUrl!)
-            : AssetImage(AppImages.personimage) as ImageProvider,
-        radius: 40,
-                          ),
-                        ),
-                        SizedBox(width: screenWidth * 0.03),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Good Morning",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ), 
-                            ),
-                           Text('"${user?.name ?? ''}"', style: TextStyle(color: Colors.white,fontSize: 20)),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ); 
-                  }),
+                Obx(() {
+  final user = profileController.userModel.value;
+    print("Image URL: ${user?.imageUrl}"); 
+
+  ImageProvider profileImage;
+
+  if (user?.imageUrl != null && user!.imageUrl!.isNotEmpty) {
+    profileImage = NetworkImage(user.imageUrl!);
+  } else {
+    profileImage = AssetImage(AppImages.personimage);
+  }
+
+  return Padding(
+    padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.03),
+    child: Row(
+      children: [
+        GestureDetector(
+          onTap: () {
+            Get.toNamed('/studentprofile');
+          },
+          child: CircleAvatar(
+            backgroundImage: profileImage,
+            radius: 40,
+          ),
+        ),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Good Morning",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            Text(
+              '${user?.name ?? ''}',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}),
                  
                 ],
               ),

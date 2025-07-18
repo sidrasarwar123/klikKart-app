@@ -19,6 +19,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final ProfileController profileController = Get.find<ProfileController>();
   String? gender;
   final AuthController authController=Get.put(AuthController());
+  void initState() {
+  super.initState();
+  profileController.fetchUserData();
+}
 
  @override
 Widget build(BuildContext context) {
@@ -27,9 +31,9 @@ Widget build(BuildContext context) {
   return Scaffold(
     body: Obx(() {
       final user = profileController.userModel.value;
-      if (user == null || profileController.isLoading.value) {
-        return  LoadingUtil.shimmerTile(itemcount: 8);
-      }
+    if (user == null || profileController.isLoading.value) {
+  return LoadingUtil.shimmerTile(itemcount: 8);
+}
 
       return SingleChildScrollView(
         child: Column(
@@ -53,11 +57,11 @@ Widget build(BuildContext context) {
                     Padding(
                       padding: EdgeInsets.only(top: screenHeight * 0.03),
                       child: CircleAvatar(
-                        backgroundImage: user.imageUrl?.isNotEmpty == true
-                            ? NetworkImage(user.imageUrl!)
-                            : AssetImage(AppImages.personimage) as ImageProvider,
-                        radius: 35,
-                      ),
+  backgroundImage: user?.imageUrl != null && user!.imageUrl!.isNotEmpty
+      ? NetworkImage(user.imageUrl!)
+      : AssetImage(AppImages.personimage),
+  radius: 40,
+),
                     ),
                     Text(
                       user.name ?? "Name",

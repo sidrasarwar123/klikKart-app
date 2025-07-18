@@ -15,7 +15,7 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
-    fetchUserData();
+  fetchUserData();
     fetchNotifications(); 
     super.onInit();
   }

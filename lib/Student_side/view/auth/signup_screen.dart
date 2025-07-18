@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
 import 'package:klik_kart/controller/auth_controller.dart';
+import 'package:klik_kart/controller/profile_controller.dart';
 import 'package:klik_kart/widgets/buttons/custombutton.dart';
 import 'package:klik_kart/widgets/fields/textfield.dart';
 
@@ -19,6 +21,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final ProfileController profileController = Get.put(ProfileController());
+
 
   bool isTeacher = false; // Default Student
 
@@ -138,8 +142,16 @@ class _SignupScreenState extends State<SignupScreen> {
                             passwordController,
                             isTeacher,
                           );
+                         if (FirebaseAuth.instance.currentUser != null) {
+        profileController.addNotificationAndShow(
+          title: "Welcome!",
+          description: "Your account has been created successfully.",
+          icon: "person_add",
+          color: "#4CAF50", // Green
+        );
+                         }
                         },
-                      ),
+                      )
                     ),
                     Column(
                       children: [
