@@ -12,12 +12,14 @@ class JobCard extends StatelessWidget {
   final String match;
   final String daysAgo;
 
+
   final bool showMatchInfo;
   final bool showTime;
   final bool showApplyButton;
 
   const JobCard({
     super.key,
+
     required this.companyLogoUrl,
     required this.title,
     required this.company,
@@ -123,9 +125,7 @@ class JobCard extends StatelessWidget {
                             ),
                             onPressed: () {
                               Get.toNamed('/jobtitle',arguments: {
-                                 'company': company,
-                                  'location':location,
-                                  'title': title,
+                               
                               });
                             },
                             child:  Text("Easy Apply",

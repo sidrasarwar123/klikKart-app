@@ -32,17 +32,19 @@ class _JobReservationState extends State<JobReservation> {
                padding:  EdgeInsets.only(right: screenWidth*0.7),
               child: Text("Job Title",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
             ),
-             Padding(
-                           padding: EdgeInsets.only(top: screenHeight*0.02),
-                           child: JobCard(companyLogoUrl: AppImages.iconimage , 
-                           title:"UI/UX DESIGNING", company:"Dev SoftTech IT SOLUTION" , 
-                           location: "Job location (Onsite)", match: "", daysAgo:"",
-                            showMatchInfo: false,
-                             showTime: false,
-                            showApplyButton: false,
-                           ),
+            //  Padding(
+            //                padding: EdgeInsets.only(top: screenHeight*0.02),
+            //                child:
+            //               //   JobCard(companyLogoUrl: AppImages.iconimage , jobId: job.jobId,
+            //               //  title:"UI/UX DESIGNING", company:"Dev SoftTech IT SOLUTION" , 
+            //               //  location: "Job location (Onsite)", match: "", daysAgo:"",
+            //               //   showMatchInfo: false,
+            //               //    showTime: false,
+            //               //   showApplyButton: false,
+            //               //  ),
                                           
-                         ),SizedBox(height: screenHeight*0.04,),
+            //              ),
+                         SizedBox(height: screenHeight*0.04,),
                           CustomTextField(textEditingController:firstusernameController,
                             hintText: " First Name"),
                    CustomTextField(textEditingController:lastusernameController ,
@@ -119,16 +121,16 @@ class _JobReservationState extends State<JobReservation> {
           ),
         ),
         SizedBox(height: 30),
-// CustomButton(
-//   text: "Submit",
-//   onPressed: () {
-//     QuickAlert.show(
-//       context: context,
-//       type: QuickAlertType.success,
-//       text: 'Your form has been successfully submitted!',
-//     );
-//   },
-// ),
+CustomButton(
+  text: "Submit",
+  onPressed: () {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.success,
+      text: 'Your form has been successfully submitted!',
+    );
+  },
+),
 
           ]),
           

@@ -46,72 +46,39 @@ class _JobScreenState extends State<JobScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   "Recommended for you",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                  ),
                 ),
               ),
-              
-               SizedBox(height: 12),
-
-             Expanded(
-  child: Obx(() {
-    if (courseController.jobList.isEmpty) {
-      return Center(child: Text("No jobs available"));
-    }
-
-    return ListView.builder(
-      itemCount: courseController.jobList.length,
-      itemBuilder: (context, index) {
-        final job = courseController.jobList[index];
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08, vertical: screenHeight * 0.01),
-          child: JobCard(
-            daysAgo: "8d", 
-            companyLogoUrl: job.companyLogoUrl,
-            title: job.title,
-            company: job.company,
-            location: job.location,
-            match: job.matchInfo,
-          ),
-        );
-      },
-    );
-  }),
-),
-                    // SizedBox(height: screenHeight*0.02,),
-                    // Padding(
-                    //   padding:
-                    //       EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
-                    //   child: JobCard(
-                    //     daysAgo: "8d",
-                    //     companyLogoUrl: AppImages.iconimage,
-                    //     title: "UI/UX DESIGNING",
-                    //     company: "Dev SoftTech IT SOLUTION",
-                    //     location: "Job location (Onsite)",
-                    //     match: "Your profile matches this job",
-                    //   ),
-                    // ), SizedBox(height: screenHeight*0.02,),
-                    // Padding(
-                    //   padding:
-                    //       EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
-                    //   child: JobCard(
-                    //     daysAgo: "8d",
-                    //     companyLogoUrl: AppImages.iconimage,
-                    //     title: "UI/UX DESIGNING",
-                    //     company: "Dev SoftTech IT SOLUTION",
-                    //     location: "Job location (Onsite)",
-                    //     match: "Your profile matches this job",
-                    //   ),
-                    // ),
-                  ],
+              SizedBox(height: 12),
+              Expanded(
+                child: ListView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
+                  itemCount: 3, // Replace with your dynamic job count
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: screenHeight * 0.02),
+                      child: JobCard(
+                        daysAgo: "8d",
+                        companyLogoUrl: AppImages.iconimage,
+                        title: "UI/UX DESIGNING",
+                        company: "Dev SoftTech IT SOLUTION",
+                        location: "Job location (Onsite)",
+                        match: "Your profile matches this job",
+                      ),
+                    );
+                  },
                 ),
               ),
-          
+            ],
           ),
-        
-    
+        ),
+      ),
     );
   }
 }

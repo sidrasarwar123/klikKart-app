@@ -1,28 +1,42 @@
-class JobModel {
-  final String title;
-  final String company;
-  final String location;
-  final String companyLogoUrl;
-  final String postedDate;
-  final String matchInfo;
+// class JobModel {
+//   final String jobId;
+//   final String title;
+//   final String company;
+//   final String companyLogoUrl;
+//   final String location;
+//   final int match;
 
-  JobModel({
-    required this.title,
-    required this.company,
-    required this.location,
-    required this.companyLogoUrl,
-    required this.postedDate,
-    required this.matchInfo,
-  });
+//   JobModel({
+//     required this.jobId,
+//     required this.title,
+//     required this.company,
+//     required this.companyLogoUrl,
+//     required this.location,
+//     required this.match,
+//   });
 
-  factory JobModel.fromMap(Map<String, dynamic> data) {
-    return JobModel(
-      title: data['title'] ?? '',
-      company: data['company'] ?? '',
-      location: data['location'] ?? '',
-      companyLogoUrl: data['companyLogoUrl'] ?? '',
-      postedDate: data['postedDate'] ?? '',
-      matchInfo: data['matchInfo'] ?? '',
-    );
-  }
-}
+//   factory JobModel.fromMap(Map<String, dynamic> map) {
+//     return JobModel(
+//       jobId: map['jobId'] ?? '',
+//       title: map['title'] ?? '',
+//       company: map['company'] ?? '',
+//       companyLogoUrl: map['companyLogoUrl'] ?? '',
+//       location: map['location'] ?? '',
+//       match: map['matchInfo'] ?? 0, // or just 'match'
+//     );
+//   }
+
+//   Map<String, dynamic> toMap() {
+//     return {
+//       'jobId': jobId,
+//       'title': title,
+//       'company': company,
+//       'companyLogoUrl': companyLogoUrl,
+//       'location': location,
+//       'matchInfo': match,
+//     };
+//   }
+
+//   // Optional custom getter
+//   String get showMatchInfo => "$match% Match";
+// }
