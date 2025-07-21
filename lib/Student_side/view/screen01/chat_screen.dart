@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:klik_kart/Student_side/controller/chat_controller.dart';
 import 'package:klik_kart/Student_side/widgets/chat_bubble.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_images.dart';
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key});
+  ChatScreen({super.key});
+  final ChatController chatController = Get.put(ChatController());
+
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+        final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+     
       body: Column(
         children: [
           Container(
@@ -57,71 +64,61 @@ class ChatScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-
+          ), 
           
-          Expanded(
-            child: ListView(
-              padding:  EdgeInsets.all(16),
-              children:  [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: ChatBubble(
-                    message: "Not much, just hanging out at home. How about you?",
-                    time: "12:33 PM",
-                    isUser: true,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: ChatBubble(
-                    message: "Same here. I've been trying to stay busy by working on some art projects.",
-                    time: "12:34 PM",
-                    isUser: false,
-                  ),
-                  
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: ChatBubble(
-                    message: "That sounds cool. What kind of art are you into?",
-                    time: "12:34 PM",
-                    isUser: true,
-                  ),
-                ),
-              ],
-            ),
-          
-          ),
+          // 🔄 Messages
+         Expanded(
+  child: Obx(() {
+    final messages = chatController.messages;
+    if (messages.isEmpty) {
+      return const Center(child: Text("No messages yet"));
+    }
 
-      
+    return ListView.builder(
+      controller: _scrollController,
+      padding: const EdgeInsets.all(12),
+      itemCount: messages.length,
+      itemBuilder: (context, index) {
+        final msg = messages[index];
+        final isUser = msg['senderId'] == chatController.userId;
+
+        return ChatBubble(
+          message: msg['message'],
+          time: (msg['timestamp'] as Timestamp?)?.toDate().toLocal().toString().substring(11, 16) ?? '',
+          isUser: isUser,
+        );
+      },
+    );
+  }),
+),
+
          
-           Row(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Row(
               children: [
                 Expanded(
                   child: TextField(
+                    controller: chatController.messageController,
                     decoration: InputDecoration(
-                      hintText: "Type a message",hintStyle: TextStyle(color: Colors.grey),
+                      hintText: "Type a message",
                       filled: true,
                       fillColor: Colors.white,
-                      
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding:  EdgeInsets.symmetric(horizontal: 16),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                   ),
                 ),
-                 SizedBox(width: 8),
-                CircleAvatar(
-                  backgroundColor: AppColors.textcolor,
-                  child: Icon(Icons.send, color:AppColors.buttoncolor),
+                const SizedBox(width: 8),
+                GestureDetector(
+                  onTap: () => chatController.sendMessage(),
+                  child: const CircleAvatar(
+                    backgroundColor: Colors.blueAccent,
+                    child: Icon(Icons.send, color: Colors.white),
+                  ),
                 ),
-                SizedBox(height: screenHeight*0.3,)
               ],
             ),
-        
+          ),SizedBox(height: 100,)
         ],
       ),
     );

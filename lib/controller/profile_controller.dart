@@ -9,6 +9,7 @@ class ProfileController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
 
+
   RxList<AppNotification> notifications = <AppNotification>[].obs;
   RxBool isLoading = false.obs;
   Rx<UserModel?> userModel = Rx<UserModel?>(null);
@@ -99,4 +100,6 @@ class ProfileController extends GetxController {
     "book": Icons.book,
     "sports_basketball": Icons.sports_basketball,
   };
+ 
+
 }

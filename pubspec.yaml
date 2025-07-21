@@ -53,6 +53,12 @@ dependencies:
   readmore: ^2.2.0
   shimmer: ^3.0.0
   cloud_firestore: ^5.6.3
+  firebase_storage: ^12.4.9
+
+  open_filex: ^4.1.2
+  url_launcher: ^6.2.5
+  
+
   
 
 

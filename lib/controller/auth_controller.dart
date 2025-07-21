@@ -9,6 +9,7 @@ import 'package:klik_kart/utils/snakebar_util.dart';
 class AuthController extends GetxController {
  RxBool isloading = false.obs;
   final box = GetStorage(); 
+  
 
 
   Future signUp(

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:klik_kart/controller/profile_controller.dart';
+import 'package:quickalert/quickalert.dart';
+
+import 'package:klik_kart/Student_side/models/job_model.dart';
 import 'package:klik_kart/Student_side/widgets/job_card.dart';
-import 'package:klik_kart/constants/app_images.dart';
 import 'package:klik_kart/widgets/buttons/custombutton.dart';
 import 'package:klik_kart/widgets/fields/textfield.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class JobReservation extends StatefulWidget {
   const JobReservation({super.key});
@@ -15,131 +20,205 @@ class JobReservation extends StatefulWidget {
 }
 
 class _JobReservationState extends State<JobReservation> {
-  final TextEditingController firstusernameController=TextEditingController();
-  final TextEditingController lastusernameController=TextEditingController();
-  final TextEditingController emailController=TextEditingController();
+  final RxBool isLoading = false.obs;
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final ProfileController profileController= Get.put(ProfileController());
+  String phoneNumber = '';
+  PlatformFile? pickedFile;
+  bool isPreviewLoading = false;
+
+  final JobModel job = Get.arguments as JobModel;
+
   @override
-  Widget build(BuildContext context) {
-     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: Padding(
-       padding:  EdgeInsets.only(top: screenHeight*0.07 ),
-       child: SingleChildScrollView(scrollDirection: Axis.vertical,
-         child: Column(
-          children: [
-            Padding(
-               padding:  EdgeInsets.only(right: screenWidth*0.7),
-              child: Text("Job Title",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-            ),
-            //  Padding(
-            //                padding: EdgeInsets.only(top: screenHeight*0.02),
-            //                child:
-            //               //   JobCard(companyLogoUrl: AppImages.iconimage , jobId: job.jobId,
-            //               //  title:"UI/UX DESIGNING", company:"Dev SoftTech IT SOLUTION" , 
-            //               //  location: "Job location (Onsite)", match: "", daysAgo:"",
-            //               //   showMatchInfo: false,
-            //               //    showTime: false,
-            //               //   showApplyButton: false,
-            //               //  ),
-                                          
-            //              ),
-                         SizedBox(height: screenHeight*0.04,),
-                          CustomTextField(textEditingController:firstusernameController,
-                            hintText: " First Name"),
-                   CustomTextField(textEditingController:lastusernameController ,
-                    hintText: "Last Name"),
-                    Padding(
-                      padding:  EdgeInsets.only(left: screenWidth*0.05,top: screenHeight*0.01,right: screenWidth*0.05),
-                      child: IntlPhoneField(
-                        decoration: InputDecoration(
-                          hintText: ' 000 0000',
-                          hintStyle: TextStyle(
-                            color: Colors.grey.shade400,
-                            fontSize: 14,
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding:  EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40),
-                            borderSide: BorderSide(color: Colors.grey.shade100),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40),
-                            borderSide: BorderSide(color: Colors.grey.shade300),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40),
-                            borderSide: BorderSide(color: Colors.grey.shade100),
-                          ),
-                        ),
-                        initialCountryCode: 'PK',
-                        onChanged: (phone) {
-                          print(phone.completeNumber);
-                        },
-                      ),
-                    ),
- CustomTextField(textEditingController: emailController,
-  hintText: "Email Adress"),
- SizedBox(height: screenHeight*0.05,),
-  GestureDetector(
-          onTap: () {
-        
-            print("Upload resume tapped");
-          },
-          child: Container(
-            width: screenWidth * 0.7,
-            height: screenHeight*0.1,
-            decoration: BoxDecoration(
-              color:  Color(0xFFE9F4FC),
-              border: Border.all(color: Colors.blue, width: 1.5),
-              borderRadius: BorderRadius.circular(60),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.blue.withOpacity(0.1),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(Icons.upload, size: 30, color: Colors.blue),
-                SizedBox(height: 8),
-                Text(
-                  "Upload Resume",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.blue,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(height: 30),
-CustomButton(
-  text: "Submit",
-  onPressed: () {
+  void initState() {
+    super.initState();
+    fetchUserData();
+  }
+
+  Future<void> fetchUserData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final doc = await FirebaseFirestore.instance
+          .collection('userdata')
+          .doc(user.uid)
+          .get();
+      final data = doc.data();
+      if (data != null) {
+        nameController.text = data['name'] ?? '';
+        emailController.text = data['email'] ?? '';
+      }
+    }
+  }
+
+  Future<void> pickResume() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'doc', 'docx'],
+    );
+
+    if (result != null) {
+      final file = result.files.first;
+      final sizeInMB = file.size / (1024 * 1024);
+
+      if (sizeInMB > 5) {
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.error,
+          text: 'Please upload a file less than 5MB in size.',
+        );
+        return;
+      }
+
+      setState(() {
+        pickedFile = file;
+      });
+
+      print(" File picked: ${pickedFile!.name}");
+    }
+  }
+
+  Future<void> submitForm() async {
+    if (pickedFile == null) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        text: 'Please upload your resume before submitting.',
+      );
+      return;
+    }
+
     QuickAlert.show(
       context: context,
       type: QuickAlertType.success,
-      text: 'Your form has been successfully submitted!',
+      text: 'Your application has been submitted successfully!',
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      appBar: AppBar(title: const Text("Apply for Job")),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Job Title",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 10),
+            JobCard(
+              title: job.title,
+              company: job.company,
+              location: job.location,
+              match: job.matchInfo,
+              daysAgo: job.daysAgo,
+              companyLogoUrl: job.companyLogoUrl,
+            ),
+            const SizedBox(height: 25),
+
+            CustomTextField(
+              textEditingController: nameController,
+              hintText: "Full Name",
+            ),
+            const SizedBox(height: 15),
+
+            IntlPhoneField(
+              decoration: InputDecoration(
+                hintText: '300 1234567',
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(40),
+                  borderSide: BorderSide(color: Colors.grey.shade100),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(40),
+                  borderSide: BorderSide(color: Colors.grey.shade300),
+                ),
+              ),
+              initialCountryCode: 'PK',
+              onChanged: (phone) {
+                phoneNumber = phone.completeNumber;
+              },
+            ),
+
+            CustomTextField(
+              textEditingController: emailController,
+              hintText: "Email Address",
+            ),
+            const SizedBox(height: 25),
+
+            GestureDetector(
+              onTap: pickResume,
+              child: Container(
+                width: width,
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(40),
+                  color: Colors.blue.withOpacity(0.05),
+                ),
+                child: Column(
+                  children: [
+                    Icon(Icons.upload_file, color: Colors.blue),
+                    SizedBox(height: 8),
+                    Text(
+                      pickedFile?.name ?? "Upload Resume",
+                      style: const TextStyle(
+                          color: Colors.blue, fontWeight: FontWeight.w600),
+                    )
+                  ],
+                ),
+              ),
+            ),
+
+          
+          
+
+            const SizedBox(height: 30),
+ Obx(() => CustomButton(
+  text: "Submit",
+  isloading: isLoading.value,
+  onPressed: () async {
+    isLoading.value = true;
+
+    try {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.success,
+        text: 'Your form has been successfully submitted!',
+      );
+
+      if (FirebaseAuth.instance.currentUser != null) {
+        profileController.addNotificationAndShow(
+          title: "Welcome!",
+          description: "Your form has been successfully submitted.",
+          icon: "person_add",
+          color: "#4CAF50", 
+        );
+      }
+
+    } catch (e) {
+      print("Error: $e");
+    } finally {
+      isLoading.value = false;
+    }
   },
-),
+)),
 
-          ]),
-          
-
-          
-         )
-       )
-    
-      
+            const SizedBox(height: 30),
+          ],
+        ),
+      ),
     );
   }
 }

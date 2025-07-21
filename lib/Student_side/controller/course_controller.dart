@@ -7,13 +7,12 @@ import 'package:klik_kart/Student_side/models/job_model.dart';
 class CourseController extends GetxController {
   RxList<CourseModel> courseList = <CourseModel>[].obs;
   RxBool isLoading = false.obs;
-    // RxList<JobModel> jobList = <JobModel>[].obs;
-
+    final RxList<JobModel> jobs = <JobModel>[].obs;
   @override
   void onInit() {
     super.onInit();
     fetchCourses();
-      // fetchJobs();
+       fetchJobs();
   }
 
   void fetchCourses() async {
@@ -27,13 +26,23 @@ class CourseController extends GetxController {
       isLoading.value = false;
     }
   }
-//    void fetchJobs() {
-//     FirebaseFirestore.instance.collection('jobs').snapshots().listen((snapshot) {
-//       jobList.value = snapshot.docs.map((doc) {
-//         return JobModel.fromMap(doc.data() as Map<String, dynamic>);
-//       }).toList();
-//     });
-//   }
-// }
+ void fetchJobs() async {
+  try {
+    print("Fetching jobs from Firestore...");
+    final snapshot = await FirebaseFirestore.instance.collection('jobs').get();
+    if (snapshot.docs.isEmpty) {
+      print("No documents found.");
+    }
 
+    final loadedJobs = snapshot.docs.map((doc) {
+      print("Found job: ${doc.data()}");
+      return JobModel.fromMap(doc.data() as Map<String, dynamic>, doc.id);
+    }).toList();
+
+    jobs.assignAll(loadedJobs);
+  } catch (e) {
+    print("Error fetching jobs: $e");
+  }
 }
+}
+
