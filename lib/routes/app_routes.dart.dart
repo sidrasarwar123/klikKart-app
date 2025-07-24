@@ -20,6 +20,7 @@ import 'package:klik_kart/Student_side/view/screen01/job_title.dart';
 import 'package:klik_kart/Student_side/view/screen01/notification_screen.dart';
 import 'package:klik_kart/Student_side/view/screen01/profile_screen.dart';
 import 'package:klik_kart/Student_side/view/screen01/reservation_form.dart';
+import 'package:klik_kart/Student_side/view/screen02/home_screen02.dart';
 
 import 'package:klik_kart/Student_side/widgets/bottom_bar.dart';
 import 'package:klik_kart/teacher_side/view/screen/assi_marks.dart';
@@ -43,7 +44,7 @@ class AppRoutes {
       GetPage(name: '/signup', page: () => SignupScreen()),
       GetPage(name: '/forgetpassword', page: () => ForgetpasswordScreen()),
       GetPage(name: '/homescreen', page: () =>  HomeMainScreen()),
-      GetPage(name: '/bottombar', page: ()=>BottomNavScreen()),
+      GetPage(name: '/bottombar', page: ()=>BottomNavScreen.fromArguments()),
       GetPage(name: '/coursedetail', page: ()=>CourseDetails()),
      GetPage(name: '/notification', page: ()=>NotificationScreen()),
      GetPage(name: '/eventscreen', page: ()=>EventScreen()),
@@ -51,6 +52,7 @@ class AppRoutes {
      GetPage(name: '/jobtitle', page: ()=>JobTitle()),
      GetPage(name: '/jobreservation', page: ()=>JobReservation()),
       GetPage(name: '/studentprofile', page: ()=>ProfileScreen()),
+      GetPage(name: '/studentEnroll', page: ()=>HomeScreen02()),
 
 
 

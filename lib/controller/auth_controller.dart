@@ -12,7 +12,7 @@ class AuthController extends GetxController {
   
 
 
-  Future signUp(
+ Future signUp(
   GlobalKey<FormState> _formKey,
   TextEditingController usernameController,
   TextEditingController emailController,
@@ -30,7 +30,7 @@ class AuthController extends GetxController {
 
       String userId = userCred.user!.uid;
 
-      // Save user info in Firestore
+      // 🔐 Save user info in Firestore
       await FirebaseFirestore.instance.collection('userdata').doc(userId).set({
         'uid': userId,
         'email': emailController.text.trim(),
@@ -40,11 +40,32 @@ class AuthController extends GetxController {
 
       SnackbarUtil.showSuccess('Account created successfully');
 
-      
+      // 👨‍🏫 For teachers, navigate directly
       if (isTeacher) {
-        Get.offAllNamed('/bottombarscreen'); // Teacher screen
+        Get.offAllNamed('/bottombarscreen'); // Home for Teacher
       } else {
-        Get.offAllNamed('/bottombar'); // Student screen
+        final reservationRef = FirebaseFirestore.instance.collection('reservations').doc(userId);
+
+        // 👇 Only create if not already exists
+        final snapshot = await reservationRef.get();
+        if (!snapshot.exists) {
+          await reservationRef.set({
+            'name': usernameController.text.trim(),
+            'email': emailController.text.trim(),
+            'submittedAt': FieldValue.serverTimestamp(),
+            'isApproved': false, // 👈 initially false
+          });
+        }
+
+        // ✅ Check if already approved
+        final updatedSnapshot = await reservationRef.get();
+        bool isApproved = updatedSnapshot['isApproved'] == true;
+
+        // ✅ Navigate with isApproved argument
+        Get.offAllNamed('/bottombar', arguments: {
+          'isApproved': isApproved,
+          'initialIndex': 0,
+        });
       }
     } catch (e) {
       SnackbarUtil.showError(e.toString());

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:klik_kart/Student_side/models/course.dart';
@@ -16,30 +18,21 @@ class CourseDetails extends StatefulWidget {
 
 class _CourseDetailsState extends State<CourseDetails> {
  late final CourseModel course;
+  final RxBool isLoading = false.obs;
 
 @override
 void initState() {
   super.initState();
   course = Get.arguments as CourseModel;
+
+    // print("🔍 Lesson Count: ${course.lessons.length}");
+  for (var lesson in course.lessons) {
+    // print("Title: ${lesson.title}, Lesson: ${lesson.lesson}");
+  }
 }
 
-   final List<Map<String, String>> reviews = [
-      {
-        "name": "M.Hanzla",
-        "date": "March, 27 2024",
-        "image":AppImages.course1image,
-      },
-      {
-        "name": "Ralph Edwards",
-        "date": "March, 27 2024",
-        "image": AppImages.course2image,
-      },
-      {
-        "name": "Floyd Miles",
-        "date": "March, 27 2024",
-        "image": AppImages.course3image,
-      },
-     ];
+
+
   final String longText = '''
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
 eiusmod tempor incididunt ut labore  sit amet, consectetur 
@@ -209,41 +202,40 @@ incididunt ut labore
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(right: screenWidth*0.2,top:screenHeight*0.02 ),
-              child: Text("What we Learn in this course",  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            ),
-            Padding(
-              padding:  EdgeInsets.only(left: screenWidth*0.07,top: screenHeight*0.01),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                          Icon(Icons.circle,size: 11, color: AppColors.buttoncolor),
-                      Text(" Interface Familiarization")
-                    ],
-                  ),
-                   Row(
-                    children: [
-                          Icon(Icons.circle,size: 11, color: AppColors.buttoncolor),
-                      Text(" Basic Tools and Features ")
-                    ],
-                  ),
-                   Row(
-                    children: [
-                          Icon(Icons.circle,size: 11, color: AppColors.buttoncolor),
-                      Text(" Creating and Editing Designs")
-                    ],
-                  ),
-                   Row(
-                    children: [
-                          Icon(Icons.circle,size: 11, color: AppColors.buttoncolor),
-                      Text(" Collaboration and Sharing ")
-                    ],
-                  ),
-
-                ],
+  padding: EdgeInsets.only(
+    top: screenHeight * 0.01,
+    left: screenWidth * 0.05,
+  ),
+  child:Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: course.lessons.asMap().entries.map((entry) {
+      final index = entry.key +1;
+      final lesson = entry.value;
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "$index. ${lesson.title}",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: AppColors.buttoncolor,
               ),
             ),
+            SizedBox(height: 4),
+            Text(
+              lesson.lesson,
+              style: TextStyle(fontSize: 15, color: Colors.black87),
+            ),
+          ],
+        ),
+      );
+    }).toList(),
+  ),
+),
+           
             Padding(
           padding: EdgeInsets.only(right: screenWidth*0.6,top:screenHeight*0.01 ),
               child: Text("Instructor",  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -262,28 +254,29 @@ incididunt ut labore
                       borderRadius: BorderRadius.circular(10),
                     ),
                    
-                      child: 
-                       Row(
-                          children: [
-                            CircleAvatar(backgroundImage: AssetImage(AppImages.course1image),radius: 25,
-                             
-                            ),
-                            Padding(
-                              padding:  EdgeInsets.only(top: screenHeight*0.01,),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding:  EdgeInsets.only(right: screenWidth*0.2),
-                                    child: Text("M.Hanzla",style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),),
-                                  ),
-                                    Text("UI/UX Designer | Mentor",style: TextStyle(color: Colors.white,fontSize: 14,),),
-                                
-                                 ],
-                              ),
-                            ),
-                            
-                          ],
-                        ),
+             
+                      child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(course.instructor.imageUrl),
+                    radius: 25,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: screenWidth * 0.03),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(course.instructor.name,
+                            style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                        Text(course.instructor.role,
+                            style: TextStyle(color: Colors.white, fontSize: 12)),
+                           
+                      ],
+                    ),
+                  ),
+                ],
+              ),
                     
                   )
                       )
@@ -295,103 +288,112 @@ incididunt ut labore
     } else if (selectedIndex == 1) {
      return Column(
           children: [
-            Padding(
-              padding:  EdgeInsets.only(right: screenWidth*0.3),
-              
-              child: Text('Chapter 1- Introduction' ,  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: AppColors.buttoncolor),
+      Padding(
+  padding: EdgeInsets.only(right: screenWidth * 0.6,top: screenHeight*0.04),
+  child: Text(
+    "Lessons",
+    style: TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+      color: AppColors.buttoncolor,
+    ),
+  ),
+),
+
+//
+Padding(
+  padding: EdgeInsets.only(
+    top: screenHeight * 0.03,
+    left: screenWidth * 0.05,
+  ),
+  child:Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: course.lessons.asMap().entries.map((entry) {
+      final index = entry.key + 1;
+      final lesson = entry.value;
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "$index. ${lesson.title}",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: AppColors.buttoncolor,
               ),
-            ),     Padding(
-               padding:  EdgeInsets.only(top: screenHeight*0.01,right: screenWidth*0.3),
-             
-              child: Column(
-                children: [
-                  Text("1-Welcome to the Course"),
-                  Text("2-What Is UI?                    "),
-                 Text("3-What Is UX?,                  ")
-                ],
-              ),
-               
             ),
-             Padding(
-              padding:  EdgeInsets.only(top: screenHeight*0.02),
-              child: Text('Chapter 2- Getting Started With Figma' ,  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: AppColors.buttoncolor),
-              ),
-            ),     Padding(
-               padding:  EdgeInsets.only(top: screenHeight*0.01,right: screenWidth*0.3),
-             
-              child: Padding(
-                padding:  EdgeInsets.only(left:screenWidth*0.01),
-                child: Column(
-                  children: [
-                    Text(" 1-Working With Projects  Pages"),
-                    Text(" 2-Using the Figma Ul                  "),
-                   Text("  3-Working With Frames, Shapes,  ")
-                  ],
-                ),
-              ),
-               
+            SizedBox(height: 4),
+            Text(
+              lesson.lesson,
+              style: TextStyle(fontSize: 15, color: Colors.black87),
             ),
+          ],
+        ),
+      );
+    }).toList(),
+  ),
+),
+           
           ]
      );
     } else {
  return Padding(
-    padding: EdgeInsets.all(screenWidth * 0.04),
-    child: SizedBox(
-      height: screenHeight * 0.6,  
-      child: Column(
-        children: [
-          ListView.separated(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: reviews.length,
-            separatorBuilder: (_, __) => Divider(thickness: 1),
-            itemBuilder: (context, index) {
-              final review = reviews[index];
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: AssetImage(review["image"]!),
-                        radius: 20,
-                      ),
-                       SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            review["name"]!,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            review["date"]!,
-                            style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                      Spacer(),
-                      Row(
-                        children: List.generate(
-                          5,
-                          (star) => Icon(Icons.star, color: Colors.amber, size: 16),
-                        ),
-                      ),
-                    ],
+  padding: EdgeInsets.all(screenWidth * 0.04),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: course.reviews.asMap().entries.map((entry) {
+      final index = entry.key + 1;
+      final review = entry.value;
+
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(review.imageUrl),
+                  radius: 22,
+                ),
+                SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${review.name}",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "${review.date}",
+                      style: TextStyle(
+                          color: Colors.grey.shade600, fontSize: 12),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                Row(
+                  children: List.generate(
+                    5,
+                    (star) => Icon(Icons.star, color: Colors.amber, size: 16),
                   ),
-                  SizedBox(height: 10),
-                  Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore sit amet, consectetur adipiscing elit.",
-                  ),
-                  SizedBox(height: 8),
-                ],
-              );
-            },
-          ),
-        ]
-      )
-    )
- );
+                ),
+              ],
+            ),
+            SizedBox(height: 8),
+            Text(
+              review.message,
+              style: TextStyle(fontSize: 15),
+            ),
+            Divider(thickness: 1),
+          ],
+        ),
+      );
+    }).toList(),
+  ),
+);
     }
   }(),
 ),
@@ -408,22 +410,49 @@ incididunt ut labore
       SizedBox(
         width: screenWidth * 0.7, 
         height: screenHeight * 0.06, 
-        child: ElevatedButton(
-          onPressed: () {
-            Get.toNamed('/reservationform');
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.buttoncolor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
+        child: Obx(() => 
+  ElevatedButton(
+     onPressed: isLoading.value
+      ? null
+      : () async {
+          isLoading.value = true;
+
+          final uid = FirebaseAuth.instance.currentUser!.uid;
+          final doc = await FirebaseFirestore.instance.collection('reservations').doc(uid).get();
+
+          if (doc.exists && doc['isApproved'] == true) {
+            Get.offAllNamed('/bottombar', arguments: {
+              'initialIndex': 0,
+              'isApproved': true,
+            });
+          } else {
+            Get.toNamed('/reservationform')!.then((_) {
+              isLoading.value = false;
+            });
+          }
+      },
+    style: ElevatedButton.styleFrom(
+      backgroundColor: AppColors.buttoncolor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      elevation: 2,
+    ),
+    child: isLoading.value
+        ? SizedBox(
+            height: 20,
+            width: 20,
+            child: CircularProgressIndicator(
+              color: AppColors.buttoncolor,
+              strokeWidth: 2,
             ),
-            elevation: 2,
-          ),
-          child: Text(
+          )
+        : Text(
             "Enroll Now",
             style: TextStyle(color: AppColors.textcolor),
           ),
-        ),      
+  ),
+)
                 
               ),
                SizedBox(width: 10),

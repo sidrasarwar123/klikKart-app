@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -22,34 +23,51 @@ class _SplashScreenState extends State<SplashScreen> {
     checkUserStatus();
   }
 
-  void checkUserStatus() async {
-    await Future.delayed(Duration(seconds: 3));
+void checkUserStatus() async {
+  await Future.delayed(Duration(seconds: 3));
 
-    bool isFirstTime = box.read("isFirstTime") ?? true;
-    User? user = FirebaseAuth.instance.currentUser;
+  bool isFirstTime = box.read("isFirstTime") ?? true;
+  User? user = FirebaseAuth.instance.currentUser;
 
-    if (isFirstTime) {
-      box.write("isFirstTime", false);
-      Get.toNamed('/onboarding');
-    } else if (user == null) {
-      Get.offNamed('/signup');
-    } else {
-      // User login ho chuka hai
-      final ProfileController profileController = Get.put(ProfileController());
-      var userData = await profileController.getUserData(user.uid);
-
-      if (userData.isNotEmpty) {
-        if (userData[0]['isTeacher'] == true) {
-          Get.offNamed('/bottombarscreen'); // Navigate to teacher panel
-        } else {
-          Get.offNamed('/bottombar'); // Navigate to student panel
-        }
-      } else {
-      
-        Get.offNamed('/signup');
-      }
-    }
+  if (isFirstTime) {
+    box.write("isFirstTime", false);
+    Get.toNamed('/onboarding');
+    return;
   }
+
+  if (user == null) {
+    Get.offNamed('/signup');
+    return;
+  }
+
+  final profileController = Get.put(ProfileController());
+  final userData = await profileController.getUserData(user.uid);
+
+  if (userData.isEmpty) {
+    Get.offNamed('/signup');
+    return;
+  }
+
+  final isTeacher = userData[0]['isTeacher'] == true;
+
+  if (isTeacher) {
+    Get.offNamed('/bottombarscreen');
+    return;
+  }
+
+  // Student: check approval
+  final reservationDoc = await FirebaseFirestore.instance
+      .collection('reservations')
+      .doc(user.uid)
+      .get();
+
+  final isApproved = reservationDoc.exists && reservationDoc['isApproved'] == true;
+
+  Get.offAllNamed('/bottombar', arguments: {
+    'isApproved': isApproved,
+    'initialIndex': 0,
+  });
+}
 
   @override
   Widget build(BuildContext context) {

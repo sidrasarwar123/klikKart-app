@@ -79,7 +79,7 @@ class CourseCard extends StatelessWidget {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    '${course.lessons} Lessons',
+                    '${course.lesson} Lesson',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: AppColors.buttoncolor),
                   ),

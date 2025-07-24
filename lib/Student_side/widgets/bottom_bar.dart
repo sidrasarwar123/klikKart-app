@@ -1,41 +1,55 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:klik_kart/Student_side/view/screen01/chat_screen.dart';
 import 'package:klik_kart/Student_side/view/screen01/home_screen.dart';
-
 import 'package:klik_kart/Student_side/view/screen01/job_screen.dart';
 import 'package:klik_kart/Student_side/view/screen01/profile_screen.dart';
-
 import 'package:klik_kart/Student_side/view/screen02/home_screen02.dart';
 import 'package:klik_kart/Student_side/view/screen02/profile_studentscreen.dart.dart';
 
-
 class BottomNavScreen extends StatefulWidget {
+  final int initialIndex;
+  final bool isApproved; //  add approval flag
+
+  BottomNavScreen({this.initialIndex = 0, required this.isApproved});
+    factory BottomNavScreen.fromArguments() {
+    final args = Get.arguments as Map<String, dynamic>?;
+    return BottomNavScreen(
+      initialIndex: args?['initialIndex'] ?? 0,
+      isApproved: args?['isApproved'] ?? false,
+    );
+  }
+
   @override
   _BottomNavScreenState createState() => _BottomNavScreenState();
 }
 
 class _BottomNavScreenState extends State<BottomNavScreen> {
-  int _selectedIndex = 0;
-
-  final List<Widget> _pages = [
-    HomeMainScreen(),
-     JobScreen(),
-   ChatScreen(),
-    ProfileScreen(),
-
-
-
-    //   HomeScreen02(),
-    //     JobScreen(),
-    //  ChatScreen(),
-    //   StudentProfilescreen(),
-
-
-
   
-    
-  ];
+  late int _selectedIndex;
+  late List<Widget> _pages;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+
+    // ✅ Dynamically load pages based on approval
+    _pages = widget.isApproved
+        ? [
+            HomeScreen02(),
+            JobScreen(),
+            ChatScreen(),
+            StudentProfilescreen(),
+          ]
+        : [
+            HomeMainScreen(),
+            JobScreen(),
+            ChatScreen(),
+            ProfileScreen(),
+          ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -45,13 +59,12 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   @override
   Widget build(BuildContext context) {
-   
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    double navBarHeight = screenHeight * 0.08;  
-    double iconSize = screenWidth * 0.06;      
-    double fontSize = screenWidth * 0.03;       
+    double navBarHeight = screenHeight * 0.08;
+    double iconSize = screenWidth * 0.06;
+    double fontSize = screenWidth * 0.03;
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -62,10 +75,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             alignment: Alignment.bottomCenter,
             child: Container(
               height: navBarHeight,
-        
               decoration: BoxDecoration(
                 color: Colors.white,
-              
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black12,
@@ -90,7 +101,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     );
   }
 
-  Widget navItem(IconData icon, String label, int index, double iconSize, double fontSize) {
+  Widget navItem(
+      IconData icon, String label, int index, double iconSize, double fontSize) {
     bool isSelected = _selectedIndex == index;
     return GestureDetector(
       onTap: () => _onItemTapped(index),

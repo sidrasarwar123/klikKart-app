@@ -222,48 +222,37 @@ void initState() {
               ),
                 
                      Padding(
-                padding:  EdgeInsets.only(right: screenWidth*0.7),
+                padding:  EdgeInsets.only(right: screenWidth*0.7,),
                 child: Text("Course",style: TextStyle(fontSize: 20),),
                             ),
-                            Obx((){
-                               if (courseController.isLoading.value) {
-                  return CircularProgressIndicator();
-                }
-                else if (courseController.courseList.isEmpty) {
-                return Text('No course available');
-              } else{
-                 final course = courseController.courseList.first;
-                return  SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: courseController.courseList.asMap().entries.map((entry) {
-                      int index = entry.key;
-                      CourseModel course = entry.value;
-                
-                      Widget card = CourseCard(course: course);
-                
-                      return Padding(
-                        padding:  EdgeInsets.only(right:screenWidth*0.01),
-                        child: index == 0
-                            ? GestureDetector(
-                  onTap: () => Get.toNamed("/coursedetail",arguments: course),
-                  child: CourseCard(course: course),
-                )
-                            : card,
-                      );
-                    }).toList(),
-                  ),
-                );
-                            
-              }
-                            }
+                       Obx(() {
+  if (courseController.isLoading.value) {
+    return CircularProgressIndicator();
+  } else if (courseController.courseList.isEmpty) {
+    return Text('No course available');
+  } else {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: List.generate(courseController.courseList.length, (index) {
+          final course = courseController.courseList[index];
 
-                            ),
+          return Padding(
+            padding: EdgeInsets.only(right: screenWidth * 0.02),
+            child: GestureDetector(
+              onTap: () => Get.toNamed("/coursedetail", arguments: course),
+              child: CourseCard(course: course),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}),
                            Padding(
                 padding:  EdgeInsets.only(top: screenHeight*0.01,right: screenWidth*0.5),
                 child: Text("Course by Mentor",style: TextStyle(fontSize: 20),),),
-              
-              
+      
 Obx(() {
   if (mentorController.isLoading.value) {
     return CircularProgressIndicator();
