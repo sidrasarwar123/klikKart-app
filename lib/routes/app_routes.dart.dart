@@ -20,7 +20,11 @@ import 'package:klik_kart/Student_side/view/screen01/job_title.dart';
 import 'package:klik_kart/Student_side/view/screen01/notification_screen.dart';
 import 'package:klik_kart/Student_side/view/screen01/profile_screen.dart';
 import 'package:klik_kart/Student_side/view/screen01/reservation_form.dart';
+import 'package:klik_kart/Student_side/view/screen02/assigment_screen.dart';
+import 'package:klik_kart/Student_side/view/screen02/attendence_screen.dart';
+import 'package:klik_kart/Student_side/view/screen02/course_detail.dart';
 import 'package:klik_kart/Student_side/view/screen02/home_screen02.dart';
+import 'package:klik_kart/Student_side/view/screen02/result_screen.dart';
 
 import 'package:klik_kart/Student_side/widgets/bottom_bar.dart';
 import 'package:klik_kart/teacher_side/view/screen/assi_marks.dart';
@@ -59,10 +63,10 @@ class AppRoutes {
 
 
     // GetPage(name: '/homescreen02', page:()=>HomeScreen02()),
-    // GetPage(name: '/coursescreen', page:()=>StudentEnrollcoursedetail()),
-    // GetPage(name: '/attendence', page:()=>AttendenceScreen()),
-    // GetPage(name: '/assigment', page:()=>AssigmentScreen()),
-    // GetPage(name: '/resultscreen', page:()=>ResultScreen()),
+    GetPage(name: '/coursescreen', page:()=>StudentEnrollcoursedetail()),
+    GetPage(name: '/attendence', page:()=>AttendenceScreen()),
+    GetPage(name: '/assigment', page:()=>AssigmentScreen()),
+    GetPage(name: '/resultscreen', page:()=>ResultScreen()),
 
 
 

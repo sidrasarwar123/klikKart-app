@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:klik_kart/Student_side/controller/course_controller.dart';
@@ -17,15 +19,42 @@ class JobScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: CustomTextField(textEditingController: searchController, hintText: "search"),
-        leading: IconButton(
-  onPressed: () {
-    Get.offAllNamed('/bottombar'); 
+   leading: IconButton(
+  onPressed: () async {
+    String uid = FirebaseAuth.instance.currentUser?.uid ?? "";
+
+    if (uid.isEmpty) return;
+
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('reservations')
+        .doc(uid)
+        .get();
+
+    bool isApproved = false;
+
+    if (userDoc.exists && userDoc.data() != null) {
+      final data = userDoc.data() as Map<String, dynamic>;
+      isApproved = data['isApproved'] ?? false;
+    }
+
+    // ✅ Yahan use karo
+    if (isApproved) {
+      Get.offAllNamed('/bottombar', arguments: {
+        'isApproved': true,
+        'initialIndex': 0,
+      });
+    } else {
+      Get.offAllNamed('/bottombar', arguments: {
+        'isApproved': false,
+        'initialIndex': 0,
+      });
+    }
   },
-  icon: Icon(
-    AppIcons.arrowicon,
-    color: AppColors.buttoncolor,
-    size: 30,
-  ),
+   icon: Icon(
+              AppIcons.arrowicon,
+              color: AppColors.buttoncolor,
+              size: 30,
+            )
 ),
       ),
       body: Padding(

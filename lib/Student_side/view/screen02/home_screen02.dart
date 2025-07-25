@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:klik_kart/Student_side/models/event.dart';
+import 'package:get/get.dart';
+
+import 'package:klik_kart/Student_side/controller/event_controller.dart';
+import 'package:klik_kart/Student_side/controller/student_enroll_controller.dart';
+
 import 'package:klik_kart/Student_side/widgets/event_widget.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
@@ -16,20 +18,11 @@ class HomeScreen02 extends StatefulWidget {
 }
 
 class _HomeScreen02State extends State<HomeScreen02> {
+  final StudentEnrollController studentEnrollController=Get.put(StudentEnrollController());
+   final EventController eventController = Get.put(EventController());
      final bool hasUnreadNotifications = true;
        String selectedDay = "Mon";
-        final List<Event> events = [
-    Event(
-      title: "Mango Festival",
-      date: "19 May,2024",
-      imageUrl: AppImages.event1image,
-    ),
-    Event(
-      title: "14 August",
-      date: "14 Aug,2024",
-      imageUrl: AppImages.event2image,
-    ),
-  ];
+       
 
 
   @override
@@ -138,122 +131,160 @@ class _HomeScreen02State extends State<HomeScreen02> {
                 )
               ],
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-          
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children:  [
-                      Text(
-                        'Total Fee:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.black,
+            child: Obx((){
+                  final fee = Get.find<StudentEnrollController>().feelist.value;
+                  return   Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                        
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children:  [
+                        Text(
+                          'Total Fee:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: screenHeight*0.01),
-                      Text(
-                        'Rs:10,000',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.blue,
+                        SizedBox(height: screenHeight*0.01),
+                        Text('Rs: ${fee?.total ?? 0}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.blue,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-           
-                
-                Container(
-                  height: screenHeight*0.12,
-                  width: 1,
-                  color: Colors.grey.shade400,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _feeCard(
-                        title: 'Submit Fees',
-                        amount: 'Rs\n5,000',
-                        color: Colors.green,
-                        bgColor:  Color(0xffeafaf1),
-                      ),SizedBox(width: screenWidth*0.01,),
-                      _feeCard(
-                        title: 'Pending Fees',
-                        amount: 'Rs\n5,000',
-                        color: Colors.red,
-                        bgColor:  Color(0xfffce9e9),
-                      ),
-                    ],
+                         
+                  
+                  Container(
+                    height: screenHeight*0.12,
+                    width: 1,
+                    color: Colors.grey.shade400,
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
                   ),
-                )
-              ],
+                  Expanded(
+                    flex: 2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _feeCard(
+                          title: 'Submit Fees',
+                            amount: 'Rs\n${fee?.submitted ?? 0}',
+                          color: Colors.green,
+                          bgColor:  Color(0xffeafaf1),
+                        ),SizedBox(width: screenWidth*0.01,),
+                        _feeCard(
+                          title: 'Pending Fees',
+                           amount: 'Rs\n${fee?.submitted ?? 0}',
+                          color: Colors.red,
+                          bgColor:  Color(0xfffce9e9),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              );
+            }
+             
             ),
                    ),
-         ),            Padding(
+         ), 
+                    Padding(
            padding:  EdgeInsets.only(top: screenHeight*0.02,left: screenWidth*0.01),
            child: Column(
              children: [
                SingleChildScrollView(scrollDirection: Axis.horizontal,
                  child: Row(
                    children: [
-                     GestureDetector(onTap: (){
-                      Get.toNamed('/coursescreen');
-                     },
-                       child: Container(
-                        
-                           width: screenWidth*0.5,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Colors.white,border: Border.all(color:  Color.fromARGB(255, 174, 226, 250))
-                            ),
-                            child: Column(
-                              children: [
-                                ClipRRect(
-                                  borderRadius:  BorderRadius.vertical(top: Radius.circular(16)),
-                                  child: Image.asset(AppImages.UIimage, fit: BoxFit.cover),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(1),
-                                  child: Column(
-                                    children: [
-                                       Divider(thickness: 1,color: AppColors.buttoncolor,),
-                                      Text("UI/UX Designing", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: AppColors.buttoncolor)),
-                                      Divider(thickness: 1,color: AppColors.buttoncolor,),
-                                      SizedBox(height: 8),
-                                      Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          SizedBox(
-                                            width: screenWidth*0.16,
-                                            height: screenHeight*0.08,
-                                            child: CircularProgressIndicator(
-                                              value: 0.8,
-                                              strokeWidth: 6,
-                                              backgroundColor: Colors.grey[200],
-                                              valueColor:  AlwaysStoppedAnimation<Color>(Colors.blue),
-                                            ),
-                                          ),
-                                         Text("80%", style: TextStyle(fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                      SizedBox(height: 8),
-                                       Text("Completed", style: TextStyle(color: AppColors.buttoncolor)),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                     ),SizedBox(width: screenWidth*0.03,),
+               Obx(() {
+  final controller = Get.find<StudentEnrollController>();
+
+  if (controller.isLoading.value) {
+    return const CircularProgressIndicator();
+  }
+
+  final progress = controller.courseProgress.value;
+
+  if (progress == null) {
+    return const Text("No course available");
+  }
+
+  return Container(
+    width: screenWidth * 0.5,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(16),
+      color: Colors.white,
+      border: Border.all(color: const Color.fromARGB(255, 174, 226, 250)),
+    ),
+    child: Column(
+      children: [
+        ClipRRect(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+          child: SizedBox(
+            height: 100,
+            width: double.infinity,
+            child: progress.imageUrl.isNotEmpty
+                ? Image.network(
+                    progress.imageUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(AppImages.UIimage, fit: BoxFit.cover);
+                    },
+                  )
+                : Image.asset(AppImages.UIimage, fit: BoxFit.cover),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Divider(thickness: 1, color: AppColors.buttoncolor),
+              Text(
+                progress.courseName,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: AppColors.buttoncolor,
+                ),
+              ),
+              Divider(thickness: 1, color: AppColors.buttoncolor),
+              const SizedBox(height: 8),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  SizedBox(
+                    width: screenWidth * 0.16,
+                    height: screenHeight * 0.08,
+                    child: CircularProgressIndicator(
+                      value: progress.progress / 100,
+                      strokeWidth: 6,
+                      backgroundColor: Colors.grey[200],
+                      valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+                    ),
+                  ),
+                  Text("${progress.progress}%",
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                progress.status,
+                style: TextStyle(color: AppColors.buttoncolor),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}),          SizedBox(width: screenWidth*0.03,),
                         GestureDetector(onTap: () {
                           Get.toNamed('/attendence');
                         },
@@ -588,33 +619,43 @@ Container(
           
       
        ), SizedBox(height: screenHeight*0.04,),
-          Padding(
-              padding:  EdgeInsets.only(top: screenHeight*0.03,),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text("Upcoming  Events",style: TextStyle(fontSize: 20),),
-                      Padding(
-                        padding:  EdgeInsets.only(left:screenWidth*0.3 ),
-                        child: InkWell(onTap: (){
-                          Get.toNamed('/eventscreen');
-                        },
-                          child: Text("View All",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: AppColors.buttoncolor),)),
-                      ),
-                    ],
-                  ),
-                ],
-              ),),
-          SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: events.map((event) => InkWell(onTap: (){
-           
-          },
-            child: EventCard(event: event))).toList(),
+         Padding(
+  padding: EdgeInsets.only(top: screenHeight * 0.03, left: screenWidth * 0.01),
+  child: Row(
+    
+    children: [
+      Text("Upcoming Events", style: TextStyle(fontSize: 20)),
+      GestureDetector(
+        onTap: () => Get.toNamed('/eventscreen'),
+        child: Padding(
+          padding:  EdgeInsets.only(left: screenWidth*0.3),
+          child: Text("View All",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.buttoncolor)),
         ),
-      ),   SizedBox(height: screenHeight*0.1,)
+      ),
+    ],
+  ),
+),
+Obx(() {
+  if (eventController.isLoading.value) {
+    return Center(child: CircularProgressIndicator());
+  } else if (eventController.eventList.isEmpty) {
+    return Text("No events found");
+  } else {
+    return SizedBox(
+      height: screenWidth * 0.5,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 2, // Only 2 events
+        itemBuilder: (context, index) {
+          final event = eventController.eventList[index];
+          return EventCard(event: event);
+        },
+      ),
+    );
+  }
+}),
+              SizedBox(height: screenHeight*0.1,)
                 ],
               ),
            

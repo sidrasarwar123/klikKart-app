@@ -205,20 +205,23 @@ void checkApprovalStatus() {
     });
 
     //  Notification
-    await profileController.addNotificationAndShow(
-      title: "Reservation Submitted",
-      description: "Your reservation form has been submitted successfully.",
-      icon: "notifications_active",
-      color: "#2196F3",
-    );
+  await profileController.addNotificationAndShow(
+  title: "Reservation Submitted",
+  description: "Your reservation form has been submitted successfully.",
+  icon: "notifications_active",
+  color: "#2196F3",
+);
 
-    isLoading.value = false;
+isLoading.value = false;
 
-    QuickAlert.show(
-      context: context,
-      type: QuickAlertType.success,
-      text: 'Your form has been successfully submitted!',
-    );
+
+if (!context.mounted) return;
+
+QuickAlert.show(
+  context: context,
+  type: QuickAlertType.success,
+  text: 'Your form has been successfully submitted!',
+);
 
     usernameController.clear();
     adressController.clear();

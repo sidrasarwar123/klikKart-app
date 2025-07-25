@@ -11,7 +11,7 @@ class ChatController extends GetxController {
   TextEditingController messageController = TextEditingController();
 
   late String userId;
-  final String adminId = "adminUID"; // 🔁 Replace with your real admin UID
+  final String adminId = "adminUID"; 
   late String chatId;
   late Stream<QuerySnapshot> messageStream;
 
@@ -19,7 +19,7 @@ class ChatController extends GetxController {
   void onInit() {
     super.onInit();
     userId = _auth.currentUser?.uid ?? "";
-    chatId = generateChatId(adminId, userId); // 🔑 Generate chat ID
+    chatId = generateChatId(adminId, userId); 
     print("✅ Current User ID: $userId");
     print("🔐 Chat ID: $chatId");
     _listenToMessages();
@@ -41,25 +41,8 @@ class ChatController extends GetxController {
         .snapshots();
 
     messageStream.listen((snapshot) {
-      print("📥 Received ${snapshot.docs.length} messages");
-
-      if (snapshot.docs.isEmpty) {
-        print("⚠️ No messages found. Either collection is empty or chatId is incorrect.");
-      } else {
-        for (var doc in snapshot.docs) {
-          final data = doc.data() as Map<String, dynamic>;
-
-          // 🔍 Check structure
-          if (!data.containsKey('message') || !data.containsKey('senderId') || !data.containsKey('timestamp')) {
-            print("❌ Structure issue in document: ${doc.id}");
-            print("🔍 Data: $data");
-          } else {
-            print("✅ Message: ${data['message']} from ${data['senderId']}");
-          }
-        }
-      }
-
       messages.value = snapshot.docs;
+      print("📥 Received ${snapshot.docs.length} messages");
     }, onError: (e) {
       print("❌ Error in messageStream: $e");
     });
@@ -67,35 +50,27 @@ class ChatController extends GetxController {
 
   Future<void> sendMessage() async {
     final text = messageController.text.trim();
-    if (text.isEmpty) {
-      print("⚠️ Message is empty, nothing to send.");
-      return;
-    }
+    if (text.isEmpty) return;
 
-    print("📤 Sending message: $text");
+    // Add or update main chat doc
+    await _firestore.collection("chats").doc(chatId).set({
+      "participants": [adminId, userId],
+      "lastMessage": text,
+      "updatedAt": FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
 
-    // Update chat info
-    await _firestore
-        .collection("chats")
-        .doc(chatId)
-        .set({
-          "participants": [adminId, userId],
-          "lastMessage": text,
-          "updatedAt": FieldValue.serverTimestamp(),
-        }, SetOptions(merge: true));
-
-    // Send actual message
+    // Add actual message
     await _firestore
         .collection("chats")
         .doc(chatId)
         .collection("messages")
         .add({
-          "senderId": userId,
-          "message": text,
-          "timestamp": FieldValue.serverTimestamp(),
-        });
+      "senderId": userId,
+      "message": text,
+      "timestamp": FieldValue.serverTimestamp(),
+    });
 
-    print("✅ Message sent successfully.");
     messageController.clear();
+    print("✅ Message sent: $text");
   }
 }

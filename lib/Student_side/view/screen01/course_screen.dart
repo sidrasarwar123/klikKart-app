@@ -25,9 +25,9 @@ void initState() {
   super.initState();
   course = Get.arguments as CourseModel;
 
-    // print("🔍 Lesson Count: ${course.lessons.length}");
+  
   for (var lesson in course.lessons) {
-    // print("Title: ${lesson.title}, Lesson: ${lesson.lesson}");
+   
   }
 }
 

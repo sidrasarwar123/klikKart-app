@@ -66,7 +66,7 @@ class ChatScreen extends StatelessWidget {
             ),
           ), 
           
-          // 🔄 Messages
+        
          Expanded(
   child: Obx(() {
     final messages = chatController.messages;
@@ -74,19 +74,16 @@ class ChatScreen extends StatelessWidget {
       return const Center(child: Text("No messages yet"));
     }
 
-    return ListView.builder(
-      controller: _scrollController,
-      padding: const EdgeInsets.all(12),
-      itemCount: messages.length,
-      itemBuilder: (context, index) {
-        final msg = messages[index];
-        final isUser = msg['senderId'] == chatController.userId;
-
-        return ChatBubble(
-          message: msg['message'],
-          time: (msg['timestamp'] as Timestamp?)?.toDate().toLocal().toString().substring(11, 16) ?? '',
-          isUser: isUser,
-        );
+  return ListView.builder(
+    itemCount: chatController.messages.length,
+    itemBuilder: (context, index) {
+      final msg = chatController.messages[index].data() as Map<String, dynamic>;
+      final isUser = msg['senderId'] == chatController.userId;
+return ChatBubble(
+  message: msg['message'],
+  time: (msg['timestamp'] as Timestamp?)?.toDate().toLocal().toString().substring(11, 16) ?? '',
+  isMe: isUser, 
+);
       },
     );
   }),
