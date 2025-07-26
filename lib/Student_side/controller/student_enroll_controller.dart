@@ -1,51 +1,55 @@
+import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:klik_kart/Student_side/models/courseProgress_model.dart';
 import 'package:klik_kart/Student_side/models/fee_model.dart';
 
-class StudentEnrollController extends GetxController {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+class StudentController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Rxn<FeeModel> feelist = Rxn<FeeModel>();
-Rxn<CourseProgressModel> courseProgress = Rxn<CourseProgressModel>();
-  RxBool isLoading = false.obs;
+  var feeModel = Rxn<StudentFeeModel>();
+  var courses = <CourseProgressModel>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    fetchFeeData();
-    fetchCourseProgress();
+    fetchStudentData();
   }
 
-  void fetchFeeData() async {
+  void fetchStudentData() async {
+    final String uid = _auth.currentUser!.uid;
+    print("🔍 Fetching student data for UID: $uid");
+
     try {
-      final uid = _auth.currentUser?.uid;
-      if (uid == null) return;
+      final doc = await _firestore.collection('studentData').doc(uid).get();
 
-      final doc = await _firestore.collection('fees').doc(uid).get();
-      if (doc.exists) {
-        feelist.value = FeeModel.fromMap(doc.data()!);
-        print(" Fee data fetched: ${feelist.value}");
-      } else {
-        print(" No fee document found for user.");
+      if (!doc.exists) {
+        print("❌ No studentData document found for UID: $uid");
+        return;
       }
-    } catch (e) {
-      print(" Fee fetch error: $e");
-    }
-  }
 
- void fetchCourseProgress() async {
-  final uid = _auth.currentUser?.uid;
-  if (uid != null) {
-    final doc = await _firestore.collection('coursesProgress').doc(uid).get();
-    if (doc.exists) {
-      courseProgress.value = CourseProgressModel.fromMap(doc.data()!);
-      print("Course data fetched: ${courseProgress.value}");
-    } else {
-      print("No course progress found for user");
+      final data = doc.data() as Map<String, dynamic>;
+      print("✅ Firestore Data Fetched: $data");
+
+      // Fee data
+      feeModel.value = StudentFeeModel.fromMap(data);
+      print("📦 FeeModel: Total: ${feeModel.value?.totalFee}, Submitted: ${feeModel.value?.submittedFee}, Pending: ${feeModel.value?.pendingFee}");
+
+      // Course progress
+      final enrolledCourses = data['enrolledCourses'];
+      if (enrolledCourses != null && enrolledCourses is List) {
+        final List<CourseProgressModel> tempCourses = enrolledCourses
+            .map((course) => CourseProgressModel.fromMap(course as Map<String, dynamic>))
+            .toList();
+        courses.assignAll(tempCourses);
+        print("📚 Loaded ${courses.length} enrolled courses");
+      } else {
+        print("⚠️ No enrolledCourses found or invalid format.");
+      }
+    } catch (e, stack) {
+      print("🔥 Error fetching student data: $e");
+      print("🔍 StackTrace: $stack");
     }
   }
-}}
+}

@@ -1,19 +1,19 @@
-class FeeModel {
-  final int total;
-  final int submitted;
-  final int pending;
+class StudentFeeModel {
+  final int totalFee;
+  final int submittedFee;
+  final int pendingFee;
 
-  FeeModel({
-    required this.total,
-    required this.submitted,
-    required this.pending,
+  StudentFeeModel({
+    required this.totalFee,
+    required this.submittedFee,
+    required this.pendingFee,
   });
 
-  factory FeeModel.fromMap(Map<String, dynamic> map) {
-    return FeeModel(
-      total: map['total'] ?? 0,
-      submitted: map['submitted'] ?? 0,
-      pending: map['pending'] ?? 0,
+  factory StudentFeeModel.fromMap(Map<String, dynamic> map) {
+    return StudentFeeModel(
+      totalFee: map['totalFee'] ?? 0,
+      submittedFee: map['submittedFee'] ?? 0,
+      pendingFee: map['pendingFee'] ?? 0,
     );
   }
 }

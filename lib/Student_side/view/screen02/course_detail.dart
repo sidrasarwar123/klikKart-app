@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:klik_kart/Student_side/models/courseProgress_model.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
@@ -14,6 +16,14 @@ class StudentEnrollcoursedetail extends StatefulWidget {
 }
 
 class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
+  late final CourseProgressModel course;
+  final RxBool isLoading = false.obs;
+
+@override
+void initState() {
+  super.initState();
+  course = Get.arguments as CourseProgressModel;
+}
     int selectedIndex = 0;
      final List<String> tabs = ['Ongoing', 'Completed',];
   @override

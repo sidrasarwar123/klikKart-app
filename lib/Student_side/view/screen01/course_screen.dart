@@ -80,11 +80,12 @@ incididunt ut labore
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: screenWidth * 0.1),
+              padding: EdgeInsets.only(left: screenWidth * 0.2),
               child: Row(
                 children: [
                   Text(
-                    "UI/UX Designer | Mentor",
+                     "${course.title}",
+                  
                     style: TextStyle(color: AppColors.buttoncolor),
                   ),
                   Padding(
@@ -101,7 +102,7 @@ incididunt ut labore
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: screenWidth * 0.1),
+              padding: EdgeInsets.only(left: screenWidth * 0.2),
               child: Row(
                 children: [
                   Text(

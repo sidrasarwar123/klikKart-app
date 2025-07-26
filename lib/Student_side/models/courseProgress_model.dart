@@ -1,22 +1,19 @@
 class CourseProgressModel {
-  final String courseName;
-  final int progress;
-  final String status;
-  final String imageUrl;
+  final String title;
+  final String image;
+  final double progress;
 
   CourseProgressModel({
-    required this.courseName,
+    required this.title,
+    required this.image,
     required this.progress,
-    required this.status,
-    required this.imageUrl,
   });
 
   factory CourseProgressModel.fromMap(Map<String, dynamic> map) {
     return CourseProgressModel(
-      courseName: map['courseName'] ?? '',
-      progress: map['progress'] ?? 0,
-      status: map['status'] ?? '',
-      imageUrl: map['imageUrl'] ?? '',
+      title: map['title'] ?? '',
+      image: map['image'] ?? '',
+      progress: (map['progress'] ?? 0.0).toDouble(),
     );
   }
 }
