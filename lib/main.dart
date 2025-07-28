@@ -19,10 +19,12 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await GetStorage.init();
-   Get.put(AuthController());
-  Get.put(ProfileController(),);
+  Get.put(AuthController());
+  Get.put(
+    ProfileController(),
+  );
 
-    Get.put(SuccessStoryModelController());
+  Get.put(SuccessStoryModelController());
   Get.put(CourseController());
   Get.put(MentorController());
   Get.put(EventController());
