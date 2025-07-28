@@ -131,8 +131,9 @@ class _HomeScreen02State extends State<HomeScreen02> {
                 )
               ],
             ),
-            child: Obx(() {
+            child:Obx(() {
   final fee = studentController.feeModel.value;
+  if (fee == null) return Center(child: CircularProgressIndicator());
 
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,12 +148,11 @@ class _HomeScreen02State extends State<HomeScreen02> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
-                color: Colors.black,
               ),
             ),
-            SizedBox(height: screenHeight * 0.01),
+            SizedBox(height: screenHeight*0.02),
             Text(
-              'Rs:${fee?.totalFee ?? 0}',
+              "Rs ${fee.totalFee}",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -162,37 +162,31 @@ class _HomeScreen02State extends State<HomeScreen02> {
           ],
         ),
       ),
-      Container(
-        height: screenHeight * 0.12,
-        width: 1,
-        color: Colors.grey.shade400,
-        margin: const EdgeInsets.symmetric(horizontal: 10),
-      ),
+      VerticalDivider(thickness: 1, color: Colors.grey.shade400),
       Expanded(
         flex: 2,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _feeCard(
-              title: 'Submit Fees',
-              amount: 'Rs\n${fee?.submittedFee ?? 0}', 
+              title: 'Submitted Fees',
+              amount: 'Rs\n${fee.submittedFee}',
               color: Colors.green,
               bgColor: Color(0xffeafaf1),
             ),
-            SizedBox(width: screenWidth * 0.01),
             _feeCard(
               title: 'Pending Fees',
-              amount: 'Rs\n${fee?.pendingFee ?? 0}',
+              amount: 'Rs\n${fee.pendingFee}',
               color: Colors.red,
               bgColor: Color(0xfffce9e9),
             ),
           ],
         ),
-      )
+      ),
     ],
   );
-}
-)
+})
+
            )),
 
 
@@ -201,110 +195,93 @@ class _HomeScreen02State extends State<HomeScreen02> {
            child: Column(
              children: [
                SingleChildScrollView(scrollDirection: Axis.horizontal,
-                 child: Row(
+                child: Row(
                    children: [
-               Obx(() {
-  final controller = Get.find<StudentEnrollController>();
+             Obx(() {
+  final courses = Get.find<StudentController>().enrolledCourses;
 
-  if (controller.isLoading.value) {
-    return const CircularProgressIndicator();
-  }
-
-  final progress = controller.courseProgress.value;
-
-  if (progress == null) {
+  if (courses.isEmpty) {
     return const Text("No course available");
   }
 
-  return GestureDetector(onTap: (){
-    Get.toNamed('/coursescreen');
-  },
-    child: Container(
-      width: screenWidth * 0.5,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.white,
-        border: Border.all(color: const Color.fromARGB(255, 174, 226, 250)),
-      ),
-      child:Column(
-    children: [
-      ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-        child: SizedBox(
-          height: 100,
-          width: double.infinity,
-          child: progress.imageUrl.isNotEmpty
-              ? Image.network(
-                  progress.imageUrl,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) {
-    
-                      return child;
-                    }
-                    // While loading, show loader
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                (loadingProgress.expectedTotalBytes!)
-                            : null,
-                      ),
-                    );
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return Image.asset(AppImages.UIimage, fit: BoxFit.cover);
-                  },
-                )
-              : Image.asset(AppImages.UIimage, fit: BoxFit.cover),
-        ),
-      ),
-    
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Divider(thickness: 1, color: AppColors.buttoncolor),
-                Text(
-                  progress.courseName,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: AppColors.buttoncolor,
-                  ),
+  return Row(
+    children: List.generate(courses.length, (index) {
+      final progress = courses[index];
+
+      return GestureDetector(
+        onTap: () {
+          Get.toNamed('/coursescreen');
+        },
+        child: Container(
+          width: screenWidth * 0.5,
+          margin: EdgeInsets.only(right: screenWidth * 0.03),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Colors.white,
+            border: Border.all(color: const Color.fromARGB(255, 174, 226, 250)),
+          ),
+          child: Column(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                child: SizedBox(
+                  height: 100,
+                  width: double.infinity,
+                  child: progress.image.isNotEmpty
+                      ? Image.network(
+                          progress.image,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Image.asset(AppImages.UIimage, fit: BoxFit.cover),
+                        )
+                      : Image.asset(AppImages.UIimage, fit: BoxFit.cover),
                 ),
-                Divider(thickness: 1, color: AppColors.buttoncolor),
-                const SizedBox(height: 8),
-                Stack(
-                  alignment: Alignment.center,
+              ),
+              Padding(
+                padding:  EdgeInsets.all(8.0),
+                child: Column(
                   children: [
-                    SizedBox(
-                      width: screenWidth * 0.16,
-                      height: screenHeight * 0.08,
-                      child: CircularProgressIndicator(
-                        value: progress.progress / 100,
-                        strokeWidth: 6,
-                        backgroundColor: Colors.grey[200],
-                        valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+                    Divider(thickness: 1, color: AppColors.buttoncolor),
+                    Text(
+                      progress.title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: AppColors.buttoncolor,
                       ),
                     ),
-                    Text("${progress.progress}%",
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Divider(thickness: 1, color: AppColors.buttoncolor),
+                    const SizedBox(height: 8),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        SizedBox(
+                          width: screenWidth * 0.16,
+                          height: screenHeight * 0.08,
+                          child: CircularProgressIndicator(
+                            value: progress.progress / 100,
+                            strokeWidth: 6,
+                            backgroundColor: Colors.grey[200],
+                            valueColor:
+                                const AlwaysStoppedAnimation<Color>(Colors.blue),
+                          ),
+                        ),
+                        Text("${progress.progress.toInt()}%",
+                            style: const TextStyle(fontWeight: FontWeight.bold)),
+                      ],
+                    ),
                   ],
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  progress.status,
-                  style: TextStyle(color: AppColors.buttoncolor),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
-    ),
+        ),
+      );
+    }),
   );
-}),          SizedBox(width: screenWidth*0.03,),
+}),
+
+   SizedBox(width: screenWidth*0.03,),
                         GestureDetector(onTap: () {
                           Get.toNamed('/attendence');
                         },

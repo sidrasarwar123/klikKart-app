@@ -16,13 +16,13 @@ class StudentEnrollcoursedetail extends StatefulWidget {
 }
 
 class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
-  late final CourseProgressModel course;
+  late final EnrollCourseModel course;
   final RxBool isLoading = false.obs;
 
 @override
 void initState() {
   super.initState();
-  course = Get.arguments as CourseProgressModel;
+  course = Get.arguments as EnrollCourseModel;
 }
     int selectedIndex = 0;
      final List<String> tabs = ['Ongoing', 'Completed',];

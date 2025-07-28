@@ -13,14 +13,22 @@ class EventController extends GetxController {
   }
 
   void fetchEvents() async {
-    isLoading.value = true;
-    try {
-      final snapshot = await FirebaseFirestore.instance.collection('events').get();
-      final data = snapshot.docs.map((e) => Event.fromMap(e.data())).toList();
-      eventList.value = data;
-    } catch (e) {
-      print("Error fetching events: $e");
-    }
+  print("📡 fetchEvents called");
+  isLoading.value = true;
+  try {
+    final snapshot = await FirebaseFirestore.instance.collection('events').get();
+    print("📦 Found ${snapshot.docs.length} events");
+
+    final data = snapshot.docs.map((e) {
+      print("📄 Event Data: ${e.data()}");
+      return Event.fromMap(e.data());
+    }).toList();
+
+    eventList.value = data;
+  } catch (e) {
+    print("❌ Error fetching events: $e");
+  } finally {
     isLoading.value = false;
   }
+}
 }

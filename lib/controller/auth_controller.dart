@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class AuthController extends GetxController {
             'name': usernameController.text.trim(),
             'email': emailController.text.trim(),
             'submittedAt': FieldValue.serverTimestamp(),
-            'isApproved': false, // 👈 initially false
+            'isApproved': false, // intially false
           });
         }
 
@@ -61,7 +62,7 @@ class AuthController extends GetxController {
         final updatedSnapshot = await reservationRef.get();
         bool isApproved = updatedSnapshot['isApproved'] == true;
 
-        // ✅ Navigate with isApproved argument
+
         Get.offAllNamed('/bottombar', arguments: {
           'isApproved': isApproved,
           'initialIndex': 0,

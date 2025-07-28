@@ -255,51 +255,54 @@ void initState() {
       
 Obx(() {
   if (mentorController.isLoading.value) {
-    return CircularProgressIndicator();
-  } else if (mentorController.mentorList.isEmpty) {
-    return Text("No mentors found");
-  } else {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: mentorController.mentorList.map((mentor) {
-          return Padding(
-            padding: EdgeInsets.only(left: screenWidth * 0.03, top: screenHeight * 0.01),
-            child: Container(
-              height: screenHeight * 0.08,
-              width: screenWidth * 0.7,
-              decoration: BoxDecoration(
-                color: Color(int.parse("0xFF${mentor.color.replaceAll("#", "")}")),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(mentor.imageUrl),
-                    radius: 25,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: screenWidth * 0.03),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(mentor.name,
-                            style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-                        Text(mentor.role,
-                            style: TextStyle(color: Colors.white, fontSize: 12)),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }).toList(),
-      ),
-    );
+    return const Center(child: CircularProgressIndicator());
   }
+
+  if (mentorController.mentorList.isEmpty) {
+    return const Text("No mentors found");
+  }
+
+  return SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+      children: mentorController.mentorList.map((mentor) {
+        return Padding(
+          padding: EdgeInsets.only(left: screenWidth * 0.03, top: screenHeight * 0.01),
+          child: Container(
+            height: screenHeight * 0.08,
+            width: screenWidth * 0.7,
+            decoration: BoxDecoration(
+              color: Color(int.parse("0xFF${mentor.color.replaceAll("#", "")}")),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(mentor.imageUrl),
+                  radius: 25,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: screenWidth * 0.03),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(mentor.name,
+                          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                      Text(mentor.role,
+                          style: TextStyle(color: Colors.white, fontSize: 12)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }).toList(),
+    ),
+  );
 }),
+
 Padding(
   padding: EdgeInsets.only(top: screenHeight * 0.03, left: screenWidth * 0.01),
   child: Row(
@@ -319,15 +322,15 @@ Padding(
 ),
 Obx(() {
   if (eventController.isLoading.value) {
-    return Center(child: CircularProgressIndicator());
+    return const Center(child: CircularProgressIndicator());
   } else if (eventController.eventList.isEmpty) {
-    return Text("No events found");
+    return const Text("No events found");
   } else {
     return SizedBox(
       height: screenWidth * 0.5,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 2, // Only 2 events
+        itemCount: eventController.eventList.length.clamp(0, 2), // 👈 safe limit
         itemBuilder: (context, index) {
           final event = eventController.eventList[index];
           return EventCard(event: event);

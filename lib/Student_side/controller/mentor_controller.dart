@@ -12,15 +12,17 @@ class MentorController extends GetxController {
     super.onInit();
   }
 
-  void fetchMentors() async {
-    isLoading.value = true;
-    try {
-      final snapshot = await FirebaseFirestore.instance.collection('mentor').get();
-      mentorList.value = snapshot.docs.map((doc) => MentorModel.fromMap(doc.data())).toList();
-    } catch (e) {
-      print("Error fetching mentors: $e");
-    } finally {
-      isLoading.value = false;
-    }
+ void fetchMentors() async {
+  print("📡 Fetching Mentors...");
+  isLoading.value = true;
+  try {
+    final snapshot = await FirebaseFirestore.instance.collection('mentor').get();
+    print("📦 Fetched ${snapshot.docs.length} mentors");
+    mentorList.value = snapshot.docs.map((doc) => MentorModel.fromMap(doc.data())).toList();
+  } catch (e) {
+    print("❌ Error fetching mentors: $e");
+  } finally {
+    isLoading.value = false;
   }
+ }
 }

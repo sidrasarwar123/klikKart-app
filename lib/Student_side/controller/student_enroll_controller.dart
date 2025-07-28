@@ -5,51 +5,57 @@ import 'package:klik_kart/Student_side/models/courseProgress_model.dart';
 import 'package:klik_kart/Student_side/models/fee_model.dart';
 
 class StudentController extends GetxController {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
 
   var feeModel = Rxn<StudentFeeModel>();
-  var courses = <CourseProgressModel>[].obs;
+  var enrolledCourses = <EnrollCourseModel>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    fetchStudentData();
+    Future.delayed(Duration(milliseconds: 300), () {
+      fetchStudentData();
+    });
   }
 
   void fetchStudentData() async {
-    final String uid = _auth.currentUser!.uid;
-    print("🔍 Fetching student data for UID: $uid");
+    final user = _auth.currentUser;
+
+    if (user == null) {
+      print("❌ No user logged in yet. Cannot fetch student data.");
+      return;
+    }
+
+    final uid = user.uid;
+    print("🔍 Fetching studentData for UID: $uid");
 
     try {
-      final doc = await _firestore.collection('studentData').doc(uid).get();
+      // ✅ Fetch studentData main document
+      final snapshot = await _firestore.collection('studentData').doc(uid).get();
 
-      if (!doc.exists) {
-        print("❌ No studentData document found for UID: $uid");
-        return;
-      }
+      if (snapshot.exists) {
+        final data = snapshot.data() as Map<String, dynamic>;
+        feeModel.value = StudentFeeModel.fromMap(data);
+        print("✅ Fee Data Fetched");
 
-      final data = doc.data() as Map<String, dynamic>;
-      print("✅ Firestore Data Fetched: $data");
+        // ✅ Fetch enrolledCourses subcollection
+        final coursesSnap = await _firestore
+            .collection('studentData')
+            .doc(uid)
+            .collection('enrollcourses')
+            .get();
 
-      // Fee data
-      feeModel.value = StudentFeeModel.fromMap(data);
-      print("📦 FeeModel: Total: ${feeModel.value?.totalFee}, Submitted: ${feeModel.value?.submittedFee}, Pending: ${feeModel.value?.pendingFee}");
+        enrolledCourses.assignAll(
+          coursesSnap.docs.map((doc) => EnrollCourseModel.fromMap(doc.data())).toList(),
+        );
 
-      // Course progress
-      final enrolledCourses = data['enrolledCourses'];
-      if (enrolledCourses != null && enrolledCourses is List) {
-        final List<CourseProgressModel> tempCourses = enrolledCourses
-            .map((course) => CourseProgressModel.fromMap(course as Map<String, dynamic>))
-            .toList();
-        courses.assignAll(tempCourses);
-        print("📚 Loaded ${courses.length} enrolled courses");
+        print("📚 Enrolled Courses Loaded: ${enrolledCourses.length}");
       } else {
-        print("⚠️ No enrolledCourses found or invalid format.");
+        print("⚠️ No studentData document found for UID: $uid");
       }
-    } catch (e, stack) {
+    } catch (e) {
       print("🔥 Error fetching student data: $e");
-      print("🔍 StackTrace: $stack");
     }
   }
 }

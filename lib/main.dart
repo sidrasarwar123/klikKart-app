@@ -7,6 +7,7 @@ import 'package:klik_kart/Student_side/controller/course_controller.dart';
 import 'package:klik_kart/Student_side/controller/event_controller.dart';
 import 'package:klik_kart/Student_side/controller/mentor_controller.dart';
 import 'package:klik_kart/Student_side/controller/stories_controller.dart';
+import 'package:klik_kart/Student_side/controller/student_enroll_controller.dart';
 import 'package:klik_kart/controller/auth_controller.dart';
 import 'package:klik_kart/controller/profile_controller.dart';
 
@@ -22,10 +23,11 @@ void main() async {
    Get.put(AuthController());
   Get.put(ProfileController(),);
 
-    Get.put(SuccessStoryModelController());
+  Get.put(SuccessStoryModelController());
   Get.put(CourseController());
-  Get.put(MentorController());
+   Get.put(MentorController()); 
   Get.put(EventController());
+  Get.put(StudentController());
 
   runApp(MyApp());
 }
