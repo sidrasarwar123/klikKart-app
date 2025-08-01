@@ -38,6 +38,9 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
 void initState() {
   super.initState();
   profileController.fetchUserData();
+  successStoryModelController.fetchSuccessStories();
+  eventController.fetchEvents();
+  mentorController.fetchMentors();
   
 
 }
