@@ -38,6 +38,8 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
 void initState() {
   super.initState();
   profileController.fetchUserData();
+  
+
 }
 
   @override
