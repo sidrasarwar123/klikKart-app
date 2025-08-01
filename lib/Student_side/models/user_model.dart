@@ -17,8 +17,7 @@ class UserModel {
     this.address,
     this.gender,
     required this.isTeacher,
-  });
-
+  }); 
   Map<String, dynamic> toMap() {
     return {
       'uid': uid,
@@ -31,17 +30,16 @@ class UserModel {
       'isTeacher': isTeacher,
     };
   }
-
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      uid: map['uid'],
-      email: map['email'],
-      name: map['name'],
-      imageUrl: map['imageUrl'],
-      phone: map['phone'],
-      address: map['address'],
-      gender: map['gender'],
-      isTeacher: map['isTeacher'],
+      uid: map['uid'] as String? ?? '',
+      email: map['email'] as String? ?? '',
+      name: map['name'] as String? ?? '',
+      imageUrl: map['imageUrl'] as String?,
+      phone: map['phone'] as String?,
+      address: map['address'] as String?,
+      gender: map['gender'] as String?,
+      isTeacher: map['isTeacher'] as bool? ?? false,
     );
   }
 }

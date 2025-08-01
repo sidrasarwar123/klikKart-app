@@ -18,16 +18,12 @@ class _BottombarScreenState extends State<BottombarScreen> {
 
   final List<Widget> _pages = [
   
-homescreen03(),
-JobScreen(),
-MarksScreen(),
-FormApplyscreen(),
-StudentProfilescreen(),
+     homescreen03(),
+      JobScreen(),
+      MarksScreen(),
+       FormApplyscreen(),
+       StudentProfilescreen(),
 
-
-
-  
-    
   ];
 
   void _onItemTapped(int index) {

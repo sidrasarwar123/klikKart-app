@@ -37,7 +37,7 @@ class JobScreen extends StatelessWidget {
       isApproved = data['isApproved'] ?? false;
     }
 
-    // ✅ Yahan use karo
+    
     if (isApproved) {
       Get.offAllNamed('/bottombar', arguments: {
         'isApproved': true,

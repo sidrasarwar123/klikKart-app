@@ -55,19 +55,21 @@ void checkUserStatus() async {
     return;
   }
 
-  // Student: check approval
+  // ✅ SAFELY CHECK FOR isApproved FIELD
   final reservationDoc = await FirebaseFirestore.instance
       .collection('reservations')
       .doc(user.uid)
       .get();
 
-  final isApproved = reservationDoc.exists && reservationDoc['isApproved'] == true;
+  final data = reservationDoc.data();
+  final isApproved = data != null && data.containsKey('isApproved') && data['isApproved'] == true;
 
   Get.offAllNamed('/bottombar', arguments: {
     'isApproved': isApproved,
     'initialIndex': 0,
   });
 }
+
 
   @override
   Widget build(BuildContext context) {

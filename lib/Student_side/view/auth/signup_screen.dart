@@ -31,7 +31,6 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -128,16 +127,28 @@ class _SignupScreenState extends State<SignupScreen> {
                   if (user != null) {
                     final uid = user.uid;
 
+                    // Save user type to Firestore
+                    await FirebaseFirestore.instance
+                        .collection('userdata')
+                        .doc(uid)
+                        .set({
+                      'name': usernameController.text.trim(),
+                      'email': emailController.text.trim(),
+                      'isTeacher': isTeacher,
+                      'createdAt': FieldValue.serverTimestamp(),
+                    });
+
                     //  Show welcome notification
                     profileController.addNotificationAndShow(
                       title: "Welcome!",
-                      description: "Your account has been created successfully.",
+                      description:
+                          "Your account has been created successfully.",
                       icon: "person_add",
                       color: "#4CAF50",
                     );
 
                     if (!isTeacher) {
-                      //Create reservation with isApproved: false
+                      //  Student: Create reservation with isApproved: false
                       await FirebaseFirestore.instance
                           .collection('reservations')
                           .doc(uid)
@@ -147,20 +158,22 @@ class _SignupScreenState extends State<SignupScreen> {
                         'submittedAt': FieldValue.serverTimestamp(),
                         'isApproved': false,
                       });
+
+                      //  Fetch approval status safely
+                      final doc = await FirebaseFirestore.instance
+                          .collection('reservations')
+                          .doc(uid)
+                          .get();
+                      final data = doc.data();
+                      final isApproved = data?['isApproved'] == true;
+
+                      //  Student screen with approval check
+                      Get.offAllNamed('/bottombar',
+                          arguments: {'isApproved': isApproved});
+                    } else {
+                      //  Teacher screen
+                      Get.offAllNamed('/bottombarscreen');
                     }
-
-                    // Fetch updated approval status
-                    final doc = await FirebaseFirestore.instance
-                        .collection('reservations')
-                        .doc(uid)
-                        .get();
-
-                    final isApproved =
-                        doc.exists && doc['isApproved'] == true;
-
-                    //  Navigate to correct layout
-                    Get.offAllNamed('/bottombar',
-                        arguments: {'isApproved': isApproved});
                   }
                 },
               ),

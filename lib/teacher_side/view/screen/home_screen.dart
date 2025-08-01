@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get.dart';
+import 'package:klik_kart/Student_side/controller/event_controller.dart';
 import 'package:klik_kart/Student_side/models/event.dart';
 import 'package:klik_kart/Student_side/widgets/event_widget.dart';
 import 'package:klik_kart/constants/app_colors.dart';
@@ -9,7 +9,7 @@ import 'package:klik_kart/constants/app_images.dart';
 import 'package:klik_kart/teacher_side/models/attendence_model.dart';
 
 import 'package:klik_kart/teacher_side/widgets/card_screen.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 
@@ -21,6 +21,8 @@ class homescreen03 extends StatefulWidget {
 }
 
 class _homescreen03State extends State<homescreen03> {
+    final EventController eventController = Get.put(EventController());
+ 
   final List<AttendanceModel> allData = [
   AttendanceModel(subject: 'UI/UX', className: 'AI2', presentPercent: 0.7, absentPercent: 0.3),
   AttendanceModel(subject: 'UI/UX', className: 'A10', presentPercent: 0.9, absentPercent: 0.1),
@@ -51,6 +53,7 @@ int _currentAssignmentPage = 0;
 @override
 void initState() {
   super.initState();
+    eventController.fetchEvents();
 
   attendanceController.addListener(() {
     final page = attendanceController.page;

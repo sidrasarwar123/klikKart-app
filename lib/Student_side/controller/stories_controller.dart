@@ -14,19 +14,22 @@ class SuccessStoryModelController extends GetxController {
   }
 
   void fetchSuccessStories() async {
-    try {
-      isLoading.value = true;
-      final snapshot =
-          await FirebaseFirestore.instance.collection('success_stories').get();
+  await Future.delayed(Duration.zero); // ⏳ Ensure update happens after build
 
-      storiesList.value = snapshot.docs
-          .map((doc) => SuccessStoryModel.fromFirestore(doc))
-          .toList();
+  try {
+    isLoading.value = true;
 
-      isLoading.value = false;
-    } catch (e) {
-      print("Error fetching success stories: $e");
-      isLoading.value = false;
-    }
+    final snapshot =
+        await FirebaseFirestore.instance.collection('success_stories').get();
+
+    storiesList.value = snapshot.docs
+        .map((doc) => SuccessStoryModel.fromFirestore(doc))
+        .toList();
+  } catch (e) {
+    print("Error fetching success stories: $e");
+  } finally {
+    isLoading.value = false;
   }
+}
+
 }
