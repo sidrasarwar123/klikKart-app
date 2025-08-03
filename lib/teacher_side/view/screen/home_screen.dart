@@ -7,8 +7,8 @@ import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
 import 'package:klik_kart/controller/profile_controller.dart';
-import 'package:klik_kart/teacher_side/controller/attendence_controller.dart';
-import 'package:klik_kart/teacher_side/models/attendence_model.dart';
+import 'package:klik_kart/teacher_side/controller/teacherDashboard_controller.dart.dart';
+import 'package:klik_kart/teacher_side/models/teacher_Dashboard.dart.dart';
 
 import 'package:klik_kart/teacher_side/widgets/card_screen.dart';
 
@@ -26,20 +26,7 @@ class _homescreen03State extends State<homescreen03> {
     final EventController eventController = Get.put(EventController());
      final ProfileController profileController = Get.find<ProfileController>();
      final TeacherDashboardController teacherDashboardController = Get.put(TeacherDashboardController());
-   
 
- 
-//   final List<AttendanceModel> allData = [
-//   AttendanceModel(subject: 'UI/UX', className: 'AI2', presentPercent: 0.7, absentPercent: 0.3),
-//   AttendanceModel(subject: 'UI/UX', className: 'A10', presentPercent: 0.9, absentPercent: 0.1),
-//   AttendanceModel(subject: 'Flutter', className: 'C1', presentPercent: 0.6, absentPercent: 0.4),
-//   AttendanceModel(subject: 'Graphics', className: 'B2', presentPercent: 0.85, absentPercent: 0.15),
-//    AttendanceModel(subject: 'Freelancing', className: 'D1', presentPercent: 0.6, absentPercent: 0.4),
-//   AttendanceModel(subject: 'Graphics', className: 'E2', presentPercent: 0.85, absentPercent: 0.15),
-// ];
-
- 
-  
    final PageController attendanceController = PageController();
 final PageController assignmentController = PageController();
 

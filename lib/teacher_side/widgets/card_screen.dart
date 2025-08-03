@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:klik_kart/teacher_side/models/attendence_model.dart';
+import 'package:klik_kart/teacher_side/models/teacher_Dashboard.dart.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class attendencecaed extends StatelessWidget {

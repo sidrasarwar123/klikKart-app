@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
+import 'package:klik_kart/teacher_side/controller/teacherDashboard_controller.dart.dart';
+import 'package:klik_kart/teacher_side/models/attendence_model.dart';
 import 'package:klik_kart/teacher_side/models/student_model.dart';
 import 'package:klik_kart/teacher_side/widgets/student_tile.dart';
 import 'package:quickalert/models/quickalert_type.dart';
@@ -16,15 +18,22 @@ class Attendence extends StatefulWidget {
 }
 
 class _AttendenceState extends State<Attendence> {
-  List<Student> students = [
-    Student(name: 'Ali Hassan', rollNo: "1", ispresent: true),
-    Student(name: 'Usman', rollNo: "2", ispresent: false),
-    Student(name: 'Junaid', rollNo: "3"),
-    Student(name: 'Haider', rollNo: "4"),
-    Student(name: 'Umer', rollNo: "5"),
-    Student(name: 'Ali', rollNo: "6"),
-    Student(name: 'Hammad', rollNo: "7"),
-  ];
+final TeacherDashboardController teacherDashboardController=Get.put(TeacherDashboardController());
+
+@override
+void initState() {
+  super.initState();
+  teacherDashboardController.loadStudents("A12G");
+}
+  // List<Student> students = [
+  //   Student(name: 'Ali Hassan', rollNo: "1", ispresent: true),
+  //   Student(name: 'Usman', rollNo: "2", ispresent: false),
+  //   Student(name: 'Junaid', rollNo: "3"),
+  //   Student(name: 'Haider', rollNo: "4"),
+  //   Student(name: 'Umer', rollNo: "5"),
+  //   Student(name: 'Ali', rollNo: "6"),
+  //   Student(name: 'Hammad', rollNo: "7"),
+  // ];
 
   DateTime focusedDay = DateTime.now();
   DateTime? selectedDay;
@@ -150,21 +159,23 @@ class _AttendenceState extends State<Attendence> {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: students.length,
-                    itemBuilder: (_, index) {
-                      return StudentTile(
-                        student: students[index],
-                        onStatusChange: (isPresent) {
-                          setState(() {
-                            students[index].ispresent = isPresent;
-                          });
-                        },
-                      );
-                    },
-                  ),
-                ),
+            Expanded(
+  child: Obx(() {
+    return ListView.builder(
+      itemCount: teacherDashboardController.students.length,
+      itemBuilder: (_, index) {
+        final student = teacherDashboardController.students[index];
+        return StudentTile(
+          student: student,
+          onStatusChange: (isPresent) {
+            student.ispresent = isPresent;
+            teacherDashboardController.students[index] = student; 
+          },
+        );
+      },
+    );
+  }),
+),
               ],
             ),
           ),
@@ -196,30 +207,56 @@ class _AttendenceState extends State<Attendence> {
                   ),
                 ),
                 SizedBox(width: screenWidth * 0.1),
-                ElevatedButton(
-                onPressed: () {
-  
+               ElevatedButton(
+  onPressed: () async {
+    if (selectedDay == null) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        text: 'Please select a date before saving attendance.',
+        confirmBtnText: 'OK',
+        confirmBtnColor: Colors.red,
+      );
+      return;
+    }
+
     QuickAlert.show(
       context: context,
       type: QuickAlertType.confirm,
-      text: 'Are you sure you want to save the data?',
+      text: 'Are you sure you want to save the attendance?',
       confirmBtnText: 'Yes',
       cancelBtnText: 'No',
       confirmBtnColor: Colors.green,
-      onConfirmBtnTap: () {
-        Navigator.of(context).pop();
+      onConfirmBtnTap: () async {
+        Navigator.of(context).pop(); // Close the dialog
+
+        // ✅ Prepare data
+        String classId = "A12G";
+        String date = "${selectedDay!.year}-${selectedDay!.month.toString().padLeft(2, '0')}-${selectedDay!.day.toString().padLeft(2, '0')}";
+
+        await teacherDashboardController.saveAttendance(
+          classId: classId,
+          date: date,
+         students: teacherDashboardController.students.map((s) => AttendanceModel(
+            name: s.name,
+            rollNo: s.rollNo,
+            isPresent: s.ispresent ?? false,
+          )).toList(),
+        );
+
+        // ✅ Show success alert
         Future.delayed(Duration(milliseconds: 200), () {
           QuickAlert.show(
             context: context,
             type: QuickAlertType.success,
-            text: 'Your Attendance has been saved Successfully',
+            text: 'Attendance saved successfully!',
             confirmBtnText: 'OK',
             confirmBtnColor: Colors.blue,
           );
         });
       },
       onCancelBtnTap: () {
-        Navigator.of(context).pop(); 
+        Navigator.of(context).pop(); // Close the dialog
       },
     );
   },
