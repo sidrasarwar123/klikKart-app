@@ -1,40 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:klik_kart/constants/app_colors.dart';
+import 'package:klik_kart/Student_side/controller/course_controller.dart';
 import 'package:klik_kart/constants/app_icons.dart';
+import 'package:klik_kart/teacher_side/controller/course_controller.dart';
+import 'package:klik_kart/teacher_side/widgets/course_card.dart';
 
-import 'package:klik_kart/teacher_side/models/course_model.dart.dart';
-import 'package:klik_kart/teacher_side/widgets/course_card.dart'; 
+import '../../../constants/app_colors.dart';
 
-class CourseScreen extends StatefulWidget {
-  const CourseScreen({super.key});
-
-  @override
-  State<CourseScreen> createState() => _CourseScreenState();
-}
-
-class _CourseScreenState extends State<CourseScreen> {
-  final List<CourseModel> courseList = [
-    
-    CourseModel(title: "UI/UX Designing", subtitle: "Senior 163 G"),
-    CourseModel(title: "UI/UX Designing", subtitle: "Senior 956 G"),
-    CourseModel(title: "UI/UX Designing", subtitle: "Senior 158 G"),
-    CourseModel(title: "UI/UX Designing", subtitle: "Senior 123 G"),
-    CourseModel(title: "UI/UX Designing", subtitle: "Senior 158 G"),
-    CourseModel(title: "UI/UX Designing", subtitle: "Senior 123 G"),
-  ];
+class CourseScreen extends StatelessWidget {
+  CourseScreen({super.key});
+final StudentcourseController studentcourseController=Get.put(StudentcourseController());
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-        final screenHeight = MediaQuery.of(context).size.height;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
         title: Padding(
           padding: EdgeInsets.only(left: screenWidth * 0.1),
-          child:  Text("Attendance"),
+          child: Text("Attendance"),
         ),
         leading: IconButton(
           onPressed: () {
@@ -48,22 +35,30 @@ class _CourseScreenState extends State<CourseScreen> {
         ),
       ),
       body: Padding(
-        padding:  EdgeInsets.only(top: screenHeight*0.05,left: screenWidth*0.02),
-        child: GridView.builder(
-          itemCount: courseList.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 10,
-            childAspectRatio: 1.2,
-          ),
-          itemBuilder: (context, index) {
-            return GestureDetector(onTap: (){
-              Get.toNamed('/studentattendencescreen');
+        padding: EdgeInsets.only(top: screenHeight * 0.05, left: screenWidth * 0.02),
+        child: Obx(() {
+          if (studentcourseController.isLoading.value) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          return GridView.builder(
+            itemCount: studentcourseController.courseList.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 10,
+              childAspectRatio: 1.2,
+            ),
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  Get.toNamed('/studentattendencescreen');
+                },
+                 child: coursecardModel(course:studentcourseController.courseList[index]),
+              );
             },
-              child: coursecardModel(course: courseList[index]));
-          },
-        ),
+          );
+        }),
       ),
     );
   }

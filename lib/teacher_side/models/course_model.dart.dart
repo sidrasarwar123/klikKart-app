@@ -1,6 +1,19 @@
-class CourseModel {
+class studentcourseModel {
   final String title;
   final String subtitle;
+  final String? id;
 
-  CourseModel({required this.title, required this.subtitle});
+  studentcourseModel({
+    required this.title,
+    required this.subtitle,
+    this.id,
+  });
+
+  factory studentcourseModel.fromMap(Map<String, dynamic> map, String id) {
+    return studentcourseModel(
+      title: map['title'] ?? '',
+      subtitle: map['subtitle'] ?? '',
+      id: id,
+    );
+  }
 }

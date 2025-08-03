@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:klik_kart/teacher_side/models/course_model.dart.dart'; 
 
 class coursecardModel extends StatelessWidget {
-  final CourseModel course;
+  final studentcourseModel course;
 
   const coursecardModel({super.key, required this.course});
 

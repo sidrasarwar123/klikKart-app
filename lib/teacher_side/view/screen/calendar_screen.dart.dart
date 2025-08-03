@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/widgets/buttons/custombutton.dart';
@@ -14,6 +13,7 @@ class AttendenceScreen01 extends StatefulWidget {
 }
 
 class _AttendenceScreen01State extends State<AttendenceScreen01> {
+  final RxBool isLoading = false.obs;
     DateTime focusedDay = DateTime.now();
   DateTime? selectedDay;
   @override
@@ -78,9 +78,16 @@ class _AttendenceScreen01State extends State<AttendenceScreen01> {
                 ),
               ),
               SizedBox(height: screenHeight*0.2,),
-              CustomButton(text: "Next", onPressed: (){
-                Get.toNamed('/course');
-              })
+             Obx(() => CustomButton(
+  text: "Next",
+  isloading: isLoading.value,
+  onPressed: () async {
+    isLoading.value = true;
+    await Future.delayed(Duration(milliseconds: 300));
+    Get.toNamed('/course');
+    isLoading.value = false;
+  },
+))
             ]
           )))
           
