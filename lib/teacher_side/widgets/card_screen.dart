@@ -3,7 +3,7 @@ import 'package:klik_kart/teacher_side/models/attendence_model.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class attendencecaed extends StatelessWidget {
-  final AttendanceModel model;
+  final teacherDashboardControllerModel model;
 
   const attendencecaed({super.key, required this.model});
 

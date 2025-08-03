@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:klik_kart/constants/app_images.dart';
@@ -23,53 +22,52 @@ class _SplashScreenState extends State<SplashScreen> {
     checkUserStatus();
   }
 
-void checkUserStatus() async {
-  await Future.delayed(Duration(seconds: 3));
+  void checkUserStatus() async {
+    await Future.delayed(const Duration(seconds: 3));
 
-  bool isFirstTime = box.read("isFirstTime") ?? true;
-  User? user = FirebaseAuth.instance.currentUser;
+    final isFirstTime = box.read("isFirstTime") ?? true;
+    final user = FirebaseAuth.instance.currentUser;
 
-  if (isFirstTime) {
-    box.write("isFirstTime", false);
-    Get.toNamed('/onboarding');
-    return;
+    if (isFirstTime) {
+      box.write("isFirstTime", false);
+      Get.toNamed('/onboarding');
+      return;
+    }
+
+    if (user == null) {
+      Get.offNamed('/signup');
+      return;
+    }
+
+    final profileController = Get.put(ProfileController());
+    final userData = await profileController.getSingleUserData(user.uid);
+
+    if (userData == null) {
+      Get.offNamed('/signup');
+      return;
+    }
+
+    final bool isTeacher = userData['isTeacher'] == true;
+
+    if (isTeacher) {
+      Get.offAllNamed('/bottombarscreen'); // ✅ Teacher home
+      return;
+    }
+
+    // 👨‍🎓 Student logic
+    final resDoc = await FirebaseFirestore.instance
+        .collection('reservations')
+        .doc(user.uid)
+        .get();
+
+    final resData = resDoc.data();
+    final isApproved = resData != null && resData['isApproved'] == true;
+
+    Get.offAllNamed('/bottombar', arguments: {
+      'isApproved': isApproved,
+      'initialIndex': 0,
+    });
   }
-
-  if (user == null) {
-    Get.offNamed('/signup');
-    return;
-  }
-
-  final profileController = Get.put(ProfileController());
-  final userData = await profileController.getUserData(user.uid);
-
-  if (userData.isEmpty) {
-    Get.offNamed('/signup');
-    return;
-  }
-
-  final isTeacher = userData[0]['isTeacher'] == true;
-
-  if (isTeacher) {
-    Get.offNamed('/bottombarscreen');
-    return;
-  }
-
-  // ✅ SAFELY CHECK FOR isApproved FIELD
-  final reservationDoc = await FirebaseFirestore.instance
-      .collection('reservations')
-      .doc(user.uid)
-      .get();
-
-  final data = reservationDoc.data();
-  final isApproved = data != null && data.containsKey('isApproved') && data['isApproved'] == true;
-
-  Get.offAllNamed('/bottombar', arguments: {
-    'isApproved': isApproved,
-    'initialIndex': 0,
-  });
-}
-
 
   @override
   Widget build(BuildContext context) {

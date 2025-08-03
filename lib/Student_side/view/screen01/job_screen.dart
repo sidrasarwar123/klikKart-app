@@ -6,11 +6,23 @@ import 'package:klik_kart/Student_side/controller/course_controller.dart';
 import 'package:klik_kart/Student_side/widgets/job_card.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
+import 'package:klik_kart/controller/profile_controller.dart';
 import 'package:klik_kart/widgets/fields/textfield.dart';
 
-class JobScreen extends StatelessWidget {
+class JobScreen extends StatefulWidget {
+  @override
+  State<JobScreen> createState() => _JobScreenState();
+}
+
+class _JobScreenState extends State<JobScreen> {
   final CourseController controller = Get.put(CourseController());
   final TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.fetchJobs();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,44 +30,55 @@ class JobScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: CustomTextField(textEditingController: searchController, hintText: "search"),
-   leading: IconButton(
-  onPressed: () async {
-    String uid = FirebaseAuth.instance.currentUser?.uid ?? "";
+        title: CustomTextField(
+            textEditingController: searchController, hintText: "search"),
+        leading: IconButton(
+          onPressed: () async {
+            final uid = FirebaseAuth.instance.currentUser?.uid ?? "";
+            if (uid.isEmpty) {
+              Get.snackbar("Error", "User not logged in");
+              return;
+            }
 
-    if (uid.isEmpty) return;
+            try {
+              final profileController = Get.find<ProfileController>();
+              final userData = await profileController.getSingleUserData(uid);
 
-    DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('reservations')
-        .doc(uid)
-        .get();
+              if (userData == null) {
+                Get.snackbar("Error", "User data not found");
+                return;
+              }
 
-    bool isApproved = false;
+              final bool isTeacher = userData['isTeacher'] == true;
 
-    if (userDoc.exists && userDoc.data() != null) {
-      final data = userDoc.data() as Map<String, dynamic>;
-      isApproved = data['isApproved'] ?? false;
-    }
+              if (isTeacher) {
+                Get.offAllNamed('/bottombarscreen');
+              } else {
+                final resDoc = await FirebaseFirestore.instance
+                    .collection('reservations')
+                    .doc(uid)
+                    .get();
 
-    
-    if (isApproved) {
-      Get.offAllNamed('/bottombar', arguments: {
-        'isApproved': true,
-        'initialIndex': 0,
-      });
-    } else {
-      Get.offAllNamed('/bottombar', arguments: {
-        'isApproved': false,
-        'initialIndex': 0,
-      });
-    }
-  },
-   icon: Icon(
-              AppIcons.arrowicon,
-              color: AppColors.buttoncolor,
-              size: 30,
-            )
-),
+                final resData = resDoc.data();
+                final isApproved =
+                    resData != null && resData['isApproved'] == true;
+
+                Get.offAllNamed('/bottombar', arguments: {
+                  'isApproved': isApproved,
+                  'initialIndex': 0,
+                });
+              }
+            } catch (e) {
+              print("🔥 Error: $e");
+              Get.snackbar("Error", "Something went wrong");
+            }
+          },
+          icon: Icon(
+            AppIcons.arrowicon,
+            color: AppColors.buttoncolor,
+            size: 30,
+          ),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.only(top: screenHeight * 0.02),

@@ -6,13 +6,14 @@ class MentorController extends GetxController {
   RxList<MentorModel> mentorList = <MentorModel>[].obs;
   RxBool isLoading = false.obs;
 
-  @override
-  void onInit() {
-    fetchMentors();
-    super.onInit();
-  }
+  // @override
+  // void onInit() {
+  //   fetchMentors();
+  //   super.onInit();
+  // }
 
   void fetchMentors() async {
+    await Future.delayed(Duration.zero);
     isLoading.value = true;
     try {
       final snapshot = await FirebaseFirestore.instance.collection('mentor').get();

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 
 import 'package:klik_kart/Student_side/view/screen01/job_screen.dart';
-import 'package:klik_kart/teacher_side/view/screen/form_applyscreen.dart';
+import 'package:klik_kart/teacher_side/view/screen/time_table_screen.dart.dart';
+
 
 import 'package:klik_kart/teacher_side/view/screen/home_screen.dart';
 import 'package:klik_kart/teacher_side/view/screen/marks_screen.dart';
 import 'package:klik_kart/teacher_side/view/screen/profile_screen.dart';
+
 
 class BottombarScreen extends StatefulWidget {
   @override
@@ -18,11 +20,11 @@ class _BottombarScreenState extends State<BottombarScreen> {
 
   final List<Widget> _pages = [
   
-     homescreen03(),
+    homescreen03(),
       JobScreen(),
       MarksScreen(),
-       FormApplyscreen(),
-       StudentProfilescreen(),
+  TimetableScreen(),
+       teacherprofilescreen()
 
   ];
 

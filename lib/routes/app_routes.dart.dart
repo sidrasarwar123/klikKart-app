@@ -24,6 +24,7 @@ import 'package:klik_kart/Student_side/view/screen02/assigment_screen.dart';
 import 'package:klik_kart/Student_side/view/screen02/attendence_screen.dart';
 import 'package:klik_kart/Student_side/view/screen02/course_detail.dart';
 import 'package:klik_kart/Student_side/view/screen02/home_screen02.dart';
+import 'package:klik_kart/Student_side/view/screen02/profile_studentscreen.dart.dart';
 import 'package:klik_kart/Student_side/view/screen02/result_screen.dart';
 
 import 'package:klik_kart/Student_side/widgets/bottom_bar.dart';
@@ -31,6 +32,7 @@ import 'package:klik_kart/teacher_side/view/screen/assi_marks.dart';
 import 'package:klik_kart/teacher_side/view/screen/attendence_screen.dart';
 import 'package:klik_kart/teacher_side/view/screen/calendar_screen.dart.dart';
 import 'package:klik_kart/teacher_side/view/screen/course_screen.dart';
+import 'package:klik_kart/teacher_side/view/screen/profile_screen.dart';
 import 'package:klik_kart/teacher_side/view/screen/publish_assi.dart.dart';
 import 'package:klik_kart/teacher_side/view/screen/stu_assigment.dart.dart';
 import 'package:klik_kart/teacher_side/widgets/bottombar/bottombar_screen.dart';
@@ -67,8 +69,7 @@ class AppRoutes {
     GetPage(name: '/attendence', page:()=>AttendenceScreen()),
     GetPage(name: '/assigment', page:()=>AssigmentScreen()),
     GetPage(name: '/resultscreen', page:()=>ResultScreen()),
-
-
+    
 
 
 
@@ -80,6 +81,7 @@ class AppRoutes {
       GetPage(name: "/studentassigment", page: ()=>StudentAssigment()),
        GetPage(name: "/student02assigment", page: ()=>Stu2Assigment()),
         GetPage(name: "/studentmarks", page: ()=>MarksEntry()),
+         GetPage(name: "/profilescreen", page: ()=>teacherprofilescreen()),
 
 
 

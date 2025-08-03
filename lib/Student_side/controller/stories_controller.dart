@@ -7,14 +7,9 @@ class SuccessStoryModelController extends GetxController {
   RxList<SuccessStoryModel> storiesList = <SuccessStoryModel>[].obs;
   RxBool isLoading = false.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchSuccessStories();
-  }
 
   void fetchSuccessStories() async {
-  await Future.delayed(Duration.zero); // ⏳ Ensure update happens after build
+  await Future.delayed(Duration.zero); 
 
   try {
     isLoading.value = true;

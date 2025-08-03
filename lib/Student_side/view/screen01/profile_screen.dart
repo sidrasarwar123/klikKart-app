@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:klik_kart/constants/app_colors.dart';
@@ -81,7 +81,7 @@ Widget build(BuildContext context) {
                     alignment: Alignment.centerLeft,
                     child: Text("User Details", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                   ),
-                  const SizedBox(height: 10),
+                   SizedBox(height: 10),
 
                   _infoTile("Name", user.name ?? "N/A", onEdit: () {
                     _editTextField(context, "Name", user.name ?? "", (val) {

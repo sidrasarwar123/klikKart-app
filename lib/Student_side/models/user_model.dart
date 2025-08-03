@@ -5,6 +5,8 @@ class UserModel {
   final String? imageUrl;
   final String? phone;
   final String? address;
+  final String designation;
+  final String cnic;
   final String? gender;
   final bool isTeacher;
 
@@ -12,10 +14,12 @@ class UserModel {
     required this.uid,
     required this.email,
     required this.name,
-    this.imageUrl,
-    this.phone,
-    this.address,
-    this.gender,
+      required this.designation,
+          required this.cnic,
+    required this.imageUrl,
+    required this.phone,
+   required this.address,
+   required this.gender,
     required this.isTeacher,
   }); 
   Map<String, dynamic> toMap() {
@@ -28,6 +32,8 @@ class UserModel {
       'address': address ?? '',
       'gender': gender ?? '',
       'isTeacher': isTeacher,
+        'cnic': cnic,
+         'designation': designation,
     };
   }
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -38,8 +44,10 @@ class UserModel {
       imageUrl: map['imageUrl'] as String?,
       phone: map['phone'] as String?,
       address: map['address'] as String?,
+         cnic: map['cnic'] ?? '',
       gender: map['gender'] as String?,
       isTeacher: map['isTeacher'] as bool? ?? false,
+         designation: map['designation'] ?? '',
     );
   }
 }

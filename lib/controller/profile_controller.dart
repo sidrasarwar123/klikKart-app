@@ -9,26 +9,24 @@ class ProfileController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
 
-
   RxList<AppNotification> notifications = <AppNotification>[].obs;
   RxBool isLoading = false.obs;
   Rx<UserModel?> userModel = Rx<UserModel?>(null);
 
   @override
   void onInit() {
-  fetchUserData();
+    fetchUserData();
     fetchNotifications(); 
     super.onInit();
   }
 
-  Future<List<QueryDocumentSnapshot<Object?>>> getUserData(String uId) async {
-    final QuerySnapshot userData = await _firestore
-        .collection('userdata')
-        .where('uid', isEqualTo: uId)
-        .get();
-
-    return userData.docs;
+ Future<Map<String, dynamic>?> getSingleUserData(String uid) async {
+  final doc = await _firestore.collection('userdata').doc(uid).get();
+  if (doc.exists && doc.data() != null) {
+    return doc.data() as Map<String, dynamic>;
   }
+  return null;
+}
 
   Future<void> fetchUserData() async {
     isLoading.value = true;
@@ -50,7 +48,7 @@ class ProfileController extends GetxController {
     }
   }
 
-   Future<void> addNotificationAndShow({
+  Future<void> addNotificationAndShow({
     required String title,
     required String description,
     required String icon,
@@ -100,6 +98,4 @@ class ProfileController extends GetxController {
     "book": Icons.book,
     "sports_basketball": Icons.sports_basketball,
   };
- 
-
 }

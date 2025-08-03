@@ -196,9 +196,9 @@ class _Stu2AssigmentState extends State<Stu2Assigment> {
           ),
 
            SizedBox(height: screenHeight * 0.06),
-          //  CustomButton(text: "Publish Now", onPressed: (){
-          //   Get.toNamed('/studentmarks');
-          //  }),
+           CustomButton(text: "Publish Now", onPressed: (){
+            Get.toNamed('/studentmarks');
+           }),
            
            SizedBox(height: screenHeight * 0.4),
             ]

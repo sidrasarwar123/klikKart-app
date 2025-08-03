@@ -1,11 +1,13 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:klik_kart/Student_side/controller/event_controller.dart';
-import 'package:klik_kart/Student_side/models/event.dart';
 import 'package:klik_kart/Student_side/widgets/event_widget.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
+import 'package:klik_kart/controller/profile_controller.dart';
+import 'package:klik_kart/teacher_side/controller/attendence_controller.dart';
 import 'package:klik_kart/teacher_side/models/attendence_model.dart';
 
 import 'package:klik_kart/teacher_side/widgets/card_screen.dart';
@@ -22,28 +24,22 @@ class homescreen03 extends StatefulWidget {
 
 class _homescreen03State extends State<homescreen03> {
     final EventController eventController = Get.put(EventController());
+     final ProfileController profileController = Get.find<ProfileController>();
+     final TeacherDashboardController teacherDashboardController = Get.put(TeacherDashboardController());
+   
+
  
-  final List<AttendanceModel> allData = [
-  AttendanceModel(subject: 'UI/UX', className: 'AI2', presentPercent: 0.7, absentPercent: 0.3),
-  AttendanceModel(subject: 'UI/UX', className: 'A10', presentPercent: 0.9, absentPercent: 0.1),
-  AttendanceModel(subject: 'Flutter', className: 'C1', presentPercent: 0.6, absentPercent: 0.4),
-  AttendanceModel(subject: 'Graphics', className: 'B2', presentPercent: 0.85, absentPercent: 0.15),
-   AttendanceModel(subject: 'Freelancing', className: 'D1', presentPercent: 0.6, absentPercent: 0.4),
-  AttendanceModel(subject: 'Graphics', className: 'E2', presentPercent: 0.85, absentPercent: 0.15),
-];
-  int currentIndex = 0;
-        final List<Event> events = [
-    Event(
-      title: "Mango Festival",
-      date: "19 May,2024",
-      imageUrl: AppImages.event1image,
-    ),
-    Event(
-      title: "14 August",
-      date: "14 Aug,2024",
-      imageUrl: AppImages.event2image,
-    ),
-  ];
+//   final List<AttendanceModel> allData = [
+//   AttendanceModel(subject: 'UI/UX', className: 'AI2', presentPercent: 0.7, absentPercent: 0.3),
+//   AttendanceModel(subject: 'UI/UX', className: 'A10', presentPercent: 0.9, absentPercent: 0.1),
+//   AttendanceModel(subject: 'Flutter', className: 'C1', presentPercent: 0.6, absentPercent: 0.4),
+//   AttendanceModel(subject: 'Graphics', className: 'B2', presentPercent: 0.85, absentPercent: 0.15),
+//    AttendanceModel(subject: 'Freelancing', className: 'D1', presentPercent: 0.6, absentPercent: 0.4),
+//   AttendanceModel(subject: 'Graphics', className: 'E2', presentPercent: 0.85, absentPercent: 0.15),
+// ];
+
+ 
+  
    final PageController attendanceController = PageController();
 final PageController assignmentController = PageController();
 
@@ -53,7 +49,22 @@ int _currentAssignmentPage = 0;
 @override
 void initState() {
   super.initState();
+
+  print("initState called");
+
+  try {
     eventController.fetchEvents();
+    print("eventController.fetchEvents() called");
+
+      teacherDashboardController.fetchDashboardData();
+    print("TeacherDashboardController initialized");
+
+    teacherDashboardController.fetchDashboardData();
+    print("fetchDashboardData called");
+  } catch (e) {
+    print("Error during initState: $e");
+  }
+
 
   attendanceController.addListener(() {
     final page = attendanceController.page;
@@ -81,16 +92,13 @@ void dispose() {
   super.dispose();
 }
 
-   List<List<AttendanceModel>> get pages {
-    List<List<AttendanceModel>> result = [];
-    for (int i = 0; i < allData.length; i += 2) {
-      result.add(allData.sublist(i, i + 2 > allData.length ? allData.length : i + 2));
-    }
-    return result;
+  List<List<teacherDashboardControllerModel>> getAttendancePages(List<teacherDashboardControllerModel> data) {
+  List<List<teacherDashboardControllerModel>> result = [];
+  for (int i = 0; i < data.length; i += 2) {
+    result.add(data.sublist(i, i + 2 > data.length ? data.length : i + 2));
   }
-
-
-  
+  return result;
+}
     final bool hasUnreadNotifications = true;
       
        
@@ -150,42 +158,57 @@ Widget build(BuildContext context) {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: screenHeight * 0.03),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: AssetImage(AppImages.teacherimage),
-                        radius: 30,
-                      ),
-                      SizedBox(width: screenWidth * 0.03),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Good Morning",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                          Text(
-                            ' Mr.Hanzla',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+                   Obx(() {
+  final user = profileController.userModel.value;
+    print("Image URL: ${user?.imageUrl}"); 
 
+  ImageProvider profileImage;
+
+  if (user?.imageUrl != null && user!.imageUrl!.isNotEmpty) {
+    profileImage = NetworkImage(user.imageUrl!);
+  } else {
+    profileImage = AssetImage(AppImages.teacherimage);
+  }
+
+  return Padding(
+    padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.03),
+    child: Row(
+      children: [
+        GestureDetector(
+          onTap: () {
+            Get.toNamed('/profilescreen');
+          },
+          child: CircleAvatar(
+            backgroundImage: profileImage,
+            radius: 40,
+          ),
+        ),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Good Morning",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            Text(
+              '${user?.name ?? ''}',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}),
+                 
+                ],
+              ),
+            ),
     
           Padding(
             padding:  EdgeInsets.all(12.0),
@@ -266,13 +289,15 @@ Widget build(BuildContext context) {
               ],
             ),
           ),
-             Padding(
+          SizedBox(height: screenHeight*0.02,),
+
+ Padding(
                 padding:  EdgeInsets.symmetric(horizontal: 16.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text('Attendance', style: TextStyle(fontSize: 18, )),
                 ),
-              ),SizedBox(height: screenHeight*0.02,),
+              ),SizedBox(height: screenHeight*0.01,),
           
       
    Column(
@@ -313,30 +338,44 @@ Widget build(BuildContext context) {
                       ),
                                     ),
                              SizedBox(
-                  height: 220,
-                  child: PageView.builder(
-                    itemCount: pages.length,
-                    controller: attendanceController, 
-                    itemBuilder: (context, index) {
-                      final List<AttendanceModel> pageData = pages[index];
-                      return Column(
-                        children: pageData.map((model) => attendencecaed(model: model)).toList(),
-                      );
-                    },
-                  ),
-                ),
-                Padding(
-                            padding: EdgeInsets.symmetric(vertical: screenHeight*0.01),
-                            child: SmoothPageIndicator(
-                  controller: attendanceController, 
-                  count: pages.length,
-                  effect: WormEffect(
-                    activeDotColor: Colors.blue,
-                    dotColor: Colors.grey.shade300,
-                    dotHeight: 10,
-                    dotWidth: 10,
-                  ),
-                ),
+                  height: 250,
+//              
+child: Obx(() {
+  final pages = getAttendancePages(teacherDashboardController.attendanceList);
+  if (pages.isEmpty) {
+  return Center(child: Text("No data found"));
+}
+  return Column(
+    children: [
+      SizedBox(
+        height: 220,
+        child: PageView.builder(
+          controller: attendanceController,
+          itemCount: pages.length,
+          itemBuilder: (context, index) {
+            return Column(
+              children: pages[index]
+                  .map((model) => attendencecaed(model: model))
+                  .toList(),
+            );
+          },
+        ),
+      ),
+      SizedBox(height: screenHeight * 0.01),
+      SmoothPageIndicator(
+        controller: attendanceController,
+        count: pages.length,
+        effect: WormEffect(
+          dotHeight: 10,
+          dotWidth: 10,
+          activeDotColor: Colors.blue,
+          dotColor: Colors.grey.shade300,
+        ),
+      ),
+    ],
+  );
+}),
+
                           ),
                 
                             ],
@@ -405,65 +444,84 @@ Widget build(BuildContext context) {
                                       ),
                     
                                   SizedBox(
-                height: 220,
-                child: PageView.builder(
-                  itemCount: pages.length,
-                  controller: assignmentController, 
-                  itemBuilder: (context, index) {
-                    final List<AttendanceModel> pageData = pages[index];
-                    return Column(
-                      children: pageData.map((model) => attendencecaed(model: model)).toList(),
-                    );
-                  },
-                ),
-              ),
-              SizedBox(height: screenHeight*0.01,),
-                SmoothPageIndicator(
-                  controller: assignmentController,
-                  count: pages.length,
-                  effect: WormEffect(
-                    dotHeight: 10,
-                    dotWidth: 10,
-                    activeDotColor: Colors.blue,
-                    dotColor: Colors.grey.shade300,
-                  ),
-                ),
+                height: 250,
+                child: Obx(() {
+  final pages = getAttendancePages(teacherDashboardController.assignmentList);
+  if (pages.isEmpty) {
+  return Center(child: Text("No data found"));
+}
+  return Column(
+    children: [
+      SizedBox(
+        height: 220,
+        child: PageView.builder(
+          controller: assignmentController,
+          itemCount: pages.length,
+          itemBuilder: (context, index) {
+            return Column( children: pages[index]
+                  .map((model) => attendencecaed(model: model))
+                  .toList(),
+            );
+          },
+        ),
+      ),
+      SizedBox(height: screenHeight * 0.01),
+      SmoothPageIndicator(
+        controller: assignmentController,
+        count: pages.length,
+        effect: WormEffect(
+          dotHeight: 10,
+          dotWidth: 10,
+          activeDotColor: Colors.blue,
+          dotColor: Colors.grey.shade300,
+        ),
+      ),
+    ],
+  );
+}),
+                                  )
                 
               ],
                         ), 
                 ),
             )]),
                SizedBox(height: screenHeight*0.04,),
-          Padding(
-              padding:  EdgeInsets.only(top: screenHeight*0.03,),
-              child:  Column(
-                children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding:  EdgeInsets.only(left: screenWidth*0.04),
-                        child: Text("Upcoming  Events",style: TextStyle(fontSize: 20),),
-                      ),
-                      Padding(
-                        padding:  EdgeInsets.only(left:screenWidth*0.3 ),
-                        child: InkWell(onTap: (){
-                          Get.toNamed('/eventscreen');
-                        },
-                          child: Text("View All",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: AppColors.buttoncolor),)),
-                      ),
-                    ],
-                  ),
-                ],
-              ),),
-          SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: events.map((event) => InkWell(onTap: (){
-           
-          },
-            child: EventCard(event: event))).toList(),
+       Padding(
+  padding: EdgeInsets.only(top: screenHeight * 0.03, left: screenWidth * 0.01),
+  child: Row(
+    
+    children: [
+      Text("Upcoming Events", style: TextStyle(fontSize: 20)),
+      GestureDetector(
+        onTap: () => Get.toNamed('/eventscreen'),
+        child: Padding(
+          padding:  EdgeInsets.only(left: screenWidth*0.3),
+          child: Text("View All",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.buttoncolor)),
         ),
-      ),   SizedBox(height: screenHeight*0.1,)
+      ),
+    ],
+  ),
+),
+Obx(() {
+  if (eventController.isLoading.value) {
+    return Center(child: CircularProgressIndicator());
+  } else if (eventController.eventList.isEmpty) {
+    return Text("No events found");
+  } else {
+    return SizedBox(
+      height: screenWidth * 0.5,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 2, // Only 2 events
+        itemBuilder: (context, index) {
+          final event = eventController.eventList[index];
+          return EventCard(event: event);
+        },
+      ),
+    );
+  }
+}),   SizedBox(height: screenHeight*0.1,)
                 ],
               ),
  

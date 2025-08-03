@@ -8,15 +8,15 @@ class CourseController extends GetxController {
   RxList<JobModel> jobs = <JobModel>[].obs;
   RxBool isLoading = false.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchCourses();
-    fetchJobs();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   fetchCourses();
+  //   // fetchJobs();
+  // }
 
   Future<void> fetchCourses() async {
-  print(" Fetching courses...");
+  await Future.delayed(Duration.zero);
   isLoading.value = true;
   try {
     final snapshot = await FirebaseFirestore.instance.collection('courses').get();
@@ -37,6 +37,7 @@ class CourseController extends GetxController {
 }
 
   Future<void> fetchJobs() async {
+    await Future.delayed(Duration.zero);
     try {
       final snapshot = await FirebaseFirestore.instance.collection('jobs').get();
       final loadedJobs = snapshot.docs.map((doc) {
