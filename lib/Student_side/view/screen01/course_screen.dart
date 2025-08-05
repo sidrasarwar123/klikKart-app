@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:klik_kart/Student_side/models/course.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
-import 'package:klik_kart/constants/app_images.dart';
+
 
 import 'package:readmore/readmore.dart';
 

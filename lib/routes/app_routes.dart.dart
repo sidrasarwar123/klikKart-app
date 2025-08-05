@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 
@@ -37,11 +40,6 @@ import 'package:klik_kart/teacher_side/view/screen/publish_assi.dart.dart';
 import 'package:klik_kart/teacher_side/view/screen/stu_assigment.dart.dart';
 import 'package:klik_kart/teacher_side/widgets/bottombar/bottombar_screen.dart';
 
-
-
-
-
-
 class AppRoutes {
   static final routes=[
       GetPage(name: '/splashscreen', page: ()=>SplashScreen()),
@@ -59,30 +57,51 @@ class AppRoutes {
      GetPage(name: '/jobreservation', page: ()=>JobReservation()),
       GetPage(name: '/studentprofile', page: ()=>ProfileScreen()),
       GetPage(name: '/studentEnroll', page: ()=>HomeScreen02()),
-
-
-
-
-
+    
     // GetPage(name: '/homescreen02', page:()=>HomeScreen02()),
     GetPage(name: '/coursescreen', page:()=>StudentEnrollcoursedetail()),
     GetPage(name: '/attendence', page:()=>AttendenceScreen()),
     GetPage(name: '/assigment', page:()=>AssigmentScreen()),
     GetPage(name: '/resultscreen', page:()=>ResultScreen()),
+       GetPage(name: '/profile02', page:()=>StudentProfilescreen()),
     
 
-
-
-
-   GetPage(name: "/bottombarscreen", page: ()=>BottombarScreen()),
+    
+          GetPage(name: "/profilescreen", page: ()=>teacherprofilescreen()),
+       GetPage(name: "/bottombarscreen", page: ()=>BottombarScreen()),
       GetPage(name: "/attendencescreen", page: ()=>AttendenceScreen01()),
       GetPage(name: "/course", page: ()=>CourseScreen()),
       GetPage(name: "/studentattendencescreen", page: ()=>Attendence()),
-      GetPage(name: "/studentassigment", page: ()=>StudentAssigment()),
+     GetPage(
+      name: '/studentAssignment',
+      page: () =>StudentAssignment(
+       classId: Get.parameters['classId'] ?? '',
+       studentId: Get.parameters['studentId'] ?? '',
+           ),
+                ),
        GetPage(name: "/student02assigment", page: ()=>Stu2Assigment()),
-        GetPage(name: "/studentmarks", page: ()=>MarksEntry()),
-         GetPage(name: "/profilescreen", page: ()=>teacherprofilescreen()),
+     GetPage(
+  name: "/studentmarks",
+  page: () {
+    final classId = Get.parameters['classId'];
+    final studentId = Get.parameters['studentId'];
 
+    if (classId == null || classId.isEmpty || studentId == null || studentId.isEmpty) {
+      return Scaffold(
+        body: Center(
+          child: Text("Error: classId or studentId is missing"),
+        ),
+      );
+    }
+
+    return MarksEntry(
+      classId: classId,
+      studentId: studentId,
+    );
+  },
+),
+            
+        
 
 
 
@@ -94,15 +113,7 @@ class AppRoutes {
         
 
 
-
-    
    
-
- 
-     
-      
-  
-      
   ];
 }
 

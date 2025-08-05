@@ -394,7 +394,7 @@ child: Obx(() {
       
    Column(
             children: [  GestureDetector(onTap: () {
-                        Get.toNamed("/studentassigment");
+                    Get.toNamed('/studentAssignment', parameters: {'classId': 'A12G', 'studentId': 'STU001'});
                       },
 
               child: Container

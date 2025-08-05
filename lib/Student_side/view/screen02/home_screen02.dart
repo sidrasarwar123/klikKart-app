@@ -6,6 +6,7 @@ import 'package:klik_kart/Student_side/widgets/event_widget.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
+import 'package:klik_kart/controller/profile_controller.dart';
 
 class HomeScreen02 extends StatefulWidget {
   const HomeScreen02({super.key});
@@ -16,8 +17,16 @@ class HomeScreen02 extends StatefulWidget {
 
 class _HomeScreen02State extends State<HomeScreen02> {
   final EventController eventController=Get.put(EventController());
+   final ProfileController profileController = Get.find<ProfileController>();
      final bool hasUnreadNotifications = true;
        String selectedDay = "Mon";
+        @override
+void initState() {
+  super.initState();
+  profileController.fetchUserData();
+  eventController.fetchEvents();
+ 
+}
        
 
   @override
@@ -74,41 +83,59 @@ class _HomeScreen02State extends State<HomeScreen02> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: screenHeight * 0.03),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: AssetImage(AppImages.personimage),
-                          radius: 40,
-                        ),
-                        SizedBox(width: screenWidth * 0.03),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              "Good Morning",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                            Text(
-                              '“Khuzaima”',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                  Obx(() {
+  final user = profileController.userModel.value;
+    print("Image URL: ${user?.imageUrl}"); 
+
+  ImageProvider profileImage;
+
+  if (user?.imageUrl != null && user!.imageUrl!.isNotEmpty) {
+    profileImage = NetworkImage(user.imageUrl!);
+  } else {
+    profileImage = AssetImage(AppImages.personimage);
+  }
+
+  return Padding(
+    padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.03),
+    child: Row(
+      children: [
+        GestureDetector(
+          onTap: () {
+            Get.toNamed('/profile02');
+          },
+          child: CircleAvatar(
+            backgroundImage: profileImage,
+            radius: 40,
+          ),
+        ),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Good Morning",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            Text(
+              '${user?.name ?? ''}',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}),
+                 
                 ],
               ),
             ),
+        
+          
    
          Padding(
            padding:  EdgeInsets.only(top: screenHeight*0.02),
@@ -669,4 +696,31 @@ Obx(() {
     );
   }
 }
+
+  // Align(
+  //                     alignment: Alignment.centerLeft,
+  //                     child: Padding(
+  //                       padding:  EdgeInsets.only(left: screenWidth*0.04,top: screenHeight*0.02),
+  //                       child: Row(
+  //                         children: [
+  //                           Text(
+  //                             "User Details",
+  //                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+  //                           ),SizedBox(width: screenWidth*0.3,),
+  //                           ElevatedButton(onPressed: (){
+  //         Get.toNamed('/resultscreen');
+  //                           }, child: Text("View Result",style: TextStyle(color: Colors.white),),style: ElevatedButton.styleFrom(
+  //         backgroundColor:AppColors.buttoncolor,
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(30),
+  //         ),
+  //         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+  //               ),)
+  //                         ],
+  //                       ),
+
+
+                        
+  //                     ),
+  //                   ),
 
