@@ -8,12 +8,6 @@ class CourseController extends GetxController {
   RxList<JobModel> jobs = <JobModel>[].obs;
   RxBool isLoading = false.obs;
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   fetchCourses();
-  //   // fetchJobs();
-  // }
 
   Future<void> fetchCourses() async {
   await Future.delayed(Duration.zero);

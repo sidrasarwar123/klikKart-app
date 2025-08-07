@@ -28,40 +28,59 @@ class AuthController extends GetxController {
               email: emailController.text.trim(),
               password: passwordController.text.trim());
 
-      String userId = userCred.user!.uid;
-
-      // 🔐 Save user info in Firestore
-      await FirebaseFirestore.instance.collection('userdata').doc(userId).set({
-        'uid': userId,
-        'email': emailController.text.trim(),
-        'name': usernameController.text.trim(),
-        'isTeacher': isTeacher,
-      });
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+    .collection('students')
+    .doc(uid)  //  Yahan UID document ID ban gaya
+    .set({
+      'name': 'Sidra',
+      'email': 'sidra@gmail.com',
+      'totalFee': 1000,
+      'submittedFee': 500,
+      'pendingFee': 500,
+      'attendance': {
+      'present': 22,
+      'absent': 6,
+    },
+       'courseProgress': {
+         'uiux': {
+        'image': 'https://www.softflame.in/images/services/sub-nav/ui-ux-banner.jpg',
+        'progress': 80,
+        'title': 'UI/UX DESIGNING',
+        'status': 'Completed',
+      },
+      'flutter': {
+        'image': 'assets/images/flutter.png',
+        'progress': 40,
+        'title': 'Flutter Development',
+        'status': 'In Progress',
+      },
+    
+  
+    },
+    }
+      , SetOptions(merge: true));
 
       SnackbarUtil.showSuccess('Account created successfully');
 
-      // 👨‍🏫 For teachers, navigate directly
       if (isTeacher) {
-        Get.offAllNamed('/bottombarscreen'); // Home for Teacher
+        Get.offAllNamed('/bottombarscreen'); 
       } else {
-        final reservationRef = FirebaseFirestore.instance.collection('reservations').doc(userId);
+        final reservationRef = FirebaseFirestore.instance.collection('reservations').doc(uid);
 
-        // 👇 Only create if not already exists
         final snapshot = await reservationRef.get();
         if (!snapshot.exists) {
           await reservationRef.set({
             'name': usernameController.text.trim(),
             'email': emailController.text.trim(),
             'submittedAt': FieldValue.serverTimestamp(),
-            'isApproved': false, // 👈 initially false
+            'isApproved': false,
           });
         }
 
-        // ✅ Check if already approved
         final updatedSnapshot = await reservationRef.get();
         bool isApproved = updatedSnapshot['isApproved'] == true;
 
-        // ✅ Navigate with isApproved argument
         Get.offAllNamed('/bottombar', arguments: {
           'isApproved': isApproved,
           'initialIndex': 0,
@@ -75,33 +94,46 @@ class AuthController extends GetxController {
   }
 }
 
-
 Future<void> login(
   GlobalKey<FormState> formKey,
   TextEditingController emailController,
   TextEditingController passwordController,
-
 ) async {
   if (formKey.currentState!.validate()) {
     try {
       isloading.value = true;
 
+      // Login
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
       );
-//        
 
+      // Step 2: Fetch fee data from Firestore
+      final uid = FirebaseAuth.instance.currentUser!.uid;
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('userdata')
+          .doc(uid)
+          .get();
+
+      if (docSnapshot.exists) {
+        final data = docSnapshot.data()!;
+        print("📥 totalFee from map: ${data['totalFee']}");
+        print("📥 pendingFee from map: ${data['pendingFee']}");
+        print("📥 submittedFee from map: ${data['submittedFee']}");
+
+        // ✅ OPTIONAL: Agar aap UI mein show karna chahein to ek controller bna ke in values ko wahan save kar sakte hain
+      }
+
+      // Step 3: Navigate to home screen
       Get.offAllNamed('/bottombar');
-
-   isloading.value = false;
-      } catch (e) {
-        SnackbarUtil.showError(e.toString());
-        isloading.value = false;
+    } catch (e) {
+      SnackbarUtil.showError(e.toString());
+    } finally {
+      isloading.value = false;
     }
   }
 }
-
 
 
   

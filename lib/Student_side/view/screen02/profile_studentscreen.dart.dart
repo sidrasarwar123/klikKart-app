@@ -57,7 +57,7 @@ class _StudentProfilescreenState extends State<StudentProfilescreen> {
                     },
                   );
                 },
-              ),
+              ),SizedBox(height: screenHeight*0.1,)
             ],
           ),
         );
@@ -85,7 +85,7 @@ class _StudentProfilescreenState extends State<StudentProfilescreen> {
             CircleAvatar(
               backgroundImage: user.imageUrl != null && user.imageUrl!.isNotEmpty
                   ? NetworkImage(user.imageUrl!)
-                  : AssetImage(AppImages.teacherimage) as ImageProvider,
+                  : AssetImage(AppImages.personimage) as ImageProvider,
               radius: 35,
             ),
             SizedBox(height: 1),

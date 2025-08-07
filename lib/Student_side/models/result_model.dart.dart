@@ -6,7 +6,7 @@ class ResultModel {
   final int finalTermMarks;
   final int finalTermTotal;
   final String grade;
-  final double percentage; // ✅ Use double
+  final double percentage; 
   final String status;
 
   ResultModel({

@@ -6,11 +6,7 @@ class EventController extends GetxController {
   RxList<Event> eventList = <Event>[].obs;
   RxBool isLoading = false.obs;
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   fetchEvents();
-  // }
+ 
 
   void fetchEvents() async {
    

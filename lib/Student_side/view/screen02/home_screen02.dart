@@ -2,11 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:klik_kart/Student_side/controller/event_controller.dart';
+import 'package:klik_kart/Student_side/controller/student_controller.dart';
 import 'package:klik_kart/Student_side/widgets/event_widget.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
 import 'package:klik_kart/controller/profile_controller.dart';
+import 'package:klik_kart/teacher_side/controller/time_table_controller.dart.dart';
 
 class HomeScreen02 extends StatefulWidget {
   const HomeScreen02({super.key});
@@ -18,6 +20,10 @@ class HomeScreen02 extends StatefulWidget {
 class _HomeScreen02State extends State<HomeScreen02> {
   final EventController eventController=Get.put(EventController());
    final ProfileController profileController = Get.find<ProfileController>();
+  final StudentDashboardController studentDashboardController=Get.put(StudentDashboardController());
+   final TimetableController timetableController = Get.put(TimetableController());
+
+ 
      final bool hasUnreadNotifications = true;
        String selectedDay = "Mon";
         @override
@@ -25,7 +31,8 @@ void initState() {
   super.initState();
   profileController.fetchUserData();
   eventController.fetchEvents();
- 
+ studentDashboardController.fetchStudentData();
+  timetableController.fetchTimetable();
 }
        
 
@@ -153,221 +160,255 @@ void initState() {
                 )
               ],
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-          
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children:  [
-                      Text(
-                        'Total Fee:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.black,
+            child: Obx((){
+               final data = studentDashboardController.studentData.value;
+                 if (data == null) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        else{
+          return    Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                        
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children:  [
+                       
+                        SizedBox(height: screenHeight*0.01),
+                       Text(" Total Fee: Rs ${data.totalFee}",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.blue,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: screenHeight*0.01),
-                      Text(
-                        'Rs:10,000',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.blue,
+                      ],
+                    ),
+                  ),
+                         
+                  
+                  Container(
+                    height: screenHeight*0.12,
+                    width: 1,
+                    color: Colors.grey.shade400,
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _feeCard(
+                          title: 'Submitted:',
+                          amount:" Rs ${data.submittedFee}", 
+                          color: Colors.green,
+                          bgColor:  Color(0xffeafaf1),
+                        ),SizedBox(width: screenWidth*0.01,),
+                        _feeCard(
+                          title: 'Pending fee:',
+                          amount: "  Rs ${data.pendingFee}",
+                          color: Colors.red,
+                          bgColor:  Color(0xfffce9e9),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-           
-                
-                Container(
-                  height: screenHeight*0.12,
-                  width: 1,
-                  color: Colors.grey.shade400,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _feeCard(
-                        title: 'Submit Fees',
-                        amount: 'Rs\n5,000',
-                        color: Colors.green,
-                        bgColor:  Color(0xffeafaf1),
-                      ),SizedBox(width: screenWidth*0.01,),
-                      _feeCard(
-                        title: 'Pending Fees',
-                        amount: 'Rs\n5,000',
-                        color: Colors.red,
-                        bgColor:  Color(0xfffce9e9),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                      ],
+                    ),
+                  )
+                ],
+              ); 
+    
+        }
+            }
+             
             ),
                    ),
          ),            Padding(
            padding:  EdgeInsets.only(top: screenHeight*0.02,left: screenWidth*0.01),
            child: Column(
              children: [
-               SingleChildScrollView(scrollDirection: Axis.horizontal,
-                 child: Row(
-                   children: [
-                     GestureDetector(onTap: (){
-                      Get.toNamed('/coursescreen');
-                     },
-                       child: Container(
-                        
-                           width: screenWidth*0.5,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Colors.white,border: Border.all(color:  Color.fromARGB(255, 174, 226, 250))
-                            ),
-                            child: Column(
-                              children: [
-                                ClipRRect(
-                                  borderRadius:  BorderRadius.vertical(top: Radius.circular(16)),
-                                  child: Image.asset(AppImages.UIimage, fit: BoxFit.cover),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(1),
-                                  child: Column(
-                                    children: [
-                                       Divider(thickness: 1,color: AppColors.buttoncolor,),
-                                      Text("UI/UX Designing", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: AppColors.buttoncolor)),
-                                      Divider(thickness: 1,color: AppColors.buttoncolor,),
-                                      SizedBox(height: 8),
-                                      Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          SizedBox(
-                                            width: screenWidth*0.16,
-                                            height: screenHeight*0.08,
-                                            child: CircularProgressIndicator(
-                                              value: 0.8,
-                                              strokeWidth: 6,
-                                              backgroundColor: Colors.grey[200],
-                                              valueColor:  AlwaysStoppedAnimation<Color>(Colors.blue),
-                                            ),
-                                          ),
-                                         Text("80%", style: TextStyle(fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                      SizedBox(height: 8),
-                                       Text("Completed", style: TextStyle(color: AppColors.buttoncolor)),
-                                    ],
-                                  ),
-                                ),
-                              ],
+          Obx(() {
+  final student = studentDashboardController.studentData.value;
+
+  if (student == null) {
+    return const Center(child: CircularProgressIndicator());
+  }
+
+  return SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+      children: [
+
+        /// Course Progress Card
+        GestureDetector(
+          onTap: () => Get.toNamed('/coursescreen' ),
+          child: Container(
+            width: screenWidth * 0.5,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Colors.white,
+              border: Border.all(color: Color.fromARGB(255, 174, 226, 250)),
+            ),
+            child: Column(
+              children: [
+                // Network Image from Firebase
+                ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                  child: Image.network(
+                    student.courseProgress["uiux"]?.image ?? '',
+                    fit: BoxFit.cover,
+                    height: screenHeight * 0.12,
+                    width: double.infinity,
+                    errorBuilder: (context, error, stackTrace) => Icon(Icons.broken_image),
+                  ),
+                ),
+
+                /// Course Details
+                Padding(
+                  padding:  EdgeInsets.all(8),
+                  child: Column(
+                    children: [
+                      Divider(thickness: 1, color: AppColors.buttoncolor),
+
+                      /// Title
+                      Text(
+                        student.courseProgress["uiux"]?.title ?? 'Course Title',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: AppColors.buttoncolor,
+                        ),
+                      ),
+
+                      Divider(thickness: 1, color: AppColors.buttoncolor),
+                      const SizedBox(height: 8),
+
+                      ///  Circular Progress
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          SizedBox(
+                            width: screenWidth * 0.12,
+                            height: screenHeight * 0.06,
+                            child: CircularProgressIndicator(
+                              value: (student.courseProgress["uiux"]?.progress ?? 0) / 100,
+                              strokeWidth: 6,
+                              backgroundColor: Colors.grey[200],
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
                             ),
                           ),
-                     ),SizedBox(width: screenWidth*0.03,),
-                        GestureDetector(onTap: () {
-                          Get.toNamed('/attendence');
-                        },
-                          child: Container(
-                            height: screenHeight*0.32,
-                                             width: screenWidth * 0.5,
-                                             padding:  EdgeInsets.all(12),
-                                             decoration: BoxDecoration(
-                                               color: Colors.white,
-                                               borderRadius: BorderRadius.circular(16),
-                                               border: Border.all(color: Color.fromARGB(255, 174, 226, 250)),
-                                             ),
-                                             child:Column(
-                                               mainAxisAlignment: MainAxisAlignment.center,
-                                               children:  [
-                                 ClipOval(
-                            child: Image.asset(
-                              AppImages.cicleimage,
-                              width: screenWidth*0.4,
-                              height: screenHeight*0.18,
-                              fit: BoxFit.fill,
-                            ),
-                          ),  Row(
-                               
-                                    children: [
-                                  
-                                      Column(
-                                      
-                                        children: [
-                                         Text(
-                                            "Present:",
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.green,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                         
-                                          Container(
-                                            padding:
-                                                 EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                                            decoration: BoxDecoration(color:  Color(0xffeafaf1),
-                                              border: Border.all(color: Colors.green, width: 1),
-                                              borderRadius: BorderRadius.circular(12),
-                                            ),
-                                            child:  Text(
-                                              "P = 22",
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.green,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                          
-                                          SizedBox(width: screenWidth*0.04,),
-                                      Column(
-                                      
-                                        children: [
-                                         Text(
-                                            "Absent:",
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.red,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                     
-                                          Container(
-                                            padding:
-                                                EdgeInsets.symmetric(horizontal: 13, vertical: 10),
-                                            decoration: BoxDecoration(color:  Color(0xfffce9e9),
-                                              border: Border.all(color: Colors.red, width: 1),
-                                              borderRadius: BorderRadius.circular(12),
-                                            ),
-                                            child: Text(
-                                              "A = 6",
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                               
-                                               ],
-                                             ),
-                                           ),
+                          Text(
+                            "${student.courseProgress["uiux"]?.progress ?? 0}%",
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                       SizedBox(height: 8),
+
+                      /// Status
+                      Text(
+                        "Status: ${student.courseProgress["uiux"]?.status ?? 'N/A'}",
+                        style: TextStyle(color: AppColors.buttoncolor),
+                      ),
+
+                      /// Fees
+                     
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        SizedBox(width: screenWidth * 0.03),
+
+        /// Attendance Card
+        GestureDetector(
+          onTap: () => Get.toNamed('/attendence'),
+          child: Container(
+            height: screenHeight * 0.32,
+            width: screenWidth * 0.5,
+            padding:  EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Color.fromARGB(255, 174, 226, 250)),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ClipOval(
+                  child: Image.asset(
+                    AppImages.cicleimage,
+                    width: screenWidth * 0.4,
+                    height: screenHeight * 0.18,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+
+                 SizedBox(height: 10),
+
+          
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    /// Present
+                    Column(
+                      children: [
+                         Text(
+                          "Present:",
+                          style: TextStyle(fontSize: 15, color: Colors.green, fontWeight: FontWeight.bold),
                         ),
-                 
-                   ],
-                 ),
-               ),    SizedBox(height: screenHeight*0.03,),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: const Color(0xffeafaf1),
+                            border: Border.all(color: Colors.green, width: 1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            "P = ${student.attendance.present}",
+                            style: const TextStyle(fontSize: 15, color: Colors.green, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    /// Absent
+                    Column(
+                      children: [
+                         Text(
+                          "Absent:",
+                          style: TextStyle(fontSize: 15, color: Colors.red, fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: const Color(0xfffce9e9),
+                            border: Border.all(color: Colors.red, width: 1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            "A = ${student.attendance.absent}",
+                            style:  TextStyle(fontSize: 15, color: Colors.red, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}),
+
+
+    SizedBox(height: screenHeight*0.03,),
 
             
              Padding(
@@ -403,107 +444,21 @@ void initState() {
       ),
             
            ),  SizedBox(height: screenHeight * 0.03),
-Container(
-  height: screenHeight * 0.15,
-  width: screenWidth * 0.96,
-  decoration: BoxDecoration(
-    color: Color(0xffe3f2fd),
-    border: Border.all(color: Colors.lightBlueAccent),
-    borderRadius: BorderRadius.circular(20),
-  ),
-  child: Center(
-    child: Container(
-      height: screenHeight * 0.12,
-      width: screenWidth * 0.92,   
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      padding:  EdgeInsets.all(12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-           height: screenHeight * 0.06,
-            width: screenHeight * 0.08,
-            child: Image.asset(
-              AppImages.UIimage,
-              fit: BoxFit.cover,
-            ),
-          ),
-          SizedBox(width: screenWidth * 0.01),
-          Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children:  [
-                  Text("UI/UX Designing", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.lightBlue)),
-                  SizedBox(height: screenHeight*0.01,),
-                  Text("6:00 e-clock", style: TextStyle(fontWeight: FontWeight.bold,)),
-                 
-                ],
-              ),
-               Padding(
-                 padding:  EdgeInsets.only(),
-                 child: Column(
-                   children: [
-                     Text("Mentor", style: TextStyle(color: Colors.blue)),
-                      Container(
-                height: 36,
-                width: 122,
-                decoration: BoxDecoration(
-                  color: AppColors.buttoncolor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 6),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: AssetImage(AppImages.course1image),
-                      radius: 12,
-                    ),
-                    SizedBox(width: 6),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "M.Hanzla",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          "UI/UX Designer",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                          ),
-                        )
-                               ],
-                            ),
-                          
-                          
-                        ],
-                      ),
-                  
-                  ),
-                 
-                   ],
-                 ),
-               ),
-                
-            ],
-          ),
-        ],
-      ),
-    ),
-  ),
-),
-            
-            SizedBox(height: screenHeight*0.04,),
+              Obx(() {
+                if (timetableController.isLoading.value) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (timetableController.timetableList.isEmpty) {
+                  return Center(child: Text("No timetable available."));
+                }
+                return Column(
+                  children: timetableController.timetableList.map((course) {
+                    return _buildCourseCard(screenWidth, screenHeight, course);
+                  }).toList(),
+                );
+              }),
+              
+           
            
             Row(
            
@@ -695,32 +650,109 @@ Obx(() {
       ),
     );
   }
+  Widget _buildCourseCard(double screenWidth, double screenHeight, dynamic course) {
+    return Column(
+      children: [
+        Container(
+          height: screenHeight * 0.15,
+          width: screenWidth * 0.96,
+          decoration: BoxDecoration(
+            color: Color(0xffe3f2fd),
+            border: Border.all(color: Colors.lightBlueAccent),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Center(
+            child: Container(
+              height: screenHeight * 0.12,
+              width: screenWidth * 0.92,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: EdgeInsets.all(12),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: screenHeight * 0.06,
+                    width: screenHeight * 0.08,
+                    child: Image.network(
+                      course.courseImage ?? '',
+                      fit: BoxFit.cover,
+                      errorBuilder: (ctx, err, _) => Image.asset(AppImages.UIimage),
+                    ),
+                  ),
+                  SizedBox(width: screenWidth * 0.01),
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(course.courseName ?? '',
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightBlue)),
+                          SizedBox(height: screenHeight * 0.01),
+                          Text(course.time ?? '', style: TextStyle(fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                  
+                      Column(
+                        children: [
+                          Text("Mentor", style: TextStyle(color: Colors.blue)),
+                          Container(
+                            height: 40,
+                            width: 122,
+                            decoration: BoxDecoration(
+                              color: AppColors.buttoncolor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 4),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(course.mentorImage ?? ''),
+                                  radius: 12,
+                                ),
+                                SizedBox(width: 6),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      course.mentorName ?? '',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      course.mentorRole ?? '',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: screenHeight * 0.03),
+      ],
+    );
+  }
 }
 
-  // Align(
-  //                     alignment: Alignment.centerLeft,
-  //                     child: Padding(
-  //                       padding:  EdgeInsets.only(left: screenWidth*0.04,top: screenHeight*0.02),
-  //                       child: Row(
-  //                         children: [
-  //                           Text(
-  //                             "User Details",
-  //                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-  //                           ),SizedBox(width: screenWidth*0.3,),
-  //                           ElevatedButton(onPressed: (){
-  //         Get.toNamed('/resultscreen');
-  //                           }, child: Text("View Result",style: TextStyle(color: Colors.white),),style: ElevatedButton.styleFrom(
-  //         backgroundColor:AppColors.buttoncolor,
-  //         shape: RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.circular(30),
-  //         ),
-  //         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-  //               ),)
-  //                         ],
-  //                       ),
 
 
-                        
-  //                     ),
-  //                   ),
-
+  

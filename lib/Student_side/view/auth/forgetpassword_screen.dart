@@ -19,7 +19,7 @@ class _ForgetpasswordScreenState extends State<ForgetpasswordScreen> {
     final _formKay = GlobalKey<FormState>();
     final AuthController authController=Get.put(AuthController());
 
-    final TextEditingController emailController=TextEditingController();
+    final TextEditingController passwordController=TextEditingController();
   @override
   Widget build(BuildContext context) {
       final screenHeight = MediaQuery.of(context).size.height;
@@ -68,11 +68,11 @@ class _ForgetpasswordScreenState extends State<ForgetpasswordScreen> {
                           child: Form(key: _formKay,
                             child: Column(
                               children: [
-                                CustomTextField(textEditingController:emailController,
-                                  hintText: "Email", prefixIcon: AppIcons.emailicon,
+                                CustomTextField(textEditingController:passwordController,
+                                  hintText: "Password", prefixIcon: Icons.lock,
                                   validate: (value){
                                      if (value==''||value==null) {
-                          return "Please enter email";                        
+                          return "Please enter password";                        
                         }
                         return null;
                                   },),
@@ -86,7 +86,7 @@ class _ForgetpasswordScreenState extends State<ForgetpasswordScreen> {
                     child: Obx(()=>
                        CustomButton(text: "continous",isloading: authController.isloading.value,
                         onPressed: ()async{
-                          await authController.forget(_formKay, emailController);
+                          await authController.forget(_formKay, passwordController);
                          
                       }
                                     ),
