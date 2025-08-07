@@ -6,10 +6,12 @@ class StudentModel {
   final int submittedFee;
   final int pendingFee;
   final Attendance attendance;
+    final String classId;
   final Map<String, CourseProgress> courseProgress;
 
   StudentModel({
     required this.uid,
+     required this.classId,
     required this.name,
     required this.email,
     required this.totalFee,
@@ -27,7 +29,7 @@ class StudentModel {
       if (value is Map<String, dynamic>) {
         return MapEntry(key, CourseProgress.fromMap(value));
       } else {
-        return MapEntry(key, CourseProgress(progress: 0, title: '', image: '', status: ''));
+        return MapEntry(key, CourseProgress(progress: 0, title: '', image: '', status: '',imageUrl: ''));
       }
     });
 
@@ -44,6 +46,7 @@ class StudentModel {
           ? Attendance.fromMap(map['attendance'])
           : Attendance(present: 0, absent: 0),
       courseProgress: courseProgress,
+      classId: map['classId'] ?? '',
     );
   }
 }
@@ -72,12 +75,14 @@ class CourseProgress {
   final String title;
   final String image;
   final String status;
+  final String  imageUrl;
 
   CourseProgress({
     required this.progress,
     required this.title,
     required this.image,
     required this.status,
+    required this.imageUrl,
   });
 
   factory CourseProgress.fromMap(Map<String, dynamic> map) {
@@ -87,6 +92,7 @@ class CourseProgress {
       title: map['title'] ?? '',
       image: map['image'] ?? '',
       status: map['status'] ?? '',
+        imageUrl: map['imageUrl'] ?? '',
     );
   }
 }

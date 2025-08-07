@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:klik_kart/Student_side/models/course.dart';
+import 'package:klik_kart/Student_side/models/student_model.dart.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
+import 'package:klik_kart/teacher_side/widgets/course_card.dart';
 
 class StudentEnrollcoursedetail extends StatefulWidget {
   const StudentEnrollcoursedetail({super.key});
@@ -14,6 +17,19 @@ class StudentEnrollcoursedetail extends StatefulWidget {
 }
 
 class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
+late CourseProgress course;
+
+@override
+void initState() {
+  super.initState();
+
+  if (Get.arguments != null && Get.arguments is CourseProgress) {
+    course = Get.arguments as CourseProgress;
+  } else {
+    print(" Get.arguments is null or not CourseProgress");
+  }
+}
+
     int selectedIndex = 0;
      final List<String> tabs = ['Ongoing', 'Completed',];
   @override
@@ -95,7 +111,8 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
           children: [
             Padding(
               padding:  EdgeInsets.only(right: screenWidth*0.7),
-              ), Center(child: Image.asset(AppImages.UIimage)),
+              ), Center(child: Image.network(course.image),
+             ),
             Padding(
               padding: EdgeInsets.only(
                   top: screenHeight * 0.01, right: screenWidth * 0.3),
@@ -108,8 +125,8 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
               padding: EdgeInsets.only(left: screenWidth * 0.05),
               child: Row(
                 children: [
-                  Text(
-                    "UI/UX Designer | Mentor",
+                 Text(course.title,
+
                     style: TextStyle(color: AppColors.buttoncolor),
                   ),
                   Padding(
@@ -119,7 +136,7 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
                         Text(
                         "4.5",
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                                          ),  Icon(Icons.star, color: Colors.amber, size: 16),
+                    ),  Icon(Icons.star, color: Colors.amber, size: 16),
                   Icon(Icons.star, color: Colors.amber, size: 16),
                   Icon(Icons.star, color: Colors.amber, size: 16),
                   Icon(Icons.star, color: Colors.amber, size: 16),
@@ -252,14 +269,22 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
                                 children: [
                                   ClipRRect(
                                     borderRadius:  BorderRadius.vertical(top: Radius.circular(16)),
-                                    child: Image.asset(AppImages.UIimage, fit: BoxFit.cover),
+                                    child:
+                                    SizedBox(
+  height: 70, 
+  width: double.infinity, 
+  child: Image.network(
+    course.image,
+    fit: BoxFit.cover,
+  ),
+)
                                   ),
                                   Padding(
                                     padding: EdgeInsets.all(1),
                                     child: Column(
                                       children: [
                                          Divider(thickness: 1,color: AppColors.buttoncolor,),
-                                        Text("UI/UX Designing", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: AppColors.buttoncolor)),
+                                        Text(course.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: AppColors.buttoncolor)),
                                         Divider(thickness: 1,color: AppColors.buttoncolor,),
                                       
                                         Stack(
@@ -275,11 +300,11 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
                                                 valueColor:  AlwaysStoppedAnimation<Color>(Colors.blue),
                                               ),
                                             ),
-                                           Text("100%", style: TextStyle(fontWeight: FontWeight.bold)),
+                                           Text(course.progress.toString(),style: TextStyle(fontWeight: FontWeight.bold)),
                                           ],
                                         ),
                                         SizedBox(height: 8),
-                                         Text("Completed", style: TextStyle(color: AppColors.buttoncolor)),
+                                         Text(course.status, style: TextStyle(color: AppColors.buttoncolor)),
                                       ],
                                     ),
                                   ),
@@ -297,14 +322,15 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
                                 children: [
                                   ClipRRect(
                                     borderRadius:  BorderRadius.vertical(top: Radius.circular(16)),
-                                    child: Image.asset(AppImages.webimage, fit: BoxFit.cover),
+                                    child: 
+                                    Image.network(course.imageUrl)
                                   ),
                                   Padding(
                                     padding: EdgeInsets.all(1),
                                     child: Column(
                                       children: [
                                          Divider(thickness: 1,color: AppColors.buttoncolor,),
-                                        Text("UI/UX Designing", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: AppColors.buttoncolor)),
+                                        Text(course.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: AppColors.buttoncolor)),
                                         Divider(thickness: 1,color: AppColors.buttoncolor,),
                                       
                                         Stack(
@@ -320,11 +346,11 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
                                                 valueColor:  AlwaysStoppedAnimation<Color>(Colors.blue),
                                               ),
                                             ),
-                                           Text("100%", style: TextStyle(fontWeight: FontWeight.bold)),
+                                           Text(course.progress.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
                                           ],
                                         ),
                                         SizedBox(height: 8),
-                                         Text("Completed", style: TextStyle(color: AppColors.buttoncolor)),
+                                         Text(course.status, style: TextStyle(color: AppColors.buttoncolor)),
                                       ],
                                     ),
                                   ),
@@ -350,14 +376,15 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
                                   children: [
                                     ClipRRect(
                                       borderRadius:  BorderRadius.vertical(top: Radius.circular(16)),
-                                      child: Image.asset(AppImages.webimage, fit: BoxFit.cover),
+                                      child:
+                                      Image.network(course.imageUrl)
                                     ),
                                     Padding(
                                       padding: EdgeInsets.all(1),
                                       child: Column(
                                         children: [
                                            Divider(thickness: 1,color: AppColors.buttoncolor,),
-                                          Text("UI/UX Designing", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: AppColors.buttoncolor)),
+                                          Text(course.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: AppColors.buttoncolor)),
                                           Divider(thickness: 1,color: AppColors.buttoncolor,),
                                         
                                           Stack(
@@ -373,11 +400,11 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
                                                   valueColor:  AlwaysStoppedAnimation<Color>(Colors.blue),
                                                 ),
                                               ),
-                                             Text("100%", style: TextStyle(fontWeight: FontWeight.bold)),
+                                             Text(course.progress.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
                                             ],
                                           ),
                                           SizedBox(height: 8),
-                                           Text("Completed", style: TextStyle(color: AppColors.buttoncolor)),
+                                           Text(course.status, style: TextStyle(color: AppColors.buttoncolor)),
                                         ],
                                       ),
                                     ),
@@ -395,14 +422,22 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
                                   children: [
                                     ClipRRect(
                                       borderRadius:  BorderRadius.vertical(top: Radius.circular(16)),
-                                      child: Image.asset(AppImages.UIimage, fit: BoxFit.cover),
+                                      child:
+                                                                       SizedBox(
+  height: 70, 
+  width: double.infinity, 
+  child: Image.network(
+    course.image,
+    fit: BoxFit.cover,
+  ),
+)
                                     ),
                                     Padding(
                                       padding: EdgeInsets.all(1),
                                       child: Column(
                                         children: [
                                            Divider(thickness: 1,color: AppColors.buttoncolor,),
-                                          Text("UI/UX Designing", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: AppColors.buttoncolor)),
+                                          Text(course.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: AppColors.buttoncolor)),
                                           Divider(thickness: 1,color: AppColors.buttoncolor,),
                                         
                                           Stack(
@@ -418,11 +453,11 @@ class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
                                                   valueColor:  AlwaysStoppedAnimation<Color>(Colors.blue),
                                                 ),
                                               ),
-                                             Text("100%", style: TextStyle(fontWeight: FontWeight.bold)),
+                                             Text(course.progress.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
                                             ],
                                           ),
                                           SizedBox(height: 8),
-                                           Text("Completed", style: TextStyle(color: AppColors.buttoncolor)),
+                                           Text(course.status, style: TextStyle(color: AppColors.buttoncolor)),
                                         ],
                                       ),
                                     ),

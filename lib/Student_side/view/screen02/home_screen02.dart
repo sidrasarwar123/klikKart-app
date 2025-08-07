@@ -8,6 +8,7 @@ import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/constants/app_images.dart';
 import 'package:klik_kart/controller/profile_controller.dart';
+import 'package:klik_kart/teacher_side/controller/assignment_controller.dart';
 import 'package:klik_kart/teacher_side/controller/time_table_controller.dart.dart';
 
 class HomeScreen02 extends StatefulWidget {
@@ -22,19 +23,21 @@ class _HomeScreen02State extends State<HomeScreen02> {
    final ProfileController profileController = Get.find<ProfileController>();
   final StudentDashboardController studentDashboardController=Get.put(StudentDashboardController());
    final TimetableController timetableController = Get.put(TimetableController());
+   final AssignmentController assignmentController = Get.put(AssignmentController());
+
 
  
      final bool hasUnreadNotifications = true;
        String selectedDay = "Mon";
-        @override
+     @override
 void initState() {
   super.initState();
   profileController.fetchUserData();
   eventController.fetchEvents();
- studentDashboardController.fetchStudentData();
+  studentDashboardController.fetchStudentData();
   timetableController.fetchTimetable();
 }
-       
+
 
   @override
   Widget build(BuildContext context) {
@@ -240,9 +243,16 @@ void initState() {
       children: [
 
         /// Course Progress Card
-        GestureDetector(
-          onTap: () => Get.toNamed('/coursescreen' ),
-          child: Container(
+       GestureDetector(
+  onTap: () {
+    final course = student.courseProgress["uiux"];
+    if (course != null) {
+      Get.toNamed('/coursescreen', arguments: course);
+    } else {
+      print(" Course not found!");
+    }
+  },
+  child: Container(
             width: screenWidth * 0.5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
@@ -281,7 +291,7 @@ void initState() {
                       ),
 
                       Divider(thickness: 1, color: AppColors.buttoncolor),
-                      const SizedBox(height: 8),
+                       SizedBox(height: 8),
 
                       ///  Circular Progress
                       Stack(
@@ -299,7 +309,7 @@ void initState() {
                           ),
                           Text(
                             "${student.courseProgress["uiux"]?.progress ?? 0}%",
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style:  TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -406,11 +416,7 @@ void initState() {
     ),
   );
 }),
-
-
     SizedBox(height: screenHeight*0.03,),
-
-            
              Padding(
                padding:  EdgeInsets.only(right: screenWidth*0.6),
                child: Text("Course Schedule", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
@@ -457,9 +463,6 @@ void initState() {
                   }).toList(),
                 );
               }),
-              
-           
-           
             Row(
            
               children:  [
@@ -557,7 +560,7 @@ void initState() {
             )
           
       
-       ), SizedBox(height: screenHeight*0.04,),
+       ),
          Padding(
   padding: EdgeInsets.only(top: screenHeight * 0.03, left: screenWidth * 0.01),
   child: Row(

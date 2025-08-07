@@ -41,10 +41,12 @@ class AuthController extends GetxController {
       'attendance': {
       'present': 22,
       'absent': 6,
+     
     },
        'courseProgress': {
          'uiux': {
         'image': 'https://www.softflame.in/images/services/sub-nav/ui-ux-banner.jpg',
+        'imageUrl':'https://www.creativeitinstitute.com/images/course/course_1663052056.jpg',
         'progress': 80,
         'title': 'UI/UX DESIGNING',
         'status': 'Completed',
