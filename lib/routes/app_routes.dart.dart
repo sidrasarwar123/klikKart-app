@@ -1,24 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/routes/get_route.dart';
-
-
 import 'package:klik_kart/Student_side/view/auth/forgetpassword_screen.dart';
 import 'package:klik_kart/Student_side/view/auth/login_screen.dart';
 import 'package:klik_kart/Student_side/view/auth/onboarding_screen.dart';
-
-
 import 'package:klik_kart/Student_side/view/auth/signup_screen.dart';
 import 'package:klik_kart/Student_side/view/auth/splash_screen.dart';
 import 'package:klik_kart/Student_side/view/screen01/course_screen.dart';
-
-
 import 'package:klik_kart/Student_side/view/screen01/event_screen.dart';
 import 'package:klik_kart/Student_side/view/screen01/home_screen.dart';
-
 import 'package:klik_kart/Student_side/view/screen01/job_reservation.dart';
-
 import 'package:klik_kart/Student_side/view/screen01/job_title.dart';
 import 'package:klik_kart/Student_side/view/screen01/notification_screen.dart';
 import 'package:klik_kart/Student_side/view/screen01/profile_screen.dart';
@@ -79,12 +69,12 @@ class AppRoutes {
        studentId: Get.parameters['studentId'] ?? '',
            ),
                 ),
-       GetPage(name: "/student02assigment", page: ()=>Stu2Assigment()),
-     GetPage(
-  name: "/studentmarks",
-  page: () {
-    final classId = Get.parameters['classId'];
-    final studentId = Get.parameters['studentId'];
+         GetPage(name: "/student02assigment", page: ()=>Stu2Assigment()),
+         GetPage(
+         name: "/studentmarks",
+        page: () {
+         final classId = Get.parameters['classId'];
+         final studentId = Get.parameters['studentId'];
 
     if (classId == null || classId.isEmpty || studentId == null || studentId.isEmpty) {
       return Scaffold(

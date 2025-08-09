@@ -21,6 +21,7 @@ class StudentAssignment extends StatefulWidget {
 
 class _StudentAssignmentScreenState extends State<StudentAssignment> {
   final AssignmentController controller = Get.put(AssignmentController());
+  
 
   @override
   void initState() {
@@ -33,6 +34,7 @@ class _StudentAssignmentScreenState extends State<StudentAssignment> {
 
   @override
   Widget build(BuildContext context) {
+    
      final screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(

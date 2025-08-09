@@ -1,3 +1,5 @@
+import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:klik_kart/constants/app_colors.dart';
@@ -231,8 +233,9 @@ void initState() {
                                     backgroundColor: Colors.green,
                                     colorText: Colors.white);
                               },
+                            
                               onCancelBtnTap: () {
-                                Navigator.of(context).pop();
+                                // Get.toNamed("/studentAssignment");
                               },
                             );
                           },

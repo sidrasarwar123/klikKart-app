@@ -6,6 +6,7 @@ class AssignmentModel {
   final int totalMarks;
   final int obtainedMarks;
   final DateTime date;
+    final double? progress;
 
   AssignmentModel({
     required this.id,
@@ -13,6 +14,7 @@ class AssignmentModel {
     required this.totalMarks,
     required this.obtainedMarks,
     required this.date,
+    this.progress,
   });
 
  factory AssignmentModel.fromMap(Map<String, dynamic> map) {
@@ -22,6 +24,8 @@ class AssignmentModel {
     totalMarks: map['totalMarks'] ?? 0,
     obtainedMarks: map['obtainedMarks'] ?? 0,
     date: (map['date'] as Timestamp).toDate(),
+       progress: (map['progress'] ?? 0).toDouble(),
+  
   );
 }
 

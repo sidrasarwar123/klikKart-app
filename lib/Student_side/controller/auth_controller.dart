@@ -62,6 +62,39 @@ class AuthController extends GetxController {
     },
     }
       , SetOptions(merge: true));
+      await FirebaseFirestore.instance
+    .collection('students')
+    .doc(uid)
+    .collection('assignments')
+    .add({
+  'title': 'UI/UX Assignment 1',
+  'totalMarks': 100,
+  'obtainedMarks':70,
+  'date': '21 AGU 2019',
+  'progress': 80,
+});
+await FirebaseFirestore.instance
+    .collection('students')
+    .doc(uid)
+    .collection('assignments')
+    .add({
+  'title': 'Web Dev Assignment 2',
+  'totalMarks': 100,
+  'obtainedMarks':90,
+  'date': '21 AGU 2019',
+  'progress': 90,
+});
+await FirebaseFirestore.instance
+    .collection('students')
+    .doc(uid)
+    .collection('assignments')
+    .add({
+  'title': 'Photography Assignment 3',
+  'totalMarks': 100,
+  'obtainedMarks':50,
+  'date': '21 AGU 2019',
+  'progress': 50,
+});
 
       SnackbarUtil.showSuccess('Account created successfully');
 

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:klik_kart/Student_side/models/course.dart';
+import 'package:klik_kart/Student_side/controller/enroll_controller.dart';
 import 'package:klik_kart/Student_side/models/student_model.dart.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
-import 'package:klik_kart/constants/app_images.dart';
-import 'package:klik_kart/teacher_side/widgets/course_card.dart';
+
 
 class StudentEnrollcoursedetail extends StatefulWidget {
   const StudentEnrollcoursedetail({super.key});
@@ -17,6 +16,7 @@ class StudentEnrollcoursedetail extends StatefulWidget {
 }
 
 class _StudentEnrollcoursedetailState extends State<StudentEnrollcoursedetail> {
+   final EnrollmentController controller = Get.put(EnrollmentController());
 late CourseProgress course;
 
 @override
@@ -34,6 +34,7 @@ void initState() {
      final List<String> tabs = ['Ongoing', 'Completed',];
   @override
   Widget build(BuildContext context) {
+       controller.fetchEnrollment('A123');
       final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -160,86 +161,133 @@ void initState() {
                 ),
               ),
             ),SizedBox(height: screenHeight*0.02,),
-             Row(
-                    children: [
-                          Icon(Icons.circle,size: 11, color: AppColors.buttoncolor),
-                      Text(" Total Months: 6 Monthsg ")
-                    ],
+            Obx(() {
+      final enrollment = controller.enrollment.value;
+
+      if (enrollment == null) {
+        return Center(child: CircularProgressIndicator());
+      }
+
+      // Format DateTime to string
+      String formatDate(DateTime date) => "${date.day}-${date.month}-${date.year}";
+      String formatTime(DateTime date) =>
+          "${date.hour}:${date.minute.toString().padLeft(2, '0')} ${date.hour > 12 ? 'pm' : 'am'}";
+
+      return SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: screenHeight * 0.02),
+            Row(
+              children: [
+                Icon(Icons.circle, size: 11, color: AppColors.buttoncolor),
+                Text(" Total Months: ${enrollment.totalMonths} Months "),
+              ],
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(left: screenWidth * 0.02, top: screenHeight * 0.02),
+              child: Row(
+                children: [
+                  Text("From Date and Time", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                  SizedBox(width: screenWidth * 0.3),
+                  Icon(Icons.punch_clock, size: 30, color: AppColors.buttoncolor),
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(top: screenHeight * 0.02),
+              child: Row(
+                children: [
+                  Container(
+                    height: screenHeight * 0.06,
+                    width: screenWidth * 0.4,
+                    decoration: BoxDecoration(
+                      color: AppColors.textcolor,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Color.fromARGB(255, 241, 228, 228)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        formatDate(enrollment.fromDate),
+                        style: TextStyle(color: AppColors.buttoncolor, fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ),
-                
-                   Padding(
-                     padding: EdgeInsets.only(left: screenWidth*0.02,top: screenHeight*0.02),
-                     child: Row(
-                      children:[ 
-                        Text("From Date and Time ",style: TextStyle(fontSize: 17,fontWeight:FontWeight.bold)),
-                        SizedBox(width: screenWidth*0.3,),
-                         Icon(Icons.punch_clock,size: 30, color: AppColors.buttoncolor),
-                      ],
-                                       ),
-                   ),
-                    Padding(
-                     padding: EdgeInsets.only(top: screenHeight*0.02),
-                     child: Row(
-                      children:[ 
-                       Container(
-                height:screenHeight*0.06, 
-                width: screenWidth*0.4,
-                decoration: BoxDecoration(color:AppColors.textcolor,
-                borderRadius: BorderRadius.circular(10),border: Border.all(color:  Color.fromARGB(255, 241, 228, 228))
-                ),child: Center(child: Text("12-07-2024",style: TextStyle(color: AppColors.buttoncolor,fontWeight: FontWeight.bold),
-                )
-                ),
+                  SizedBox(width: screenWidth * 0.05),
+                  Container(
+                    height: screenHeight * 0.06,
+                    width: screenWidth * 0.4,
+                    decoration: BoxDecoration(
+                      color: AppColors.textcolor,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Color.fromARGB(255, 241, 228, 228)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        formatTime(enrollment.fromDate),
+                        style: TextStyle(color: AppColors.buttoncolor, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-                        SizedBox(width: screenWidth*0.05,),
-                        Container(
-                height:screenHeight*0.06, 
-                width: screenWidth*0.4,
-                decoration: BoxDecoration(color:AppColors.textcolor,
-                borderRadius: BorderRadius.circular(10),border: Border.all(color:  Color.fromARGB(255, 241, 228, 228))
-                ),child: Center(child: Text("7:20 am",style: TextStyle(color: AppColors.buttoncolor,fontWeight: FontWeight.bold),
-                )
-                ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(left: screenWidth * 0.02, top: screenHeight * 0.02),
+              child: Row(
+                children: [
+                  Text("To Date and Time", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                  SizedBox(width: screenWidth * 0.3),
+                  Icon(Icons.punch_clock, size: 30, color: AppColors.buttoncolor),
+                ],
               ),
-              
-                      ],
-                                       ),
-                   ),
-                           Padding(
-                     padding: EdgeInsets.only(left: screenWidth*0.02,top: screenHeight*0.02),
-                     child: Row(
-                      children:[ 
-                        Text("To Date and Time ",style: TextStyle(fontSize: 17,fontWeight:FontWeight.bold)),
-                        SizedBox(width: screenWidth*0.3,),
-                         Icon(Icons.punch_clock,size: 30, color: AppColors.buttoncolor),
-                      ],
-                                       ),
-                   ),
-                    Padding(
-                     padding: EdgeInsets.only(top: screenHeight*0.02),
-                     child: Row(
-                      children:[ 
-                       Container(
-                height:screenHeight*0.06, 
-                width: screenWidth*0.4,
-                decoration: BoxDecoration(color:AppColors.textcolor,
-                borderRadius: BorderRadius.circular(10),border: Border.all(color:  Color.fromARGB(255, 241, 228, 228))
-                ),child: Center(child: Text("12-6-20254",style: TextStyle(color: AppColors.buttoncolor,fontWeight: FontWeight.bold),
-                )
-                ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(top: screenHeight * 0.02),
+              child: Row(
+                children: [
+                  Container(
+                    height: screenHeight * 0.06,
+                    width: screenWidth * 0.4,
+                    decoration: BoxDecoration(
+                      color: AppColors.textcolor,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Color.fromARGB(255, 241, 228, 228)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        formatDate(enrollment.toDate),
+                        style: TextStyle(color: AppColors.buttoncolor, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: screenWidth * 0.05),
+                  Container(
+                    height: screenHeight * 0.06,
+                    width: screenWidth * 0.4,
+                    decoration: BoxDecoration(
+                      color: AppColors.textcolor,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Color.fromARGB(255, 241, 228, 228)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        formatTime(enrollment.toDate),
+                        style: TextStyle(color: AppColors.buttoncolor, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-                        SizedBox(width: screenWidth*0.05,),
-                        Container(
-                height:screenHeight*0.06, 
-                width: screenWidth*0.4,
-                decoration: BoxDecoration(color:AppColors.textcolor,
-                borderRadius: BorderRadius.circular(10),border: Border.all(color:  Color.fromARGB(255, 241, 228, 228))
-                ),child: Center(child: Text("7:20 am",style: TextStyle(color: AppColors.buttoncolor,fontWeight: FontWeight.bold),
-                )
-                ),
-              ),
-              
-                      ],
-                                       ),
+            ),
+          ],
+        ),
+      );
+            }
                    ),
                    
 
@@ -271,7 +319,7 @@ void initState() {
                                     borderRadius:  BorderRadius.vertical(top: Radius.circular(16)),
                                     child:
                                     SizedBox(
-  height: 70, 
+  height: 73, 
   width: double.infinity, 
   child: Image.network(
     course.image,
@@ -424,7 +472,7 @@ void initState() {
                                       borderRadius:  BorderRadius.vertical(top: Radius.circular(16)),
                                       child:
                                                                        SizedBox(
-  height: 70, 
+  height: 73, 
   width: double.infinity, 
   child: Image.network(
     course.image,

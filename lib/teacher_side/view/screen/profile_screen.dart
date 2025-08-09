@@ -1,10 +1,10 @@
 // teacherprofilescreen.dart (Full working backend integrated with Firestore + GetX)
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:klik_kart/Student_side/controller/auth_controller.dart';
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_images.dart';
-import 'package:klik_kart/controller/auth_controller.dart';
+
 import 'package:klik_kart/controller/profile_controller.dart';
 import 'package:klik_kart/utils/loading.dart';
 import 'package:klik_kart/widgets/buttons/custombutton.dart';
@@ -64,6 +64,7 @@ class _teacherprofilescreenState extends State<teacherprofilescreen> {
                   );
                 },
               ),
+            SizedBox(height: screenHeight*0.1,)
             ],
           ),
         );

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get.dart';
+import 'package:klik_kart/Student_side/controller/student_controller.dart';
+
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
+
 
 class AssigmentScreen extends StatefulWidget {
   const AssigmentScreen({super.key});
@@ -12,10 +14,19 @@ class AssigmentScreen extends StatefulWidget {
 }
 
 class _AssigmentScreenState extends State<AssigmentScreen> {
+    final StudentDashboardController studentDashboardController=Get.put(StudentDashboardController());
+      @override
+void initState() {
+  super.initState();
+  studentDashboardController.fetchStudentData();
+
+}
+
    int selectedIndex = 0;
      final List<String> tabs = ['Submitted', 'Not Submitted',];
   @override
   Widget build(BuildContext context) {
+     
       final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -85,339 +96,102 @@ class _AssigmentScreenState extends State<AssigmentScreen> {
      if (selectedIndex == 0) {
       return
        
-       Padding(
-         padding: EdgeInsets.only(left: screenWidth*0.03,top: screenHeight*0.03),
-         child: Column(
-            children: [
-            Padding(
-              padding:  EdgeInsets.only(right: screenWidth*0.6),
-              child: Text("2 October 2024"),
-            ),
-                       
-          Padding(
-            padding:  EdgeInsets.only(top: screenHeight*0.01),
-            child: Container(
-              height: screenHeight * 0.15,
+       Column(
+         children: [
+           Padding(
+             padding: EdgeInsets.only(left: screenWidth*0.03,top: screenHeight*0.03),
+             child: Obx((){
+            final student = studentDashboardController.studentData.value;
            
-              decoration: BoxDecoration(
-              
-                border: Border.all(color: Color.fromARGB(255, 217, 228, 233)),
-                borderRadius: BorderRadius.circular(20),
-              ), child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.zero,
-                          child: Chip(
-                            label: Text(
-                              "Wireframe & Prototyping",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                            ),
-                            backgroundColor: AppColors.buttoncolor,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding:  EdgeInsets.only(left: screenWidth*0.01),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 120, 
-                                child: Chip(
-                    label: Text("Total Marks:100", style: TextStyle(fontSize: 10,color: AppColors.textcolor)),
-                    backgroundColor: Colors.green,
-                    padding: EdgeInsets.symmetric(horizontal: 7),
-                                ),
-                              ),SizedBox(width: 2,),
-                              Container(
-                                width: 120,
-                                child: Chip(
-                    label: Text("Obtain Marks:100", style: TextStyle(fontSize: 10,color: AppColors.textcolor)),
-                    backgroundColor: Colors.orange,
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),Column(
-                    
-                      children: [
-                        SizedBox(height: screenHeight*0.01,),
-                        Text("Date : 01-22-2023", style: TextStyle(fontSize: 10)),
-                         SizedBox(height: 8),
-                                      Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          SizedBox(
-                                            width: screenWidth*0.12,
-                                            height: screenHeight*0.06,
-                                            child: CircularProgressIndicator(
-                                              value: 0.4,
-                                              strokeWidth: 6,
-                                              backgroundColor: Colors.grey[200],
-                                              valueColor:  AlwaysStoppedAnimation<Color>(Colors.blue),
-                                            ),
-                                          ),
-                                         Text("100%", style: TextStyle(fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                      SizedBox(height: 8),
-                                       Text("Marks", style: TextStyle(color: AppColors.buttoncolor)),
-                      ],
-                    )
-                  ],
-                )
-            ),
-          ),  Padding(
-            padding:  EdgeInsets.only(top: screenHeight*0.01),
-            child: Container(
-              height: screenHeight * 0.15,
+             if (student == null) {
+               return Text("Loading...");
+             }
            
-              decoration: BoxDecoration(
-              
-                border: Border.all(color: const Color.fromARGB(255, 217, 228, 233)),
-                borderRadius: BorderRadius.circular(20),
-              ), child: Row(
+             if (student.assignments.isEmpty) {
+               return Text("No assignments found.");
+             }
+             return Column(
+               children: student.assignments.map((a) {
+                 return Container(
+            height: screenHeight * 0.15,
+            width: screenWidth * 0.96,
+            margin: EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.lightBlueAccent),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Row(
+              children: [
+                // Left section
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Chip(
+                      label: Text(
+                        a.title,
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      backgroundColor: AppColors.buttoncolor,
+                    ),
+                    SizedBox(height: 10),
+                    Row(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.zero,
-                          child: Chip(
-                            label: Text(
-                              "Animation & Autolayout",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                            ),
-                            backgroundColor: AppColors.buttoncolor,
-                          ),
+                        Chip(
+                          label: Text("Total Marks: ${a.totalMarks}", style: TextStyle(fontSize: 10)),
+                          backgroundColor: Colors.green[100],
                         ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding:  EdgeInsets.only(left: screenWidth*0.01),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 120, 
-                                child: Chip(
-                    label: Text("Total Marks:100", style: TextStyle(fontSize: 10,color: AppColors.textcolor)),
-                    backgroundColor: Colors.green,
-                    padding: EdgeInsets.symmetric(horizontal: 7),
-                                ),
-                              ),SizedBox(width: 2,),
-                              Container(
-                                width: 120,
-                                child: Chip(
-                    label: Text("Obtain Marks:100", style: TextStyle(fontSize: 10,color: AppColors.textcolor)),
-                    backgroundColor: Colors.orange,
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                                ),
-                              ),
-                            ],
-                          ),
+                        SizedBox(width: 5),
+                        Chip(
+                          label: Text("Obtain Marks: ${a.obtainedMarks}", style: TextStyle(fontSize: 10)),
+                          backgroundColor: Colors.orange[100],
                         ),
                       ],
-                    ),Column(
-                    
-                      children: [
-                        SizedBox(height: screenHeight*0.01,),
-                        Text("Date : 01-22-2023", style: TextStyle(fontSize: 10)),
-                         SizedBox(height: 8),
-                                      Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          SizedBox(
-                                            width: screenWidth*0.12,
-                                            height: screenHeight*0.06,
-                                            child: CircularProgressIndicator(
-                                              value: 0.8,
-                                              strokeWidth: 6,
-                                              backgroundColor: Colors.grey[200],
-                                              valueColor:  AlwaysStoppedAnimation<Color>(Colors.blue),
-                                            ),
-                                          ),
-                                         Text("80%", style: TextStyle(fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                      SizedBox(height: 8),
-                                       Text("Marks", style: TextStyle(color: AppColors.buttoncolor)),
-                      ],
-                    )
+                    ),
                   ],
-                )
+                ),
+                Spacer(),
+                // Right section
+                Column(
+                  children: [
+                    SizedBox(height: 5),
+                    Text("Date: ${a.date}", style: TextStyle(fontSize: 10)),
+                    SizedBox(height: 8),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        SizedBox(
+                  width: screenWidth * 0.14,
+                  height: screenHeight * 0.06,
+                  child: CircularProgressIndicator(
+                    value: a.progress / 100,
+                    strokeWidth: 6,
+                    backgroundColor: const Color.fromRGBO(238, 238, 238, 1),
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                  ),
+                ),
+                Text("${a.progress.toInt()}%",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+              ],
             ),
-          ), Padding(
-              padding:  EdgeInsets.only(right: screenWidth*0.5,top: screenHeight*0.02),
-              child: Text("5 september 2024"),
+                    SizedBox(height: 8),
+                    Text("Marks", style: TextStyle(color: AppColors.buttoncolor)),
+                  ],
+                ),
+              ],
             ),
-                       
-          Padding(
-            padding:  EdgeInsets.only(top: screenHeight*0.01),
-            child: Container(
-              height: screenHeight * 0.15,
+                 );
+               }).toList(),
+             );
+             }
+              
+               
+             ),
+ 
+           ),
            
-              decoration: BoxDecoration(
-              
-                border: Border.all(color: const Color.fromARGB(255, 217, 228, 233)),
-                borderRadius: BorderRadius.circular(20),
-              ), child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.zero,
-                          child: Chip(
-                            label: Text(
-                              "FigJam & UI design",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                            ),
-                            backgroundColor: AppColors.buttoncolor,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding:  EdgeInsets.only(left: screenWidth*0.01),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 120, 
-                                child: Chip(
-                    label: Text("Total Marks:100", style: TextStyle(fontSize: 10,color: AppColors.textcolor)),
-                    backgroundColor: Colors.green,
-                    padding: EdgeInsets.symmetric(horizontal: 7),
-                                ),
-                              ),SizedBox(width: 2,),
-                              Container(
-                                width: 120,
-                                child: Chip(
-                    label: Text("Obtain Marks:100", style: TextStyle(fontSize: 10,color: AppColors.textcolor)),
-                    backgroundColor: Colors.orange,
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),Column(
-                    
-                      children: [
-                        SizedBox(height: screenHeight*0.01,),
-                        Text("Date : 01-22-2023", style: TextStyle(fontSize: 10)),
-                         SizedBox(height: 8),
-                                      Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          SizedBox(
-                                            width: screenWidth*0.12,
-                                            height: screenHeight*0.06,
-                                            child: CircularProgressIndicator(
-                                              value: 0.8,
-                                              strokeWidth: 6,
-                                              backgroundColor: Colors.grey[200],
-                                              valueColor:  AlwaysStoppedAnimation<Color>(Colors.blue),
-                                            ),
-                                          ),
-                                         Text("80%", style: TextStyle(fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                      SizedBox(height: 8),
-                                       Text("Marks", style: TextStyle(color: AppColors.buttoncolor)),
-                      ],
-                    )
-                  ],
-                )
-            ),
-          ),  Padding(
-            padding:  EdgeInsets.only(top: screenHeight*0.01),
-            child: Container(
-              height: screenHeight * 0.15,
-           
-              decoration: BoxDecoration(
-              
-                border: Border.all(color: const Color.fromARGB(255, 217, 228, 233)),
-                borderRadius: BorderRadius.circular(20),
-              ), child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.zero,
-                          child: Chip(
-                            label: Text(
-                              "Animation & Autolayout",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                            ),
-                            backgroundColor: AppColors.buttoncolor,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding:  EdgeInsets.only(left: screenWidth*0.01),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 120, 
-                                child: Chip(
-                    label: Text("Total Marks:100", style: TextStyle(fontSize: 10,color: AppColors.textcolor)),
-                    backgroundColor: Colors.green,
-                    padding: EdgeInsets.symmetric(horizontal: 7),
-                                ),
-                              ),SizedBox(width: 2,),
-                              Container(
-                                width: 120,
-                                child: Chip(
-                    label: Text("Obtain Marks:100", style: TextStyle(fontSize: 10,color: AppColors.textcolor)),
-                    backgroundColor: Colors.orange,
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),Column(
-                    
-                      children: [
-                        SizedBox(height: screenHeight*0.01,),
-                        Text("Date : 01-22-2023", style: TextStyle(fontSize: 10)),
-                         SizedBox(height: 8),
-                                      Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          SizedBox(
-                                            width: screenWidth*0.12,
-                                            height: screenHeight*0.06,
-                                            child: CircularProgressIndicator(
-                                              value: 0.8,
-                                              strokeWidth: 6,
-                                              backgroundColor: Colors.grey[200],
-                                              valueColor:  AlwaysStoppedAnimation<Color>(Colors.blue),
-                                            ),
-                                          ),
-                                         Text("80%", style: TextStyle(fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                      SizedBox(height: 8),
-                                       Text("Marks", style: TextStyle(color: AppColors.buttoncolor)),
-                      ],
-                    )
-                  ],
-                )
-            ),
-          )
-  
-             
-            ]
-         ),
-         
+         ],
        );
+      
        
     }  else {
  return    Padding(
@@ -429,142 +203,66 @@ class _AssigmentScreenState extends State<AssigmentScreen> {
               child: Text("3 October 2024"),
             ),
                        
-          Padding(
-            padding:  EdgeInsets.only(top: screenHeight*0.01),
-            child: Container(
-              height: screenHeight * 0.15,
+          Obx((){
+              final student = studentDashboardController.studentData.value;
            
-              decoration: BoxDecoration(
-              
-                border: Border.all(color: Color.fromARGB(255, 217, 228, 233)),
-                borderRadius: BorderRadius.circular(20),
-              ), child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.zero,
-                          child: Chip(
-                            label: Text(
-                              "Wireframe & Prototyping",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                            ),
-                            backgroundColor: AppColors.buttoncolor,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding:  EdgeInsets.only(left: screenWidth*0.01),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 120, 
-                                child: Chip(
-                    label: Text("Total Marks:100", style: TextStyle(fontSize: 10,color: AppColors.textcolor)),
-                    backgroundColor: Colors.green,
-                    padding: EdgeInsets.symmetric(horizontal: 7),
-                                ),
-                              ),SizedBox(width: 2,),
-                              Container(
-                                width: 120,
-                                child: Chip(
-                    label: Text("Obtain Marks:100", style: TextStyle(fontSize: 10,color: AppColors.textcolor)),
-                    backgroundColor: Colors.orange,
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),Column(
-                    
-                      children: [
-                        SizedBox(height: screenHeight*0.01,),
-                        Text("Date : 01-22-2023", style: TextStyle(fontSize: 10)),
-                         SizedBox(height: 15),
-                                      Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          SizedBox(
-                                            width: screenWidth*0.12,
-                                            height: screenHeight*0.06,
-                                            child: CircularProgressIndicator(
-                                              value: 0,
-                                              strokeWidth: 6,
-                                              backgroundColor: Colors.grey[200],
-                                              valueColor:  AlwaysStoppedAnimation<Color>(Colors.blue),
-                                            ),
-                                          ),
-                                        Icon(Icons.lock_clock,color: Colors.orange,)
-                                        ],
-                                      ),
-                                     
-                      ],
-                    )
-                  ],
-                )
+             if (student == null) {
+               return Text("Loading...");
+             }
+           
+             if (student.assignments.isEmpty) {
+               return Text("No assignments found.");
+             }
+             return   Column(
+               children: student.assignments.map((a) {
+                 return Container(
+            height: screenHeight * 0.15,
+            width: screenWidth * 0.96,
+            margin: EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.lightBlueAccent),
+              borderRadius: BorderRadius.circular(20),
             ),
-          ),  Padding(
-            padding:  EdgeInsets.only(top: screenHeight*0.01),
-            child: Container(
-              height: screenHeight * 0.15,
-           
-              decoration: BoxDecoration(
-              
-                border: Border.all(color: const Color.fromARGB(255, 217, 228, 233)),
-                borderRadius: BorderRadius.circular(20),
-              ), child: Row(
+            child: Row(
+              children: [
+                // Left section
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Chip(
+                      label: Text(
+                        a.title,
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      backgroundColor: AppColors.buttoncolor,
+                    ),
+                    SizedBox(height: 10),
+                    Row(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.zero,
-                          child: Chip(
-                            label: Text(
-                              "Animation & Autolayout",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                            ),
-                            backgroundColor: AppColors.buttoncolor,
-                          ),
+                        Chip(
+                          label: Text("Total Marks: ${a.totalMarks}", style: TextStyle(fontSize: 10)),
+                          backgroundColor: Colors.green[100],
                         ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding:  EdgeInsets.only(left: screenWidth*0.01),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 120, 
-                                child: Chip(
-                    label: Text("Total Marks:100", style: TextStyle(fontSize: 10,color: AppColors.textcolor)),
-                    backgroundColor: Colors.green,
-                    padding: EdgeInsets.symmetric(horizontal: 7),
-                                ),
-                              ),SizedBox(width: 2,),
-                              Container(
-                                width: 120,
-                                child: Chip(
-                    label: Text("Obtain Marks:100", style: TextStyle(fontSize: 10,color: AppColors.textcolor)),
-                    backgroundColor: Colors.orange,
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                                ),
-                              ),
-                            ],
-                          ),
+                        SizedBox(width: 5),
+                        Chip(
+                          label: Text("Obtain Marks: ${a.obtainedMarks}", style: TextStyle(fontSize: 10)),
+                          backgroundColor: Colors.orange[100],
                         ),
                       ],
-                    ),Column(
-                    
+                    ),
+                  ],
+                ),
+                Spacer(),
+      
+                Column(
+                  children: [
+                    SizedBox(height: 5),
+                    Text("Date: ${a.date}", style: TextStyle(fontSize: 10)),
+                    SizedBox(height: 8),
+                    Stack(
+                      alignment: Alignment.center,
                       children: [
-                        SizedBox(height: screenHeight*0.01,),
-                        Text("Date : 01-22-2023", style: TextStyle(fontSize: 10)),
-                         SizedBox(height: 15),
-                                      Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          SizedBox(
+                         SizedBox(
                                             width: screenWidth*0.12,
                                             height: screenHeight*0.06,
                                             child: CircularProgressIndicator(
@@ -575,15 +273,20 @@ class _AssigmentScreenState extends State<AssigmentScreen> {
                                             ),
                                           ),
                                          Icon(Icons.lock_clock,color: Colors.orange,)
-                                        ],
-                                      ),
-                                    
-                      ],
-                    )
-                  ],
-                )
+              ],
             ),
-          )
+                    SizedBox(height: 8),
+                    Text("Marks", style: TextStyle(color: AppColors.buttoncolor)),
+                  ],
+                ),
+              ],
+            ),
+                 );
+               }).toList(),
+             ); 
+          }
+           
+          ),  
             ]
          )
  );

@@ -118,7 +118,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 borderRadius: BorderRadius.circular(40),
                 borderSide: const BorderSide(color: Color(0xFFF1EDED)),
               ),
-              errorStyle: const TextStyle(
+              errorStyle:  TextStyle(
                 color: Colors.red,
                 fontSize: 12,
                 height: 1.2,

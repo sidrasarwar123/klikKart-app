@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/assignment_model.dart';
@@ -6,7 +7,6 @@ class AssignmentController extends GetxController {
   RxList<AssignmentModel> assignments = <AssignmentModel>[].obs;
   RxBool isLoading = false.obs;
   RxBool isSubmitting = false.obs;
-
   Future<void> fetchAssignments({
     required String classId,
     required String studentId,
@@ -104,4 +104,5 @@ class AssignmentController extends GetxController {
       print("❌ Failed to update: $e");
     }
   }
+  
 }
