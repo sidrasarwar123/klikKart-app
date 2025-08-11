@@ -62,13 +62,14 @@ class AppRoutes {
       GetPage(name: "/attendencescreen", page: ()=>AttendenceScreen01()),
       GetPage(name: "/course", page: ()=>CourseScreen()),
       GetPage(name: "/studentattendencescreen", page: ()=>Attendence()),
-     GetPage(
-      name: '/studentAssignment',
-      page: () =>StudentAssignment(
-       classId: Get.parameters['classId'] ?? '',
-       studentId: Get.parameters['studentId'] ?? '',
-           ),
-                ),
+GetPage(
+  name: '/studentAssignment',
+  page: () => StudentAssignment(
+    classId: Get.parameters['classId'] ?? '',
+    studentId: Get.parameters['studentId'] ?? '',
+  ),
+),
+
          GetPage(name: "/student02assigment", page: ()=>Stu2Assigment()),
          GetPage(
          name: "/studentmarks",

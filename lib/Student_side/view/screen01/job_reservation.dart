@@ -1,8 +1,10 @@
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
+
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:klik_kart/controller/profile_controller.dart';
 import 'package:quickalert/quickalert.dart';
@@ -98,11 +100,11 @@ class _JobReservationState extends State<JobReservation> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-
+  final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(title: const Text("Apply for Job")),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding:  EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
           children: [
             Align(
@@ -112,7 +114,7 @@ class _JobReservationState extends State<JobReservation> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
-            const SizedBox(height: 10),
+             SizedBox(height: 10),
             JobCard(
               title: job.title,
               company: job.company,
@@ -155,10 +157,10 @@ class _JobReservationState extends State<JobReservation> {
               textEditingController: emailController,
               hintText: "Email Address",
             ),
-            const SizedBox(height: 25),
+             SizedBox(height:20 ),
 
             GestureDetector(
-              onTap: pickResume,
+             onTap: pickResume,
               child: Container(
                 width: width,
                 padding: const EdgeInsets.symmetric(vertical: 20),
@@ -172,7 +174,9 @@ class _JobReservationState extends State<JobReservation> {
                     Icon(Icons.upload_file, color: Colors.blue),
                     SizedBox(height: 8),
                     Text(
-                      pickedFile?.name ?? "Upload Resume",
+                    pickedFile?.name ?? "Upload Resume",
+                  
+                    
                       style: const TextStyle(
                           color: Colors.blue, fontWeight: FontWeight.w600),
                     )

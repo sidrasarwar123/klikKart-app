@@ -139,3 +139,32 @@ class _StudentAssignmentScreenState extends State<StudentAssignment> {
     );
   }
 }
+
+
+
+  // onPressed: () async {
+  //                 if (topicController.text.isEmpty || selectedDay == null) {
+  //                   Get.snackbar("Error", "Please enter the topic and select a date");
+  //                   return;
+  //                 }
+
+                  // String classId = getClassIdFromName(selectedClass);
+                  // String studentId = "STU001"; 
+
+                  // await controller.addAssignment(
+                  //   classId: classId,
+                  //   studentId: studentId,
+                  //   title: topicController.text.trim(),
+                  //   totalMarks: 100,
+                  //   obtainedMarks: 80,
+                  //   date: selectedDay!,
+                  // );
+
+                  // Get.snackbar("Success", "Assignment published");
+                    // Get.toNamed(
+//   "/studentmarks",
+//   parameters: {
+//     "classId": "A12G", 
+//     "studentId": "STU001",
+//   },
+// );

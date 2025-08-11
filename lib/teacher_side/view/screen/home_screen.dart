@@ -224,7 +224,7 @@ Widget build(BuildContext context) {
                             child: Icon(Icons.person, color: Colors.blue),
                           ),
                         ),
-                         SizedBox(height: 12),
+                         SizedBox(height: screenHeight*0.02),
                          Text("Classes",
                             style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
                      Text("2",
@@ -232,13 +232,13 @@ Widget build(BuildContext context) {
                                 color: Colors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold)),
-                     SizedBox(height: 12),
+                     SizedBox(height: screenHeight*0.02),
                       ],
                     ),
                   ),
                 ),
 
-               SizedBox(width: 12),
+               SizedBox(width: screenWidth*0.02),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -260,7 +260,7 @@ Widget build(BuildContext context) {
                             child: Icon(Icons.groups, color:  Color.fromARGB(255, 55, 206, 191),),
                           ),
                         ),
-                         SizedBox(height: 12),
+                         SizedBox(height: screenHeight*0.02),
                          Text("Students",
                             style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
                      Text("25",
@@ -268,7 +268,7 @@ Widget build(BuildContext context) {
                                 color: Colors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold)),
-                     SizedBox(height: 12),
+                     SizedBox(height: screenHeight*0.02),
                       ],
                     ),
                   ),
@@ -305,7 +305,7 @@ Widget build(BuildContext context) {
                   child:     Column(
                     children: [
                       Container(
-                      height: 50,
+                      height: screenHeight*0.06,
                       decoration:  BoxDecoration(
                         gradient: LinearGradient(
                           colors: [Color(0xFF1686E0), Color(0xFF0F2C63)],
@@ -325,7 +325,7 @@ Widget build(BuildContext context) {
                       ),
                                     ),
                              SizedBox(
-                  height: 250,
+                  height: screenHeight*0.32,
 //              
 child: Obx(() {
   final pages = getAttendancePages(teacherDashboardController.attendanceList);
@@ -335,7 +335,7 @@ child: Obx(() {
   return Column(
     children: [
       SizedBox(
-        height: 220,
+        height: screenHeight*0.29,
         child: PageView.builder(
           controller: attendanceController,
           itemCount: pages.length,
@@ -431,7 +431,7 @@ child: Obx(() {
                                       ),
                     
                                   SizedBox(
-                height: 250,
+                height: screenHeight*0.32,
                 child: Obx(() {
   final pages = getAttendancePages(teacherDashboardController.assignmentList);
   if (pages.isEmpty) {
@@ -440,7 +440,7 @@ child: Obx(() {
   return Column(
     children: [
       SizedBox(
-        height: 220,
+        height: screenHeight*0.29,
         child: PageView.builder(
           controller: assignmentController,
           itemCount: pages.length,

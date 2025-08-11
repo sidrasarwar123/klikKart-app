@@ -4,7 +4,7 @@ import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/teacher_side/controller/teacherDashboard_controller.dart.dart';
 import 'package:klik_kart/teacher_side/models/attendence_model.dart';
-import 'package:klik_kart/teacher_side/models/student_model.dart';
+
 import 'package:klik_kart/teacher_side/widgets/student_tile.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -25,15 +25,7 @@ void initState() {
   super.initState();
   teacherDashboardController.loadStudents("A12G");
 }
-  // List<Student> students = [
-  //   Student(name: 'Ali Hassan', rollNo: "1", ispresent: true),
-  //   Student(name: 'Usman', rollNo: "2", ispresent: false),
-  //   Student(name: 'Junaid', rollNo: "3"),
-  //   Student(name: 'Haider', rollNo: "4"),
-  //   Student(name: 'Umer', rollNo: "5"),
-  //   Student(name: 'Ali', rollNo: "6"),
-  //   Student(name: 'Hammad', rollNo: "7"),
-  // ];
+ 
 
   DateTime focusedDay = DateTime.now();
   DateTime? selectedDay;
@@ -132,7 +124,7 @@ void initState() {
               ),
             ),
 
-          const SizedBox(height: 10),
+         SizedBox(height: screenHeight*0.02),
 
           
           Expanded(

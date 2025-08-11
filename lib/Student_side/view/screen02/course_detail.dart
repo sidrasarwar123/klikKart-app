@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+
 import 'package:klik_kart/Student_side/controller/enroll_controller.dart';
 import 'package:klik_kart/Student_side/models/student_model.dart.dart';
 import 'package:klik_kart/constants/app_colors.dart';
@@ -112,7 +111,14 @@ void initState() {
           children: [
             Padding(
               padding:  EdgeInsets.only(right: screenWidth*0.7),
-              ), Center(child: Image.network(course.image),
+              ), Center(child:  SizedBox(
+  height: screenHeight*0.17, 
+  width: double.infinity, 
+  child: Image.network(
+    course.image,
+    fit: BoxFit.cover,
+  ),
+)
              ),
             Padding(
               padding: EdgeInsets.only(
@@ -319,7 +325,7 @@ void initState() {
                                     borderRadius:  BorderRadius.vertical(top: Radius.circular(16)),
                                     child:
                                     SizedBox(
-  height: 73, 
+  height: screenHeight*0.1, 
   width: double.infinity, 
   child: Image.network(
     course.image,
@@ -472,7 +478,7 @@ void initState() {
                                       borderRadius:  BorderRadius.vertical(top: Radius.circular(16)),
                                       child:
                                                                        SizedBox(
-  height: 73, 
+  height: screenHeight*0.1, 
   width: double.infinity, 
   child: Image.network(
     course.image,

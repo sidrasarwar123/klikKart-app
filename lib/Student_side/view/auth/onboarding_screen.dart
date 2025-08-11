@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart'; 
 import 'package:klik_kart/constants/app_colors.dart';
 import 'package:klik_kart/constants/app_images.dart';
-import 'package:klik_kart/widgets/buttons/custombutton.dart';
+
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {

@@ -133,14 +133,14 @@ void initState() {
                       ),
                       backgroundColor: AppColors.buttoncolor,
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: screenHeight*0.02),
                     Row(
                       children: [
                         Chip(
                           label: Text("Total Marks: ${a.totalMarks}", style: TextStyle(fontSize: 10)),
                           backgroundColor: Colors.green[100],
                         ),
-                        SizedBox(width: 5),
+                        SizedBox(width: screenWidth*0.02),
                         Chip(
                           label: Text("Obtain Marks: ${a.obtainedMarks}", style: TextStyle(fontSize: 10)),
                           backgroundColor: Colors.orange[100],
@@ -153,7 +153,7 @@ void initState() {
                 // Right section
                 Column(
                   children: [
-                    SizedBox(height: 5),
+                    SizedBox(height: screenHeight*0.02),
                     Text("Date: ${a.date}", style: TextStyle(fontSize: 10)),
                     SizedBox(height: 8),
                     Stack(
@@ -173,14 +173,17 @@ void initState() {
                     style: TextStyle(fontWeight: FontWeight.bold)),
               ],
             ),
-                    SizedBox(height: 8),
+                    SizedBox(height: screenHeight*0.01),
                     Text("Marks", style: TextStyle(color: AppColors.buttoncolor)),
                   ],
                 ),
+              
               ],
             ),
                  );
-               }).toList(),
+                 
+               }
+               ).toList(),
              );
              }
               
@@ -201,7 +204,7 @@ void initState() {
             Padding(
               padding:  EdgeInsets.only(right: screenWidth*0.6),
               child: Text("3 October 2024"),
-            ),
+            ),   SizedBox(height:screenHeight*0.02 ,),
                        
           Obx((){
               final student = studentDashboardController.studentData.value;
@@ -215,6 +218,7 @@ void initState() {
              }
              return   Column(
                children: student.assignments.map((a) {
+             
                  return Container(
             height: screenHeight * 0.15,
             width: screenWidth * 0.96,
@@ -236,14 +240,14 @@ void initState() {
                       ),
                       backgroundColor: AppColors.buttoncolor,
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: screenHeight*0.02),
                     Row(
                       children: [
                         Chip(
                           label: Text("Total Marks: ${a.totalMarks}", style: TextStyle(fontSize: 10)),
                           backgroundColor: Colors.green[100],
                         ),
-                        SizedBox(width: 5),
+                        SizedBox(width: screenHeight*0.02),
                         Chip(
                           label: Text("Obtain Marks: ${a.obtainedMarks}", style: TextStyle(fontSize: 10)),
                           backgroundColor: Colors.orange[100],
@@ -256,9 +260,9 @@ void initState() {
       
                 Column(
                   children: [
-                    SizedBox(height: 5),
+                    SizedBox(height: screenHeight*0.02),
                     Text("Date: ${a.date}", style: TextStyle(fontSize: 10)),
-                    SizedBox(height: 8),
+                    SizedBox(height: screenHeight*0.01),
                     Stack(
                       alignment: Alignment.center,
                       children: [
@@ -275,7 +279,7 @@ void initState() {
                                          Icon(Icons.lock_clock,color: Colors.orange,)
               ],
             ),
-                    SizedBox(height: 8),
+                    SizedBox(height: screenHeight*0.01),
                     Text("Marks", style: TextStyle(color: AppColors.buttoncolor)),
                   ],
                 ),

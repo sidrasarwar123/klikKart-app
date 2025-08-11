@@ -81,8 +81,8 @@ void initState() {
                               top: 10,
                               right: 14,
                               child: Container(
-                                width: 10,
-                                height: 10,
+                                width: screenWidth*0.02,
+                                height: screenHeight*0.02,
                                 decoration: BoxDecoration(
                                   color: Colors.red,
                                   shape: BoxShape.circle,
@@ -357,7 +357,7 @@ void initState() {
                   ),
                 ),
 
-                 SizedBox(height: 10),
+                 SizedBox(height: screenHeight*0.02),
 
           
                 Row(
@@ -477,7 +477,7 @@ void initState() {
                   child: Text("View More", style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold))),
               ],
             ),
-             SizedBox(height: 10),
+             SizedBox(height: screenHeight*0.02),
         Obx(() {
   final student = studentDashboardController.studentData.value;
 
@@ -513,14 +513,14 @@ void initState() {
               ),
               backgroundColor: AppColors.buttoncolor,
             ),
-            SizedBox(height: 10),
+            SizedBox(height: screenHeight*0.02),
             Row(
               children: [
                 Chip(
                   label: Text("Total Marks: ${a.totalMarks}", style: TextStyle(fontSize: 10)),
                   backgroundColor: Colors.green[100],
                 ),
-                SizedBox(width: 5),
+                SizedBox(width: screenWidth*0.01),
                 Chip(
                   label: Text("Obtain Marks: ${a.obtainedMarks}", style: TextStyle(fontSize: 10)),
                   backgroundColor: Colors.orange[100],
@@ -533,9 +533,9 @@ void initState() {
         // Right section
         Column(
           children: [
-            SizedBox(height: 5),
+            SizedBox(height: screenHeight*0.02),
             Text("Date: ${a.date}", style: TextStyle(fontSize: 10)),
-            SizedBox(height: 8),
+            SizedBox(height: screenHeight*0.01),
             Stack(
               alignment: Alignment.center,
               children: [

@@ -11,6 +11,7 @@ class CourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
   final horizontalPadding = screenWidth * 0.02; 
   final containerWidth =  screenWidth * 0.6;
 
@@ -36,12 +37,12 @@ class CourseCard extends StatelessWidget {
               borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
               child:Image.network(
   course.imageUrl,
-  height: 120,
+  height:screenHeight*0.15,
   width: double.infinity,
   fit: BoxFit.cover,
   errorBuilder: (context, error, stackTrace) {
     return Container(
-      height: 120,
+      height: screenHeight*0.15,
       width: double.infinity,
       color: Colors.grey[200],
       child: Icon(Icons.broken_image, size: 40, color: Colors.grey),
@@ -50,7 +51,7 @@ class CourseCard extends StatelessWidget {
   loadingBuilder: (context, child, loadingProgress) {
     if (loadingProgress == null) return child;
     return Container(
-      height: 120,
+      height: screenHeight*0.15,
       width: double.infinity,
       alignment: Alignment.center,
       child: CircularProgressIndicator(),
@@ -73,17 +74,17 @@ class CourseCard extends StatelessWidget {
                         ),
                       ),
                       Icon(Icons.star, color: Colors.amber, size: 16),
-                      SizedBox(width: 4),
+                      SizedBox(width: screenWidth*0.01),
                       Text('${course.rating}'),
                     ],
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: screenHeight*0.01),
                   Text(
                     '${course.lesson} Lesson',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: AppColors.buttoncolor),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: screenWidth*0.01),
                   Row(
                     children: [
                       Text(
@@ -95,8 +96,8 @@ class CourseCard extends StatelessWidget {
                       ),
                       Spacer(),
                       Container(
-                        height: 30,
-                        width: 100,
+                        height: screenHeight*0.05,
+                        width: screenWidth*0.25,
                         decoration: BoxDecoration(
                           color: AppColors.buttoncolor,
                           borderRadius: BorderRadius.circular(10),

@@ -1,4 +1,4 @@
-import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
+
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,7 +29,7 @@ class _MarksEntryState extends State<MarksEntry> {
  @override
 void initState() {
   super.initState();
-
+  print("📌 StudentAssignment INIT");
   print(" classId: ${widget.classId}");
   print(" studentId: ${widget.studentId}");
 
@@ -155,7 +155,7 @@ void initState() {
                                   Divider(
                                       thickness: 1,
                                       color: AppColors.buttoncolor),
-                                  const SizedBox(height: 12),
+                                   SizedBox(height: 12),
                                   Row(
                                     children: [
                                       Expanded(
@@ -222,20 +222,21 @@ void initState() {
                                   totalMarks: updatedTotalMarks,
                                   obtainedMarks: updatedObtainedMarks,
                                 );
-
-                                await controller.fetchAssignments(
+                                  await controller.fetchAssignments(
                                   classId: widget.classId,
                                   studentId: widget.studentId,
                                 );
-
-                                Navigator.of(context).pop();
-                                Get.snackbar("Success", "Marks Updated",
-                                    backgroundColor: Colors.green,
-                                    colorText: Colors.white);
-                              },
+                               Navigator.of(context).pop();                           
+Get.snackbar(
+  "Success",
+  "Marks Updated",
+  backgroundColor: Colors.green,
+  colorText: Colors.white,
+);
+                        },
                             
                               onCancelBtnTap: () {
-                                // Get.toNamed("/studentAssignment");
+                           
                               },
                             );
                           },

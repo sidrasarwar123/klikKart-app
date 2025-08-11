@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:klik_kart/Student_side/controller/course_controller.dart';
 import 'package:klik_kart/constants/app_icons.dart';
 import 'package:klik_kart/teacher_side/controller/course_controller.dart';
 import 'package:klik_kart/teacher_side/widgets/course_card.dart';

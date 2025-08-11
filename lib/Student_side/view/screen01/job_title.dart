@@ -93,7 +93,7 @@ class _JobTitleState extends State<JobTitle> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(Icons.checklist, color: AppColors.buttoncolor),
-                    SizedBox(width: 20),
+                    SizedBox(width: screenWidth*0.02),
                     Expanded(
                       child: Text(
                         "Skills: ${job!.skills.isNotEmpty ? job!.skills.join(', ') : 'N/A'}",

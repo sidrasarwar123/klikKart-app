@@ -71,9 +71,9 @@ class JobCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                  SizedBox(height: 4),
+                  SizedBox(height: screenHeight*0.01),
                   Text(company, style: TextStyle(fontSize: 14, color: AppColors.buttoncolor)),
-                  SizedBox(height: 2),
+                  SizedBox(height: screenHeight*0.02),
                   Text(location, style: TextStyle(fontSize: 16, color: Colors.black)),
 
                   if (showMatchInfo)
@@ -98,14 +98,14 @@ class JobCard extends StatelessWidget {
                       ),
                     ),
 
-                  const SizedBox(height: 8),
+                  SizedBox(height:screenHeight*0.01 ),
 
                   if (showTime || showApplyButton)
                     Row(
                       children: [
                         if (showTime) ...[
                           Icon(Icons.access_time, color: Colors.grey),
-                          SizedBox(width: 4),
+                          SizedBox(width: screenWidth*0.02),
                           Text(
   daysAgo ?? '',
   style: TextStyle(fontSize: 17, color: Colors.grey),

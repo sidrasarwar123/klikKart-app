@@ -225,7 +225,7 @@ incididunt ut labore
                 color: AppColors.buttoncolor,
               ),
             ),
-            SizedBox(height: 4),
+            SizedBox(height: screenHeight*0.01),
             Text(
               lesson.lesson,
               style: TextStyle(fontSize: 15, color: Colors.black87),

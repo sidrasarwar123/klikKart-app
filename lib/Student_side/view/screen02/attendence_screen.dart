@@ -136,7 +136,7 @@ class _AttendenceScreenState extends State<AttendenceScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(Icons.person, color: Colors.white),
-                                   SizedBox(width: 6),
+                                   SizedBox(width: screenWidth*0.06),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,

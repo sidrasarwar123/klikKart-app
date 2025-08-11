@@ -16,8 +16,8 @@ class AppIcons {
   static const logouticon=Icons.logout;
   static const editicon=Icons.edit;
   static const iconcheckcircle=Icons.check_circle;
-      static const iconError=Icons.error;
-        static const iconWarning=Icons.warning;
+  static const iconError=Icons.error;
+  static const iconWarning=Icons.warning;
 
    
   

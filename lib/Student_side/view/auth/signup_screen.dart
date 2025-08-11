@@ -27,7 +27,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final ProfileController profileController = Get.put(ProfileController());
   final AuthController authController = Get.put(AuthController());
 
-  bool isTeacher = false; // default: student
+  bool isTeacher = false; 
 
   @override
   Widget build(BuildContext context) {

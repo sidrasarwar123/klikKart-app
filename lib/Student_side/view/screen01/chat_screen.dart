@@ -105,7 +105,7 @@ return ChatBubble(
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                 SizedBox(width: screenWidth*0.02),
                 GestureDetector(
                   onTap: () => chatController.sendMessage(),
                   child: const CircleAvatar(
@@ -115,7 +115,7 @@ return ChatBubble(
                 ),
               ],
             ),
-          ),SizedBox(height: 100,)
+          ),SizedBox(height: screenHeight*0.1,)
         ],
       ),
     );

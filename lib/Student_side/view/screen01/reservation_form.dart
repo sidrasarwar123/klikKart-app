@@ -113,7 +113,7 @@ void checkApprovalStatus() {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                 SizedBox(height: screenHeight*0.02),
 
                 IntlPhoneField(
                   decoration: InputDecoration(
@@ -141,7 +141,7 @@ void checkApprovalStatus() {
                   },
                 ),
 
-                const SizedBox(height: 10),
+                 SizedBox(height: screenHeight*0.02),
                 CustomTextField(
                   textEditingController: adressController,
                   hintText: "Address",
@@ -153,28 +153,31 @@ void checkApprovalStatus() {
                   },
                 ),
 
-                const SizedBox(height: 16),
+               SizedBox(height: screenHeight*0.02),
                 _buildDropdown(
                   label: "Select Learning Mode",
                   value: learningMode,
                   items: ["Online Learning", "Physical Learning"],
                   onChanged: (val) => setState(() => learningMode = val),
                 ),
-                const SizedBox(height: 16),
+            
+               SizedBox(height: screenHeight*0.02),
                 _buildDropdown(
                   label: "Select Institute Branch",
                   value: instituteBranch,
                   items: ["Dev Soft Tech Solutions", "Dev Soft Global Services"],
                   onChanged: (val) => setState(() => instituteBranch = val),
                 ),
-                const SizedBox(height: 16),
+             
+               SizedBox(height: screenHeight*0.02),
                 _buildDropdown(
                   label: "Select Education",
                   value: educationLevel,
                   items: ["Matric", "Intermediate", "Graduation"],
                   onChanged: (val) => setState(() => educationLevel = val),
                 ),
-                const SizedBox(height: 30),
+              
+               SizedBox(height: screenHeight*0.05),
 
                Obx(() => CustomButton(
   isloading: isLoading.value,

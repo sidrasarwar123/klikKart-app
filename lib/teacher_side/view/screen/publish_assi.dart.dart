@@ -65,7 +65,7 @@ class _Stu2AssigmentState extends State<Stu2Assigment> {
             
               const Text("Select your Class", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
               Padding(
-                padding: EdgeInsets.only(left: screenWidth * 0.06, top: screenHeight * 0.01),
+                padding: EdgeInsets.only(left: screenWidth * 0.01, top: screenHeight * 0.01),
                 child: Container(
                   width: screenWidth * 0.85,
                   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
@@ -99,7 +99,7 @@ class _Stu2AssigmentState extends State<Stu2Assigment> {
         
               Text("Date:", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
               Padding(
-                padding: EdgeInsets.only(left: screenWidth * 0.06, top: screenHeight * 0.01),
+                padding: EdgeInsets.only(left: screenWidth * 0.01, top: screenHeight * 0.01),
                 child: InkWell(
                   onTap: () => setState(() => showCalendar = !showCalendar),
                   child: Container(
